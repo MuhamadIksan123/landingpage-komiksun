@@ -4,7 +4,6 @@ import Link from 'next/link';
 import NavLink from '../NavLink';
 import { useRouter } from 'next/router';
 import Cookies from 'js-cookie';
-import Button from '../Button';
 
 export default function Navbar() {
   const router = useRouter();
@@ -24,7 +23,7 @@ export default function Navbar() {
   return (
     <nav className="container navbar navbar-expand-lg navbar-dark">
       <div className="container-fluid">
-        <Link href={'/'} legacyBehavior>
+        <Link href={'/'}>
           <a className="navbar-brand">
             <img src="/images/logo.svg" alt="semina" />
           </a>
@@ -48,8 +47,8 @@ export default function Navbar() {
           >
             <NavLink href={'/'}>Home</NavLink>
             <NavLink href={'/browse'}>Browse</NavLink>
-            <NavLink href={'/stories'}>Stories</NavLink>
-            <NavLink href={'/about'}>About</NavLink>
+            <NavLink href={'/vendor'}>Vendor</NavLink>
+            <NavLink href={'/contact'}>Contact</NavLink>
           </div>
 
           {router.pathname !== '/signin' && (
@@ -88,7 +87,7 @@ export default function Navbar() {
                       aria-labelledby="navbarDropdown"
                     >
                       <li>
-                        <Link href={'/dashboard'} legacyBehavior>
+                        <Link href={'/dashboard'}>
                           <a className="dropdown-item">Dashboard</a>
                         </Link>
                       </li>

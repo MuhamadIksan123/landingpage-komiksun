@@ -51,9 +51,16 @@
                 font-weight: map-get($map: $font-weight, $key: medium);
             }
         }
+        .form-search {
+            padding: 13px 16px;
+                background-color: transparent;
+                border: 1px solid $white;
+                border-radius: 14px;
+                color: $white !important;
+        }
 
         input.form-control {
-            padding: 13px 16px;
+            padding: 13px 25px;
             background-color: transparent;
             border: 1px solid $white;
             border-radius: 14px;

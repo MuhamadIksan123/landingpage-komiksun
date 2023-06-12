@@ -195,10 +195,12 @@ footer .all-rights {
 .header .header-image .img-1 {
   width: 662px !important;
   height: 410px !important;
+  border-radius: 5%;
 }
 .header .header-image .img-2 {
   width: 838px !important;
   height: 520px !important;
+  border-radius: 5%;
 }
 
 .brand-partner {
@@ -318,6 +320,60 @@ footer .all-rights {
   color: #151a26;
 }
 
+/* grow komik */
+
+.grow-komik {
+  background-color: #f5f7f9;
+  padding: 0px 0 100px;
+}
+.grow-komik .gap {
+  row-gap: 48px;
+}
+.grow-komik .card-grow {
+  border-radius: 20px;
+  background-color: #ffffff;
+  overflow: hidden;
+  position: relative;
+}
+.grow-komik .card-grow img {
+  width: 100%;
+  height: 200px;
+  -o-object-fit: cover;
+  object-fit: cover;
+}
+.grow-komik .card-grow .badge-pricing {
+  position: absolute;
+  z-index: 1;
+  right: 16px;
+  top: 16px;
+  text-align: center;
+  padding: 5px 13px;
+  color: #01fb34;
+  font-weight: 500;
+  font-size: 14px;
+  background-color: #151a26;
+  border-radius: 41px;
+}
+.grow-komik .card-grow .card-content {
+  padding: 20px;
+}
+.grow-komik .card-grow .card-content .card-title {
+  font-weight: 500;
+  font-size: 18px;
+  color: #151a26;
+}
+.grow-komik .card-grow .card-content .card-subtitle {
+  font-weight: 400;
+  font-size: 14px;
+  color: #a3a5aa;
+  margin: 8px 0 30px;
+}
+.grow-komik .card-grow .card-content .description {
+  font-weight: 500;
+  font-size: 14px;
+  color: #151a26;
+}
+
 .stories {
   padding: 100px 0 70px;
 }
@@ -354,16 +410,19 @@ footer .all-rights {
   .header .header-image .img-1 {
     width: 301px !important;
     height: 175px !important;
+    border-radius: 5%;
   }
   .header .header-image .img-2 {
     width: 389px !important;
     height: 230px !important;
+    border-radius: 5%;
   }
 
   .brand-partner {
     padding: 150px 0 100px;
   }
 }
+
 .preview-image {
   overflow-x: hidden;
   padding: 100px 0 0;
@@ -371,9 +430,10 @@ footer .all-rights {
   height: 1080px;
 }
 .preview-image .img-content {
+  max-height: 520px !important;
+  border-radius: 5%;
   width: 75%;
   max-width: 1055px;
-  border-radius: 30px;
   -o-object-fit: cover;
   object-fit: cover;
 }
@@ -612,8 +672,15 @@ footer .all-rights {
 .checkout form .form-title div {
   font-weight: 500;
 }
-.checkout form input.form-control {
+.form-search {
   padding: 13px 16px;
+  background-color: transparent;
+  border: 1px solid $white;
+  border-radius: 14px;
+  color: $white !important;
+}
+.checkout form input.form-control {
+  padding: 13px 25px;
   background-color: transparent;
   border: 1px solid #ffffff;
   border-radius: 14px;

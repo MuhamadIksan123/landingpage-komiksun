@@ -1,10 +1,10 @@
 import Head from 'next/head';
-// import Brand from '../components/Brand';
-// import CardEvent from '../components/CardEvent';
-// import Footer from '../components/Footer';
+import Brand from '../components/Brand';
+import CardEvent from '../components/CardEvent';
+import Footer from '../components/Footer';
 import Header from '../components/Header';
-// import Statistics from '../components/Statistics';
-// import Stories from '../components/Stories';
+import Statistics from '../components/Statistics';
+import Stories from '../components/Stories';
 import { getData } from '../utils/fetchData';
 
 export default function Home({ data }) {
@@ -17,11 +17,11 @@ export default function Home({ data }) {
       </Head>
 
       <Header />
-      {/* <Brand />
-      <CardEvent data={data} title="Featured Events" subTitle="Grow Today" />
+      <Brand />
+      <CardEvent data={data} title="Rekomendasi" subTitle="Browse" />
       <Stories />
       <Statistics />
-      <Footer /> */}
+      <Footer />
     </>
   );
 }
