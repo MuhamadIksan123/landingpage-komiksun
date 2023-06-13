@@ -111,10 +111,6 @@ export default function Home({ dataKomik, dataGenre }) {
     });
   });
 
-  const handleChange = (e) => {
-    setNameFilter(e.target.value);
-  };
-
   return (
     <>
       <Head>
@@ -131,7 +127,7 @@ export default function Home({ dataKomik, dataGenre }) {
             <SearchInput
               className="form-search"
               name="keyword"
-              handleChange={handleChange}
+              handleChange={(e) => setNameFilter(e.target.value)}
             />
           </Col>
         </div>

@@ -733,3 +733,15 @@ footer .all-rights {
   box-shadow: none;
   border-color: #01fb34;
 } /*# sourceMappingURL=main.css.map */
+
+.img-responsive {
+  width: 100%;
+  height: auto;
+}
+
+@media (max-width: 768px) {
+  /* Atur gambar agar memiliki lebar maksimum saat layar menjadi lebih kecil */
+  .img-responsive {
+    max-width: 100%;
+  }
+}

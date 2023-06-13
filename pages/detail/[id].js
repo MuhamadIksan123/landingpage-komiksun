@@ -14,6 +14,7 @@ import moment from 'moment';
 import { formatDate } from '../../utils/formatDate';
 import Cookies from 'js-cookie';
 
+
 export default function DetailPage({ detailPageKomik, detailPageChapter, id }) {
   const [data, setData] = useState([]);
   useEffect(() => {

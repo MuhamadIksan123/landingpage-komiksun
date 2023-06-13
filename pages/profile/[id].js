@@ -3,42 +3,39 @@
 import React, { useEffect, useState } from 'react';
 import Head from 'next/head';
 import Button from '../../components/Button';
-import CardEvent from '../../components/CardEvent';
+import CardKomikNoTitle from '../../components/CardKomikNoTitle';
+import ListGroupKomik from '../../components/ListGroupKomik';
 import Footer from '../../components/Footer';
 import Navbar from '../../components/Navbar';
-import Statistics from '../../components/Statistics';
-import Stories from '../../components/Stories';
-import { useRouter } from 'next/router';
 import { getData } from '../../utils/fetchData';
 import moment from 'moment';
 import { formatDate } from '../../utils/formatDate';
 import Cookies from 'js-cookie';
 import { Card, Col, Container, ListGroup, Row } from 'react-bootstrap';
+import SearchInput from '../../components/SearchInput';
+import SelectBox from '../../components/SelectBox';
 
-export default function DetailPage({ detailPage, id }) {
-  const [data, setData] = useState([]);
+export default function DetailPage({ detailPage, dataKomik, id }) {
+  const [dataKomikFilter, setDataKomikFilter] = useState(dataKomik);
+  const [nameFilter, setNameFilter] = useState('');
+  const [genreFilter, setGenreFilter] = useState(null);
+  const [statusFilter, setStatusFilter] = useState(null);
+  const [isCardVisible, setIsCardVisible] = useState(true);
+
+
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const res = await getData('api/v1/komik');
-
-        setData(res.data);
-      } catch (err) {}
-    };
-
-    fetchData();
+    setDataKomikFilter(
+      dataKomikFilter.filter((item) => item.vendor._id === id)
+    );
   }, []);
 
-  const router = useRouter();
+   const handleCardClick = () => {
+     setIsCardVisible(true);
+   };
 
-  const handleSubmit = (komikId, vendor) => {
-    const token = Cookies.get('token');
-    if (!token) {
-      return router.push('/signin');
-    } else {
-      router.push(`/checkout/${id}?komikId=${komikId}&vendor=${vendor}`);
-    }
-  };
+   const handleListClick = () => {
+     setIsCardVisible(false);
+   };
 
   return (
     <>
@@ -52,18 +49,17 @@ export default function DetailPage({ detailPage, id }) {
         <Navbar />
       </section>
 
-      <section className="stories">
+      <section>
         <div className="container">
-          <div className="row">
-            <div className="col-lg-6 col-12 mb-3 justify-content-center align-items-center">
+          <div className="row my-3">
+            <div className="col-lg-6 col-12 justify-content-center align-items-center">
               <img
                 src={`${process.env.NEXT_PUBLIC_API}/${detailPage?.image?.nama}`}
                 alt="semina"
-                className="d-block"
-                width="515"
+                className="img-responsive"
               />
             </div>
-            <div className="col-lg-6 col-12">
+            <div className="col-lg-6 col-12 mt-4">
               <div className="d-flex flex-column">
                 <div>
                   <div className="sub-title">
@@ -71,21 +67,87 @@ export default function DetailPage({ detailPage, id }) {
                   </div>
                   <div className="title">{detailPage.nama}</div>
                 </div>
-                <p className="paragraph">
-                  Website ini didirikan dengan tujuan untuk mempercepat dan
-                  mempermudah penikmat komik dalam membaca dan publikasi komik.
-                  Tanpa perlu memikirkan biaya yang mahal, keterbatasan stok,
-                  waktu pembelian, keterbatasan ruang penyimpanan, sulitnya
-                  perawatan dan biaya produksi serta distribusi yang mahal.
-                </p>
-                <a href="#" className="btn-navy">
-                  Read
-                </a>
+                <ListGroup variant="flush" className="mt-2">
+                  <ListGroup.Item>
+                    <b>Email:</b> {detailPage.email}
+                  </ListGroup.Item>
+                  <ListGroup.Item>
+                    <b>No Handphone:</b> {detailPage.nomor}
+                  </ListGroup.Item>
+                  <ListGroup.Item>
+                    <b>Role:</b> {detailPage.role}
+                  </ListGroup.Item>
+                  <ListGroup.Item>
+                    <b>Status: </b>
+                    {detailPage.status}
+                  </ListGroup.Item>
+                  <ListGroup.Item>
+                    <b>Deskripsi: </b> <br />I am a Web Developer. I have a
+                    decent proficiency in using Javascript, HTML, Cascading
+                    Style Sheets (CSS), React, NextJS, MongoDB, and ExpressJs.
+                    However, I don't limit myself to learning new skills. I have
+                    a strong interest in pursuing a job in the field of
+                    programming because it is my passion.
+                  </ListGroup.Item>
+                </ListGroup>
               </div>
+            </div>
+          </div>
+          <div className="row ">
+            <div className="col-md-6 d-grid gap-2 my-1">
+              <Button variant="btn-green" action={handleCardClick}>
+                Search
+              </Button>
+            </div>
+            <div className="col-md-6 d-grid gap-2 my-1">
+              <Button variant="btn-green" action={handleListClick}>
+                All Produk
+              </Button>
             </div>
           </div>
         </div>
       </section>
+      <Container className="mt-4">
+        <div className="row row-cols-lg-8 row-cols-md-1 row-cols-1 justify-content-lg-center">
+          <Col>
+            <SearchInput
+              className="form-search"
+              name="keyword"
+              handleChange={(e) => setNameFilter(e.target.value)}
+            />
+          </Col>
+        </div>
+        <div className="row row-cols-lg-8 row-cols-md-2 row-cols-1 justify-content-lg-center">
+          <Col>
+            <SelectBox
+              className="form-search"
+              placeholder={'Pilih genre'}
+              name="genre"
+              value={genreFilter}
+              // options={_temp}
+              isClearable={true}
+              handleChange={(e) => setGenreFilter(e)}
+            />
+          </Col>
+          <Col>
+            <SelectBox
+              className="form-search"
+              placeholder={'Pilih status'}
+              name="status"
+              value={statusFilter}
+              // options={stat}
+              isClearable={true}
+              handleChange={(e) => setStatusFilter(e)}
+            />
+          </Col>
+        </div>
+      </Container>
+
+      {isCardVisible ? (
+        <CardKomikNoTitle data={dataKomikFilter} />
+      ) : (
+        <ListGroupKomik data={dataKomikFilter} />
+      )}
 
       <Footer />
     </>
@@ -93,11 +155,17 @@ export default function DetailPage({ detailPage, id }) {
 }
 
 export async function getServerSideProps(context) {
-  const req = await getData(`api/v1/vendor/${context.params.id}`);
+  const reqProfile = await getData(`api/v1/vendor/${context.params.id}`);
+  const resProfile = reqProfile.data;
 
-  const res = req.data;
+  const reqKomik = await getData(`api/v1/komik`);
+  const resKomik = reqKomik.data;
 
   return {
-    props: { detailPage: res, id: context.params.id },
+    props: {
+      detailPage: resProfile,
+      dataKomik: resKomik,
+      id: context.params.id,
+    },
   };
 }
