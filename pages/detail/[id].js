@@ -13,28 +13,20 @@ import { getData } from '../../utils/fetchData';
 import moment from 'moment';
 import { formatDate } from '../../utils/formatDate';
 import Cookies from 'js-cookie';
+import Link from 'next/link';
 
 export default function DetailPage({ detailPageKomik, detailPageChapter, id }) {
-  const [data, setData] = useState([]);
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const res = await getData('api/v1/komik');
-
-        setData(res.data);
-      } catch (err) {}
-    };
-
-    fetchData();
-  }, []);
-
-  detailPageChapter.map((data) => {
-    if (id === data.komik._id) {
-      console.log('true');
-    }
-  });
+  // detailPageChapter.map((data) => {
+  //   if (id === data.komik._id) {
+  //     console.log('true');
+  //   }
+  // });
 
   const router = useRouter();
+
+  const handleChapter = (chapterId) => {
+    router.push(`/baca/${chapterId}`);
+  };
 
   const handleSubmit = (komikId, vendor) => {
     const token = Cookies.get('token');
@@ -149,7 +141,10 @@ export default function DetailPage({ detailPageKomik, detailPageChapter, id }) {
                     className="col-lg-3 col-md-6 col-12 d-grid my-2"
                     key={index}
                   >
-                    <Button variant="btn-green" action={() => handleSubmit()}>
+                    <Button
+                      variant={'btn-green'}
+                      action={() => handleChapter(data._id)}
+                    >
                       {data.judul}
                     </Button>
                   </div>
