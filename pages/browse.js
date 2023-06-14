@@ -1,110 +1,12 @@
 import Head from 'next/head';
 import Navbar from '../components/Navbar';
-import Brand from '../components/Brand';
-import CardKomikNoTitle from '../components/CardKomikNoTitle';
 import Footer from '../components/Footer';
-import Statistics from '../components/Statistics';
-import Stories from '../components/Stories';
 import { getData } from '../utils/fetchData';
-import SearchInput from '../components/SearchInput';
-import SelectBox from '../components/SelectBox';
-import Pagination from '../components/Pagination';
-/* eslint-disable @next/next/no-img-element */
-import React, { useState, useEffect } from 'react';
-import Link from 'next/link';
+import React from 'react';
+import CardKomikWithSearch from '../components/CardKomikWithSearch';
 
-import { Col, Container, Row } from 'react-bootstrap';
 
 export default function Home({ dataKomik, dataGenre }) {
-  const [filteredKomikData, setFilteredKomikData] = useState(dataKomik);
-  const [nameFilter, setNameFilter] = useState('');
-  const [genreFilter, setGenreFilter] = useState(null);
-  const [statusFilter, setStatusFilter] = useState(null);
-
-  useEffect(() => {
-    if (!nameFilter || !genreFilter || !statusFilter)
-      setFilteredKomikData(dataKomik);
-    if (nameFilter)
-      setFilteredKomikData(
-        dataKomik.filter((item) =>
-          item.judul.toLowerCase().includes(nameFilter.toLowerCase())
-        )
-      );
-    if (genreFilter)
-      setFilteredKomikData(
-        dataKomik.filter((item) => item.genre._id === genreFilter.value)
-      );
-    if (statusFilter)
-      setFilteredKomikData(
-        dataKomik.filter(
-          (item) =>
-            item.status.toLowerCase() === statusFilter.value.toLowerCase()
-        )
-      );
-
-    if (nameFilter && genreFilter)
-      setFilteredKomikData(
-        dataKomik.filter(
-          (item) =>
-            item.judul.toLowerCase().includes(nameFilter.toLowerCase()) &&
-            item.genre._id === genreFilter.value
-        )
-      );
-
-    if (nameFilter && statusFilter)
-      setFilteredKomikData(
-        dataKomik.filter(
-          (item) =>
-            item.judul.toLowerCase().includes(nameFilter.toLowerCase()) &&
-            item.status.toLowerCase() === statusFilter.value.toLowerCase()
-        )
-      );
-
-    if (genreFilter && statusFilter)
-      setFilteredKomikData(
-        dataKomik.filter(
-          (item) =>
-            item.genre._id === genreFilter.value &&
-            item.status.toLowerCase() === statusFilter.value.toLowerCase()
-        )
-      );
-
-    if (nameFilter && genreFilter && statusFilter)
-      setFilteredKomikData(
-        dataKomik.filter(
-          (item) =>
-            item.judul.toLowerCase().includes(nameFilter.toLowerCase()) &&
-            item.genre._id === genreFilter.value &&
-            item.status.toLowerCase() === statusFilter.value.toLowerCase()
-        )
-      );
-  }, [nameFilter, genreFilter, statusFilter]);
-
-  let stat = [
-    {
-      value: 'Ongoing',
-      label: 'Ongoing',
-      target: { value: 'Ongoing', name: 'status' },
-    },
-    {
-      value: 'Tamat',
-      label: 'Tamat',
-      target: { value: 'Tamat', name: 'status' },
-    },
-  ];
-
-  let res = dataGenre;
-
-  let _temp = [];
-
-  res.forEach((res) => {
-    _temp.push({
-      value: res._id,
-      label: res.nama,
-      target: { value: res._id, name: 'genre' },
-    });
-  });
-
   return (
     <>
       <Head>
@@ -115,43 +17,7 @@ export default function Home({ dataKomik, dataGenre }) {
       <header className="bg-navy">
         <Navbar />
       </header>
-      <Container className="mt-5">
-        <div className="row row-cols-lg-8 row-cols-md-1 row-cols-1 justify-content-lg-center">
-          <Col>
-            <SearchInput
-              className="form-search"
-              name="keyword"
-              handleChange={(e) => setNameFilter(e.target.value)}
-            />
-          </Col>
-        </div>
-        <div className="row row-cols-lg-8 row-cols-md-2 row-cols-1 justify-content-lg-center">
-          <Col>
-            <SelectBox
-              className="form-search"
-              placeholder={'Pilih genre'}
-              name="genre"
-              value={genreFilter}
-              options={_temp}
-              isClearable={true}
-              handleChange={(e) => setGenreFilter(e)}
-            />
-          </Col>
-          <Col>
-            <SelectBox
-              className="form-search"
-              placeholder={'Pilih status'}
-              name="status"
-              value={statusFilter}
-              options={stat}
-              isClearable={true}
-              handleChange={(e) => setStatusFilter(e)}
-            />
-          </Col>
-        </div>
-      </Container>
-      <CardKomikNoTitle data={filteredKomikData} />
-      {/* <Pagination pages={pages} handlePageClick={handlePageClick} /> */}
+      <CardKomikWithSearch dataKomik={dataKomik} dataGenre={dataGenre} />
       <Footer />
     </>
   );

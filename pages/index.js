@@ -1,6 +1,6 @@
 import Head from 'next/head';
 import Brand from '../components/Brand';
-import CardEvent from '../components/CardEvent';
+import CardKomik from '../components/CardKomik';
 import Footer from '../components/Footer';
 import Header from '../components/Header';
 import Statistics from '../components/Statistics';
@@ -18,7 +18,7 @@ export default function Home({ data }) {
 
       <Header />
       <Brand />
-      <CardEvent data={data} title="Rekomendasi" subTitle="Browse" />
+      <CardKomik data={data} title="Rekomendasi" subTitle="Browse" />
       <Stories />
       <Statistics />
       <Footer />

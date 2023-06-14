@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from 'react';
 import Head from 'next/head';
 import Button from '../../components/Button';
-import CardEvent from '../../components/CardEvent';
+import CardEvent from '../../components/CardKomik';
 import Footer from '../../components/Footer';
 import Navbar from '../../components/Navbar';
 import Statistics from '../../components/Statistics';
@@ -13,7 +13,6 @@ import { getData } from '../../utils/fetchData';
 import moment from 'moment';
 import { formatDate } from '../../utils/formatDate';
 import Cookies from 'js-cookie';
-
 
 export default function DetailPage({ detailPageKomik, detailPageChapter, id }) {
   const [data, setData] = useState([]);
@@ -140,16 +139,21 @@ export default function DetailPage({ detailPageKomik, detailPageChapter, id }) {
         </div>
       </div>
 
-      <section className='pb-5'>
+      <section className="pb-5">
         <div className="container">
           <div className=" row gap-y">
             {detailPageChapter.map((data, index) => {
               if (id === data.komik._id) {
-                return <div className="col-lg-3 col-md-6 col-12 d-grid my-2" key={index}>
-                <Button variant="btn-green" action={() => handleSubmit()}>
-                  {data.judul}
-                </Button>
-              </div>;
+                return (
+                  <div
+                    className="col-lg-3 col-md-6 col-12 d-grid my-2"
+                    key={index}
+                  >
+                    <Button variant="btn-green" action={() => handleSubmit()}>
+                      {data.judul}
+                    </Button>
+                  </div>
+                );
               }
             })}
           </div>
