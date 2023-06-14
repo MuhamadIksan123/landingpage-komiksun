@@ -15,12 +15,96 @@ import { Card, Col, Container, ListGroup, Row } from 'react-bootstrap';
 import SearchInput from '../../components/SearchInput';
 import SelectBox from '../../components/SelectBox';
 
-export default function DetailPage({ detailPage, dataKomik, id }) {
+export default function DetailPage({ detailPage, dataKomik, dataGenre, id }) {
   const [dataKomikFilter, setDataKomikFilter] = useState(dataKomik);
   const [nameFilter, setNameFilter] = useState('');
   const [genreFilter, setGenreFilter] = useState(null);
   const [statusFilter, setStatusFilter] = useState(null);
   const [isCardVisible, setIsCardVisible] = useState(true);
+
+  useEffect(() => {
+    if (!nameFilter || !genreFilter || !statusFilter)
+      setDataKomikFilter(dataKomik);
+    if (nameFilter)
+      setDataKomikFilter(
+        dataKomik.filter((item) =>
+          item.judul.toLowerCase().includes(nameFilter.toLowerCase())
+        )
+      );
+    if (genreFilter)
+      setDataKomikFilter(
+        dataKomik.filter((item) => item.genre._id === genreFilter.value)
+      );
+    if (statusFilter)
+      setDataKomikFilter(
+        dataKomik.filter(
+          (item) =>
+            item.status.toLowerCase() === statusFilter.value.toLowerCase()
+        )
+      );
+
+    if (nameFilter && genreFilter)
+      setDataKomikFilter(
+        dataKomik.filter(
+          (item) =>
+            item.judul.toLowerCase().includes(nameFilter.toLowerCase()) &&
+            item.genre._id === genreFilter.value
+        )
+      );
+
+    if (nameFilter && statusFilter)
+      setDataKomikFilter(
+        dataKomik.filter(
+          (item) =>
+            item.judul.toLowerCase().includes(nameFilter.toLowerCase()) &&
+            item.status.toLowerCase() === statusFilter.value.toLowerCase()
+        )
+      );
+
+    if (genreFilter && statusFilter)
+      setDataKomikFilter(
+        dataKomik.filter(
+          (item) =>
+            item.genre._id === genreFilter.value &&
+            item.status.toLowerCase() === statusFilter.value.toLowerCase()
+        )
+      );
+
+    if (nameFilter && genreFilter && statusFilter)
+      setDataKomikFilter(
+        dataKomik.filter(
+          (item) =>
+            item.judul.toLowerCase().includes(nameFilter.toLowerCase()) &&
+            item.genre._id === genreFilter.value &&
+            item.status.toLowerCase() === statusFilter.value.toLowerCase()
+        )
+      );
+  }, [nameFilter, genreFilter, statusFilter]);
+
+  let stat = [
+    {
+      value: 'Ongoing',
+      label: 'Ongoing',
+      target: { value: 'Ongoing', name: 'status' },
+    },
+    {
+      value: 'Tamat',
+      label: 'Tamat',
+      target: { value: 'Tamat', name: 'status' },
+    },
+  ];
+
+  let res = dataGenre;
+
+  let _temp = [];
+
+  res.forEach((res) => {
+    _temp.push({
+      value: res._id,
+      label: res.nama,
+      target: { value: res._id, name: 'genre' },
+    });
+  });
 
 
   useEffect(() => {
@@ -124,7 +208,7 @@ export default function DetailPage({ detailPage, dataKomik, id }) {
               placeholder={'Pilih genre'}
               name="genre"
               value={genreFilter}
-              // options={_temp}
+              options={_temp}
               isClearable={true}
               handleChange={(e) => setGenreFilter(e)}
             />
@@ -135,7 +219,7 @@ export default function DetailPage({ detailPage, dataKomik, id }) {
               placeholder={'Pilih status'}
               name="status"
               value={statusFilter}
-              // options={stat}
+              options={stat}
               isClearable={true}
               handleChange={(e) => setStatusFilter(e)}
             />
@@ -161,10 +245,15 @@ export async function getServerSideProps(context) {
   const reqKomik = await getData(`api/v1/komik`);
   const resKomik = reqKomik.data;
 
+   const reqGenre = await getData('api/v1/genre');
+   const resGenre = reqGenre.data;
+
+
   return {
     props: {
       detailPage: resProfile,
       dataKomik: resKomik,
+      dataGenre: resGenre,
       id: context.params.id,
     },
   };

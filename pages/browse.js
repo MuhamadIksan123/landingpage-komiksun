@@ -80,12 +80,6 @@ export default function Home({ dataKomik, dataGenre }) {
       );
   }, [nameFilter, genreFilter, statusFilter]);
 
-  // const [form, setForm] = useState({
-  //   status: '',
-  //   genre: '',
-  //   keyword: '',
-  // });
-
   let stat = [
     {
       value: 'Ongoing',
