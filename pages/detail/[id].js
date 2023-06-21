@@ -65,69 +65,73 @@ export default function DetailPage({ detailPageKomik, detailPageChapter, id }) {
               <h6>Genre</h6>
               <p className="details-paragraph">{detailPageKomik.genre.nama}</p>
               <h6>Rilis</h6>
-              <p className="details-paragraph">{detailPageKomik.genre.nama}</p>
+              <p className="details-paragraph">
+                {moment(detailPageKomik.rilis).format('DD-MM-YYYY')}
+              </p>
               <h6>Sinopsis</h6>
               <p className="details-paragraph">{detailPageKomik.sinopsis}</p>
             </div>
           </div>
 
-          <div className="d-flex flex-column card-event">
-            <h6>Your Speaker</h6>
-            <div className="d-flex align-items-center gap-3 mt-3">
-              <img
-                src={`${process.env.NEXT_PUBLIC_API}/${detailPageKomik?.vendor?.image?.nama}`}
-                alt="semina"
-                width="60"
-              />
-              <div>
-                <div className="speaker-name">
-                  {detailPageKomik?.vendor?.nama}
+          {detailPageKomik.price === 0 ? null : (
+            <div className="d-flex flex-column card-event">
+              <h6>Your Writer</h6>
+              <div className="d-flex align-items-center gap-3 mt-3">
+                <img
+                  src={`${process.env.NEXT_PUBLIC_API}/${detailPageKomik?.vendor?.image?.nama}`}
+                  alt="semina"
+                  width="60"
+                />
+                <div>
+                  <div className="speaker-name">
+                    {detailPageKomik?.vendor?.nama}
+                  </div>
+                  <span className="occupation">
+                    {detailPageKomik?.vendor?.role}
+                  </span>
                 </div>
-                <span className="occupation">
-                  {detailPageKomik?.vendor?.role}
-                </span>
+              </div>
+              <hr />
+
+              <h6>Get Komik</h6>
+              <div>
+                <>
+                  <div className="price my-3">
+                    {detailPageKomik.price === 0
+                      ? 'free'
+                      : `$${detailPageKomik.price}`}
+                    <span>/person</span>
+                  </div>
+                  <div className="d-flex gap-3 align-items-center card-details">
+                    <img src="/icons/ic-marker.svg" alt="semina" />{' '}
+                    {detailPageKomik.vendor.role}
+                  </div>
+                  <div className="d-flex gap-3 align-items-center card-details">
+                    <img src="/icons/ic-time.svg" alt="semina" />{' '}
+                    {detailPageKomik.vendor.email}
+                  </div>
+                  <div className="d-flex gap-3 align-items-center card-details">
+                    <img src="/icons/ic-calendar.svg" alt="semina" />{' '}
+                    {detailPageKomik.vendor.nomor}
+                  </div>
+
+                  {detailPageKomik.stock !== 0 && (
+                    <Button
+                      variant={'btn-green'}
+                      action={() =>
+                        handleSubmit(
+                          detailPageKomik._id,
+                          detailPageKomik.vendor._id
+                        )
+                      }
+                    >
+                      Order Now
+                    </Button>
+                  )}
+                </>
               </div>
             </div>
-            <hr />
-
-            <h6>Get Komik</h6>
-            <div>
-              <>
-                <div className="price my-3">
-                  {detailPageKomik.price === 0
-                    ? 'free'
-                    : `$${detailPageKomik.price}`}
-                  <span>/person</span>
-                </div>
-                <div className="d-flex gap-3 align-items-center card-details">
-                  <img src="/icons/ic-marker.svg" alt="semina" />{' '}
-                  {detailPageKomik.vendor.role}
-                </div>
-                <div className="d-flex gap-3 align-items-center card-details">
-                  <img src="/icons/ic-time.svg" alt="semina" />{' '}
-                  {detailPageKomik.vendor.email}
-                </div>
-                <div className="d-flex gap-3 align-items-center card-details">
-                  <img src="/icons/ic-calendar.svg" alt="semina" />{' '}
-                  {detailPageKomik.vendor.nomor}
-                </div>
-
-                {detailPageKomik.stock !== 0 && (
-                  <Button
-                    variant={'btn-green'}
-                    action={() =>
-                      handleSubmit(
-                        detailPageKomik._id,
-                        detailPageKomik.vendor._id
-                      )
-                    }
-                  >
-                    Order Now
-                  </Button>
-                )}
-              </>
-            </div>
-          </div>
+          )}
         </div>
       </div>
 

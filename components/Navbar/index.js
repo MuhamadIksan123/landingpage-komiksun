@@ -4,19 +4,33 @@ import Link from 'next/link';
 import NavLink from '../NavLink';
 import { useRouter } from 'next/router';
 import Cookies from 'js-cookie';
+import { getData } from '../../utils/fetchData';
 
-export default function Navbar() {
+export default function Navbar({dataUser}) {
   const router = useRouter();
+  const [userFilter, setUserFilter] = useState(dataUser)
   const [token, setToken] = useState('');
+  const [email, setEmail] = useState('');
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => {
     return setToken(Cookies.get('token'));
   });
 
+  useEffect(() => {
+    return setEmail(Cookies.get('email'));
+  });
+
+  useEffect(() => {
+    if(dataUser) {
+      setUserFilter(dataUser.filter((item) => item.email === email));
+    }
+  }, []);
+
   const handleLogout = () => {
     console.log('click');
     Cookies.remove('token');
+    Cookies.remove('email');
     router.push('/');
   };
 
@@ -48,6 +62,7 @@ export default function Navbar() {
             <NavLink href={'/'}>Home</NavLink>
             <NavLink href={'/browse'}>Browse</NavLink>
             <NavLink href={'/vendor'}>Vendor</NavLink>
+            <NavLink href={'/order'}>Order</NavLink>
             <NavLink href={'/contact'}>Contact</NavLink>
           </div>
 
@@ -57,7 +72,7 @@ export default function Navbar() {
                 <div className="navbar-nav ms-auto">
                   <div className="nav-item dropdown d-flex flex-column flex-lg-row align-items-lg-center authenticated gap-3">
                     <span className="text-light d-none d-lg-block">
-                      Hello, Shayna M
+                      {userFilter.nama}
                     </span>
 
                     <a
@@ -87,19 +102,9 @@ export default function Navbar() {
                       aria-labelledby="navbarDropdown"
                     >
                       <li>
-                        <Link href={'/dashboard'}>
-                          <a className="dropdown-item">Dashboard</a>
+                        <Link href={'/order'}>
+                          <a className="dropdown-item">Order</a>
                         </Link>
-                      </li>
-                      <li>
-                        <a className="dropdown-item" href="#">
-                          Settings
-                        </a>
-                      </li>
-                      <li>
-                        <a className="dropdown-item" href="#">
-                          Rewards
-                        </a>
                       </li>
                       <li onClick={() => handleLogout()}>
                         <a className="dropdown-item">Sign Out</a>
@@ -111,16 +116,6 @@ export default function Navbar() {
                         <li>
                           <a className="list-group-item" href="#">
                             Dashboard
-                          </a>
-                        </li>
-                        <li>
-                          <a className="list-group-item" href="#">
-                            Settings
-                          </a>
-                        </li>
-                        <li>
-                          <a className="list-group-item" href="#">
-                            Rewards
                           </a>
                         </li>
                         <li onClick={() => handleLogout()}>
@@ -143,4 +138,13 @@ export default function Navbar() {
       </div>
     </nav>
   );
+}
+
+export async function getServerSideProps(context) {
+  const req = await getData('api/v1/vendor');
+  const res = req.data;
+
+  return {
+    props: { data: res },
+  };
 }

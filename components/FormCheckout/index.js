@@ -6,7 +6,7 @@ import { getData, postData } from '../../utils/fetchData';
 import Cookies from 'js-cookie';
 import { toast } from 'react-toastify';
 
-export default function FormCheckout({ tickets }) {
+export default function FormCheckout() {
   const router = useRouter();
   const { komikId, vendor, id } = router.query;
 
@@ -16,7 +16,7 @@ export default function FormCheckout({ tickets }) {
     firstName: '',
     role: '',
     payment: '',
-    event: id,
+    komik: id,
   });
 
   const [payments, setPayments] = useState([]);
@@ -59,20 +59,8 @@ export default function FormCheckout({ tickets }) {
 
   const handleSubmit = async () => {
     try {
-      const _temp = [];
-      tickets.forEach((t) => {
-        if (t._id === komikId) {
-          _temp.push({
-            ticketCategories: {
-              type: t.type,
-              price: t.price,
-            },
-            sumTicket: 1,
-          });
-        }
-      });
       let payload = {
-        event: form.event,
+        komik: form.komik,
         payment: form.payment,
         personalDetail: {
           lastName: form.lastName,
@@ -80,7 +68,6 @@ export default function FormCheckout({ tickets }) {
           email: form.email,
           role: form.role,
         },
-        tickets: _temp,
       };
       const res = await postData(
         'api/v1/checkout',
@@ -98,7 +85,7 @@ export default function FormCheckout({ tickets }) {
           draggable: true,
           progress: undefined,
         });
-        router.push('/dashboard');
+        router.push('/order');
       }
     } catch (err) {}
   };
@@ -197,7 +184,7 @@ export default function FormCheckout({ tickets }) {
             <div>Payment Method</div>
           </div>
         </div>
-        <div className="row row-cols-lg-8 row-cols-md-2 row-cols-1 justify-content-center gy-4 gy-md-0">
+        <div className="row row-cols-lg-8 row-cols-md-2 row-cols-1 justify-content-center gy-2 gy-0" >
           {payments.map((payment, i) => (
             <div className="col-lg-4" key={payment._id}>
               <label className="payment-radio h-100 d-flex justify-content-between align-items-center">

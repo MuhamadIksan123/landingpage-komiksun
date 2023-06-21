@@ -7,7 +7,8 @@ import Statistics from '../components/Statistics';
 import Stories from '../components/Stories';
 import { getData } from '../utils/fetchData';
 
-export default function Home({ data }) {
+export default function Home({ data, dataUser }) {
+  console.log(dataUser);
   return (
     <>
       <Head>
@@ -16,7 +17,7 @@ export default function Home({ data }) {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <Header />
+      <Header dataUser={dataUser} />
       <Brand />
       <CardKomik data={data} title="Rekomendasi" subTitle="Browse" />
       <Stories />
@@ -30,7 +31,10 @@ export async function getServerSideProps(context) {
   const req = await getData('api/v1/komik');
   const res = req.data;
 
+  const reqUser = await getData('api/v1/customer');
+  const resUser = reqUser.data;
+
   return {
-    props: { data: res },
+    props: { data: res, dataUser: resUser },
   };
 }

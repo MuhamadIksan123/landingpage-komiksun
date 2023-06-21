@@ -745,3 +745,13 @@ footer .all-rights {
     max-width: 100%;
   }
 }
+
+.img-order {
+  width: 100%;
+}
+
+.btn-custom{
+  background-color: #01fb34;
+  color: black;
+  font-weight: bold;
+}

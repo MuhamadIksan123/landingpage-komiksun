@@ -45,58 +45,53 @@ export default function contact() {
         <Navbar />
       </header>
       <Container className="my-5">
-        {/* <form>
-          <label>Name</label>
-          <input type="text" name="user_name" />
-          <label>Email</label>
-          <input type="email" name="user_email" />
-          <label>Message</label>
-          <textarea name="message" />
-          <input type="submit" value="Send" />
-        </form> */}
-        <div className="row row-cols-8 justify-content-lg-center">
-          <Form
-            action="https://formspree.io/f/xdovqnrw"
-            method="post"
-            id="contact-form"
-          >
-            <Form.Group className="mb-3">
-              <Form.Label>Nama</Form.Label>
-              <Form.Control
-                type="text"
-                placeholder="Masukan nama"
-                name="nama"
-                id="nama"
-              />
-            </Form.Group>
+        <Row>
+          <Col md={{ span: 10, offset: 1 }}>
+            <div className="row row-cols-8 justify-content-lg-center">
+              <Form
+                action="https://formspree.io/f/xdovqnrw"
+                method="post"
+                id="contact-form"
+              >
+                <Form.Group className="mb-3">
+                  <Form.Label>Nama</Form.Label>
+                  <Form.Control
+                    type="text"
+                    placeholder="Masukan nama"
+                    name="nama"
+                    id="nama"
+                  />
+                </Form.Group>
 
-            <Form.Group className="mb-3">
-              <Form.Label>Email address</Form.Label>
-              <Form.Control
-                type="email"
-                placeholder="Masukan email"
-                name="email"
-                id="email"
-              />
-            </Form.Group>
+                <Form.Group className="mb-3">
+                  <Form.Label>Email address</Form.Label>
+                  <Form.Control
+                    type="email"
+                    placeholder="Masukan email"
+                    name="email"
+                    id="email"
+                  />
+                </Form.Group>
 
-            <Form.Group className="mb-3">
-              <Form.Label>Isi Pesan</Form.Label>
-              <FloatingLabel label="Bantuan atau Saran">
-                <Form.Control
-                  as="textarea"
-                  placeholder="Leave a comment here"
-                  style={{ height: '200px' }}
-                  name="message"
-                  id="message"
-                />
-              </FloatingLabel>
-            </Form.Group>
-            <Button variant="success" type="submit">
-              Submit
-            </Button>
-          </Form>
-        </div>
+                <Form.Group className="mb-3">
+                  <Form.Label>Isi Pesan</Form.Label>
+                  <FloatingLabel label="Bantuan atau Saran">
+                    <Form.Control
+                      as="textarea"
+                      placeholder="Leave a comment here"
+                      style={{ height: '200px' }}
+                      name="message"
+                      id="message"
+                    />
+                  </FloatingLabel>
+                </Form.Group>
+                <Button variant="custom" type="submit">
+                  Kirim
+                </Button>
+              </Form>
+            </div>
+          </Col>
+        </Row>
       </Container>
       <Footer />
     </>

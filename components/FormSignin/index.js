@@ -30,6 +30,7 @@ export default function FormSignin() {
       progress: undefined,
     });
     Cookies.set('token', res.data.token);
+    Cookies.set('email', res.data.email);
     router.push('/');
   };
 
