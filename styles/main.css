@@ -755,3 +755,7 @@ footer .all-rights {
   color: black;
   font-weight: bold;
 }
+
+.img-profile {
+  border-radius: 50%;
+}

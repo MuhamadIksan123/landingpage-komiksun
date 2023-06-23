@@ -6,11 +6,12 @@ import { useRouter } from 'next/router';
 import Cookies from 'js-cookie';
 import { getData } from '../../utils/fetchData';
 
-export default function Navbar({dataUser}) {
+export default function Navbar() {
   const router = useRouter();
-  const [userFilter, setUserFilter] = useState(dataUser)
   const [token, setToken] = useState('');
-  const [email, setEmail] = useState('');
+  const [user, setUser] = useState('');
+  const [foto, setFoto] = useState('');
+
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => {
@@ -18,19 +19,20 @@ export default function Navbar({dataUser}) {
   });
 
   useEffect(() => {
-    return setEmail(Cookies.get('email'));
+    return setUser(Cookies.get('namaUser'));
   });
 
   useEffect(() => {
-    if(dataUser) {
-      setUserFilter(dataUser.filter((item) => item.email === email));
-    }
-  }, []);
+    return setFoto(Cookies.get('fotoUser'));
+  });
+
+  console.log(foto);
 
   const handleLogout = () => {
     console.log('click');
     Cookies.remove('token');
-    Cookies.remove('email');
+    Cookies.remove('namaUser');
+    Cookies.remove('fotoUser');
     router.push('/');
   };
 
@@ -71,9 +73,7 @@ export default function Navbar({dataUser}) {
               {token ? (
                 <div className="navbar-nav ms-auto">
                   <div className="nav-item dropdown d-flex flex-column flex-lg-row align-items-lg-center authenticated gap-3">
-                    <span className="text-light d-none d-lg-block">
-                      {userFilter.nama}
-                    </span>
+                    <span className="text-light d-none d-lg-block">{user}</span>
 
                     <a
                       className="nav-link dropdown-toggle mx-0 d-none d-lg-block"
@@ -83,7 +83,12 @@ export default function Navbar({dataUser}) {
                       data-bs-toggle="dropdown"
                       aria-expanded="false"
                     >
-                      <img src="/images/avatar.png" alt="semina" width="60" />
+                      <img
+                        src={`${process.env.NEXT_PUBLIC_API}/${foto}`}
+                        alt="semina"
+                        width="60"
+                        className='img-profile'
+                      />
                     </a>
 
                     <a
@@ -115,11 +120,11 @@ export default function Navbar({dataUser}) {
                       <ul className="list-group">
                         <li>
                           <a className="list-group-item" href="#">
-                            Dashboard
+                            Order
                           </a>
                         </li>
                         <li onClick={() => handleLogout()}>
-                          <a className="list-group-item"></a>
+                          <a className="list-group-item">Logout</a>
                         </li>
                       </ul>
                     </div>

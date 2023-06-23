@@ -5,6 +5,7 @@ import TextInput from '../TextInput';
 import { useRouter } from 'next/router';
 import { postData, putData } from '../../utils/fetchData';
 import { toast } from 'react-toastify';
+import SelectBox from '../SelectBox';
 
 export default function FormSignin() {
   const router = useRouter();
@@ -17,9 +18,28 @@ export default function FormSignin() {
     role: '',
   });
 
+  let roles = [
+    {
+      value: 'customer',
+      label: 'customer',
+      target: { value: 'customer', name: 'role' },
+    },
+    {
+      value: 'vendor',
+      label: 'vendor',
+      target: { value: 'vendor', name: 'role' },
+    },
+  ];
+
   const handleChange = (e) => {
-    setForm({ ...form, [e.target.name]: e.target.value });
+    if ( e.target.name === 'role' ) {
+      setForm({ ...form, [e.target.name]: e });
+    } else {
+      setForm({ ...form, [e.target.name]: e.target.value });
+    }
   };
+
+  console.log(form)
 
   const handleSubmit = async () => {
     if (keyword === 'otp') {
@@ -41,7 +61,13 @@ export default function FormSignin() {
         }
       });
     } else {
-      postData('api/v1/auth/signup', form).then((res) => {
+      const payload = {
+        nama: form.nama,
+        email: form.email,
+        password: form.password,
+        role: form.role.value,
+      };
+      postData('api/v1/auth/signup', payload).then((res) => {
         if (res.data) {
           toast.success('berhasil signup', {
             position: 'top-right',
@@ -100,13 +126,14 @@ export default function FormSignin() {
             onChange={handleChange}
           />
 
-          <TextInput
-            label={'Role'}
-            type={'text'}
-            value={form.role}
+          <SelectBox
+            className="form-search"
+            placeholder={'Pilih role'}
             name="role"
-            placeholder="ex: Product Designer"
-            onChange={handleChange}
+            value={form.role}
+            options={roles}
+            isClearable={true}
+            handleChange={handleChange}
           />
         </>
       )}
