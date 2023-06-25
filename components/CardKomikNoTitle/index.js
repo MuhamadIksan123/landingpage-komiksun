@@ -13,15 +13,6 @@ export default function CardEvent({ data }) {
               <div className="card-grow h-100">
                 <span className="badge-pricing">
                   <div>{data.price === 0 ? 'free' : `Rp. ${data.price}`}</div>
-                  {/* {data.tickets.map((t) => (
-                    <div key={t._id}>
-                      {t.statusTicketCategories
-                        ? t.price === 0
-                          ? 'free'
-                          : `$ ${t.price}`
-                        : ''}
-                    </div>
-                  ))} */}
                 </span>
                 <img
                   src={`${process.env.NEXT_PUBLIC_API}/${data.image.nama}`}

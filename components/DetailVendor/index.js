@@ -50,12 +50,7 @@ export default function DetailVendor({detailPage, dataKomik, dataGenre, id}) {
                     {detailPage.status}
                   </ListGroup.Item>
                   <ListGroup.Item>
-                    <b>Deskripsi: </b> <br />I am a Web Developer. I have a
-                    decent proficiency in using Javascript, HTML, Cascading
-                    Style Sheets (CSS), React, NextJS, MongoDB, and ExpressJs.
-                    However, I don't limit myself to learning new skills. I have
-                    a strong interest in pursuing a job in the field of
-                    programming because it is my passion.
+                    <b>About: </b> <br /> {detailPage.biodata}
                   </ListGroup.Item>
                 </ListGroup>
               </div>
