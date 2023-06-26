@@ -39,8 +39,6 @@ export default function FormSignin() {
     }
   };
 
-  console.log(form)
-
   const handleSubmit = async () => {
     if (keyword === 'otp') {
       putData('api/v1/active', {
@@ -82,6 +80,16 @@ export default function FormSignin() {
         }
       });
     }
+  };
+
+  const customStyles = {
+    control: (provided) => ({
+      ...provided,
+      padding: '5px 0px',
+      border: '1px solid #000', // Mengatur tebal border menjadi 2px dan warna hitam (#000)
+      borderRadius: '14px', // Opsional: Mengatur radius border
+      color: 'black'
+    }),
   };
 
   return (
@@ -132,8 +140,9 @@ export default function FormSignin() {
             name="role"
             value={form.role}
             options={roles}
-            isClearable={true}
+            isClearable={false}
             handleChange={handleChange}
+            styles={customStyles}
           />
         </>
       )}

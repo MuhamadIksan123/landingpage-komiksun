@@ -64,7 +64,6 @@ export default function Navbar() {
             <NavLink href={'/'}>Home</NavLink>
             <NavLink href={'/browse'}>Browse</NavLink>
             <NavLink href={'/vendor'}>Vendor</NavLink>
-            <NavLink href={'/order'}>Order</NavLink>
             <NavLink href={'/contact'}>Contact</NavLink>
           </div>
 
