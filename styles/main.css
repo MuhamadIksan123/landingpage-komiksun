@@ -759,3 +759,7 @@ footer .all-rights {
 .img-profile {
   border-radius: 50%;
 }
+
+.text-area {
+  height: 100px
+}
