@@ -11,6 +11,7 @@ export default function Navbar() {
   const [token, setToken] = useState('');
   const [user, setUser] = useState('');
   const [foto, setFoto] = useState('');
+  const [idUser, setIdUser] = useState('');
 
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -26,13 +27,16 @@ export default function Navbar() {
     return setFoto(Cookies.get('fotoUser'));
   });
 
-  console.log(foto);
+  useEffect(() => {
+    return setIdUser(Cookies.get('idUser'));
+  });
 
   const handleLogout = () => {
     console.log('click');
     Cookies.remove('token');
     Cookies.remove('namaUser');
     Cookies.remove('fotoUser');
+    Cookies.remove('idUser');
     router.push('/');
   };
 
@@ -86,7 +90,7 @@ export default function Navbar() {
                         src={`${process.env.NEXT_PUBLIC_API}/${foto}`}
                         alt="semina"
                         width="60"
-                        className='img-profile'
+                        className="img-profile"
                       />
                     </a>
 
@@ -98,7 +102,12 @@ export default function Navbar() {
                       aria-expanded="false"
                       aria-controls="collapseExample"
                     >
-                      <img src="/images/avatar.png" alt="semina" width="60" />
+                      <img
+                        src={`${process.env.NEXT_PUBLIC_API}/${foto}`}
+                        alt="semina"
+                        width="60"
+                        className="img-profile"
+                      />
                     </a>
 
                     <ul
@@ -123,7 +132,7 @@ export default function Navbar() {
                           </a>
                         </li>
                         <li onClick={() => handleLogout()}>
-                          <a className="list-group-item">Logout</a>
+                          <a className="list-group-item">Sign Out</a>
                         </li>
                       </ul>
                     </div>

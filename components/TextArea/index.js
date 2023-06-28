@@ -8,7 +8,7 @@ export default function TextArea({
   label,
 }) {
   return (
-    <div class="d-flex flex-column align-items-start">
+    <div className="d-flex flex-column align-items-start">
       <label className="form-label">{label}</label>
       <textarea
         onChange={onChange}

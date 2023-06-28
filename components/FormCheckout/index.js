@@ -184,14 +184,15 @@ export default function FormCheckout() {
             <div>Payment Method</div>
           </div>
         </div>
-        <div className="row row-cols-lg-8 row-cols-md-2 row-cols-1 justify-content-center gy-2 gy-0" >
+        <div className="row row-cols-lg-8 row-cols-md-2 row-cols-1 justify-content-center gy-2 gy-0">
           {payments.map((payment, i) => (
             <div className="col-lg-4" key={payment._id}>
               <label className="payment-radio h-100 d-flex justify-content-between align-items-center">
                 <div className="d-flex align-items-center gap-4">
                   <img
-                    src={`${process.env.NEXT_PUBLIC_API_IMAGE}/${payment.imageUrl}`}
+                    src={`${process.env.NEXT_PUBLIC_API}/${payment?.image?.nama}`}
                     alt=""
+                    className='img-payment'
                   />
                   <div>{payment.type}</div>
                 </div>

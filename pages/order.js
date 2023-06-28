@@ -9,7 +9,7 @@ import { toast } from 'react-toastify';
 import { getData } from '../utils/fetchData';
 import moment from 'moment';
 
-export default function contact({ data }) {
+export default function order({ data }) {
   return (
     <>
       <Head>
@@ -22,8 +22,8 @@ export default function contact({ data }) {
       </header>
       <section>
         <Container className="py-5">
-          {data.map((data, index) => (
-            <Row>
+          {data.map((data) => (
+            <Row key={data._id}>
               <Col className="col-12 col-md-10 mx-auto">
                 <Card className="mb-3 text-light bg-dark">
                   <Row>

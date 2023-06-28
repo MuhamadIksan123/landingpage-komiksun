@@ -72,7 +72,7 @@ export default function Checkout({ detailPage }) {
 }
 
 export async function getServerSideProps(context) {
-  const { token } = context.req.cookies;
+  const { token, idUser } = context.req.cookies;
 
   if (!token) {
     return {
@@ -82,6 +82,23 @@ export async function getServerSideProps(context) {
       },
     };
   }
+  const reqCustomer = await getData(`api/v1/customer/${idUser}`);
+  const resCustomer = reqCustomer.data;
+
+  let komikUser;
+
+  resCustomer.komik.map((item) =>
+    item.value === context.params.id ? (komikUser = item.value) : null
+  );
+  if(komikUser === context.params.id) {
+    return {
+      redirect: {
+        destination: `/detail/${context.params.id}`,
+        permanent: false,
+      },
+    };
+  }
+
   const req = await getData(`/api/v1/komik/${context.params.id}`);
 
   const res = req.data;

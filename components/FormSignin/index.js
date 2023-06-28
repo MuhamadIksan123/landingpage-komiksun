@@ -19,7 +19,6 @@ export default function FormSignin() {
 
   const handleSubmit = async () => {
     const res = await postData('/api/v1/auth/signin', form);
-    console.log(res);
 
     toast.success('berhasil signin', {
       position: 'top-right',
@@ -33,9 +32,9 @@ export default function FormSignin() {
     Cookies.set('token', res.data.token);
     // Cookies.set('email', res.data.email);
     // Cookies.set('user', JSON.stringify(res.data.dataUser));
+    Cookies.set('idUser', res.data.dataUser._id);
     Cookies.set('namaUser', res.data.dataUser.nama);
     Cookies.set('fotoUser', res.data.dataUser.image.nama);
-
     router.push('/');
   };
 

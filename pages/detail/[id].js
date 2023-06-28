@@ -15,17 +15,62 @@ import { formatDate } from '../../utils/formatDate';
 import Cookies from 'js-cookie';
 import Link from 'next/link';
 
-export default function DetailPage({ detailPageKomik, detailPageChapter, id }) {
-  // detailPageChapter.map((data) => {
-  //   if (id === data.komik._id) {
-  //     console.log('true');
-  //   }
-  // });
-
+export default function DetailPage({ detailPageKomik, detailPageChapter, detailPageCustomer, id }) {
   const router = useRouter();
+  const [idCustomer, setIdCustomer] = useState(Cookies.get('idUser'));
+  const [customer, setCustomer] = useState('');
+  const [komikUser, setKomikUser] = useState('');
 
-  const handleChapter = (chapterId) => {
-    router.push(`/baca/${chapterId}`);
+  useEffect(() => {
+    const fetchData = () => {
+      try {
+        detailPageCustomer.komik.map(item => item.value === id ? setKomikUser(item.value) : null);
+      } catch (err) {
+        return err;
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  console.log(komikUser);
+
+  // setKomikUser(customer.komik.map((item) => item.value === id ? true : false))
+
+  // console.log(komikUser);
+
+  // console.log('CUSTOMER');
+  // console.log(customer);
+
+  // console.log('idCustomer');
+  // console.log(idCustomer);
+
+  // console.log('komikUser');
+  // console.log(komikUser);
+
+  // customer.komik.map((item) =>
+  //   item.value === idCustomer ? 'Berhasil' : 'Gagal'
+  // );
+
+  const handleChapter = (chapterId, komikId, vendor, detailPageCustomer) => {
+    const token = Cookies.get('token');
+    if (!token) {
+      console.log('TRUE1');
+      return router.push('/signin');
+    } else {
+      if (detailPageKomik.price === 0) {
+        console.log('TRUE2');
+        router.push(`/baca/${chapterId}`);
+      } else {
+        detailPageCustomer.komik.map((item) => {
+          item.value === komikId
+            ? router.push(`/baca/${chapterId}`)
+            : router.push(
+                `/checkout/${id}?komikId=${komikId}&vendor=${vendor}`
+              );
+        });
+      }
+    }
   };
 
   const handleSubmit = (komikId, vendor) => {
@@ -73,7 +118,7 @@ export default function DetailPage({ detailPageKomik, detailPageChapter, id }) {
             </div>
           </div>
 
-          {detailPageKomik.price === 0 ? null : (
+          {detailPageKomik.price === 0 || komikUser === id ? null : (
             <div className="d-flex flex-column card-event">
               <h6>Your Writer</h6>
               <div className="d-flex align-items-center gap-3 mt-3">
@@ -121,7 +166,8 @@ export default function DetailPage({ detailPageKomik, detailPageChapter, id }) {
                       action={() =>
                         handleSubmit(
                           detailPageKomik._id,
-                          detailPageKomik.vendor._id
+                          detailPageKomik.vendor._id,
+                          customer
                         )
                       }
                     >
@@ -147,7 +193,14 @@ export default function DetailPage({ detailPageKomik, detailPageChapter, id }) {
                   >
                     <Button
                       variant={'btn-green'}
-                      action={() => handleChapter(data._id)}
+                      action={() =>
+                        handleChapter(
+                          data._id,
+                          detailPageKomik._id,
+                          detailPageKomik.vendor._id,
+                          detailPageCustomer
+                        )
+                      }
                     >
                       {data.judul}
                     </Button>
@@ -164,6 +217,14 @@ export default function DetailPage({ detailPageKomik, detailPageChapter, id }) {
 }
 
 export async function getServerSideProps(context) {
+  const { idUser } = context.req.cookies;
+  let resCustomer = null; // Menetapkan null secara default
+
+  if (idUser) {
+    const reqCustomer = await getData(`api/v1/customer/${idUser}`);
+    resCustomer = reqCustomer.data;
+  }
+
   const reqKomik = await getData(`api/v1/komik/${context.params.id}`);
   const resKomik = reqKomik.data;
 
@@ -174,6 +235,7 @@ export async function getServerSideProps(context) {
     props: {
       detailPageKomik: resKomik,
       detailPageChapter: resChapter,
+      detailPageCustomer: resCustomer,
       id: context.params.id,
     },
   };

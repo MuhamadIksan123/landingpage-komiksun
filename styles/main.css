@@ -761,5 +761,12 @@ footer .all-rights {
 }
 
 .text-area {
-  height: 100px
+  height: 200px
+}
+
+.img-payment {
+  width: 65px;
+  height: auto;
+  background-color: white;
+  padding: 2px;
 }
