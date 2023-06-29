@@ -5,6 +5,8 @@ import { useRouter } from 'next/router';
 import { getData, postData } from '../../utils/fetchData';
 import Cookies from 'js-cookie';
 import { toast } from 'react-toastify';
+import TextInput from '../TextInput';
+import { Figure } from 'react-bootstrap';
 
 export default function FormCheckout() {
   const router = useRouter();
@@ -17,6 +19,8 @@ export default function FormCheckout() {
     role: '',
     payment: '',
     komik: id,
+    file: '',
+    avatar: '',
   });
 
   const [payments, setPayments] = useState([]);
@@ -53,15 +57,68 @@ export default function FormCheckout() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [payments]);
 
-  const handleChange = (e) => {
-    setForm({ ...form, [e.target.name]: e.target.value });
+  const uploadImage = async (file) => {
+    let formData = new FormData();
+    formData.append('avatar', file);
+    const res = await postData('api/v1/cms/images', formData, true);
+    return res;
+  };
+
+  const handleChange = async (e) => {
+    if (e.target.name === 'avatar') {
+      if (
+        e?.target?.files[0]?.type === 'image/jpg' ||
+        e?.target?.files[0]?.type === 'image/png' ||
+        e?.target?.files[0]?.type === 'image/jpeg'
+      ) {
+        var size = parseFloat(e.target.files[0].size / 3145728).toFixed(2);
+
+        if (size > 2) {
+          setAlert({
+            ...alert,
+            status: true,
+            type: 'danger',
+            message: 'Please select image size less than 3 MB',
+          });
+          setForm({
+            ...form,
+            file: '',
+            [e.target.name]: '',
+          });
+        } else {
+          const res = await uploadImage(e.target.files[0]);
+          console.log(res.data);
+
+          setForm({
+            ...form,
+            file: res.data._id,
+            [e.target.name]: res.data.nama,
+          });
+        }
+      } else {
+        setAlert({
+          ...alert,
+          status: true,
+          type: 'danger',
+          message: 'type image png | jpg | jpeg',
+        });
+        setForm({
+          ...form,
+          file: '',
+          [e.target.name]: '',
+        });
+      }
+    } else {
+      setForm({ ...form, [e.target.name]: e.target.value });
+    }
   };
 
   const handleSubmit = async () => {
     try {
       let payload = {
-        komik: form.komik,
-        payment: form.payment,
+        komik: form?.komik,
+        payment: form?.payment,
+        image: form?.file,
         personalDetail: {
           lastName: form.lastName,
           firstName: form.firstName,
@@ -69,6 +126,8 @@ export default function FormCheckout() {
           role: form.role,
         },
       };
+
+      console.log(payload);
       const res = await postData(
         'api/v1/checkout',
         payload,
@@ -192,9 +251,12 @@ export default function FormCheckout() {
                   <img
                     src={`${process.env.NEXT_PUBLIC_API}/${payment?.image?.nama}`}
                     alt=""
-                    className='img-payment'
+                    className="img-payment"
                   />
-                  <div>{payment.type}</div>
+                  <div>
+                    {payment.type} <br />
+                    <span class="balance">{payment.nomor}</span>
+                  </div>
                 </div>
                 <input
                   type="radio"
@@ -207,6 +269,41 @@ export default function FormCheckout() {
               </label>
             </div>
           ))}
+        </div>
+      </div>
+
+      <div className="payment-method mt-4">
+        <div className="row row-cols-lg-8 row-cols-md-2 row-cols-1 justify-content-lg-center">
+          <div className="form-title col-lg-8">
+            <span>03</span>
+            <div>Upload Bukti Pembayaran</div>
+          </div>
+        </div>
+        <div className="row row-cols-lg-8 row-cols-md-2 row-cols-1 justify-content-center gy-2 gy-0">
+          <div className="col-lg-4">
+            <TextInput
+              placeholder={'Masukan Avatar'}
+              name="avatar"
+              // value={form.avatar}
+              type="file"
+              onChange={handleChange}
+            />
+            {form.avatar !== '' && (
+              <div className="mt-3 text-center">
+                <Figure>
+                  <Figure.Image
+                    width={171}
+                    height={180}
+                    alt="171x180"
+                    src={`${process.env.NEXT_PUBLIC_API}/${form.avatar}`}
+                  />
+
+                  <Figure.Caption>Perview image cover</Figure.Caption>
+                </Figure>
+              </div>
+            )}
+          </div>
+          <div className="col-lg-4"></div>
         </div>
       </div>
 

@@ -11,6 +11,8 @@ import { useRouter } from 'next/router';
 export default function Checkout({ detailPage }) {
   const router = useRouter();
   const { komikId } = router.query;
+
+  console.log(detailPage);
   return (
     <>
       <Head>
@@ -38,15 +40,15 @@ export default function Checkout({ detailPage }) {
 
               <div className="d-flex align-items-center gap-3">
                 <img src="/icons/ic-marker-white.svg" alt="" />
-                <span>{detailPage.status}</span>
+                <span>{detailPage.jenis}</span>
               </div>
               <div className="d-flex align-items-center gap-3">
                 <img src="/icons/ic-time-white.svg" alt="" />
-                {/* <span> {moment(detailPage.date).format('HH.MM A')}</span> */}
+                <span> {moment(new Date()).format('HH.MM A')}</span>
               </div>
               <div className="d-flex align-items-center gap-3">
                 <img src="/icons/ic-calendar-white.svg" alt="" />
-                {/* <span>{formatDate(detailPage.date)}</span> */}
+                <span>{formatDate(new Date())}</span>
               </div>
             </div>
             <div className="total-price">
