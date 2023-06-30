@@ -18,7 +18,7 @@ export default function Home({ data }) {
 
       <Header/>
       <Brand />
-      <CardKomik data={data} title="Rekomendasi" subTitle="Browse" />
+      <CardKomik dataKomik={data} title="Rekomendasi" subTitle="Browse" />
       <Stories />
       <Statistics />
       <Footer />

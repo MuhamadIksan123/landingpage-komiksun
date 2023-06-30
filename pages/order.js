@@ -46,7 +46,7 @@ export default function order({ data }) {
                           Rp. {data.historyKomik.price}
                         </Card.Text>
                         <Card.Text>
-                          Berhasil, {moment(data.date).format('DD-MM-YYYY')}
+                          {data.statusTransaksi}, {moment(data.date).format('DD-MM-YYYY')}
                         </Card.Text>
                       </Card.Body>
                     </Col>

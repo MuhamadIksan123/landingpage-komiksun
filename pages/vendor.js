@@ -50,7 +50,7 @@ export default function Home({ data }) {
           </Col>
         </div>
       </Container>
-      <CardVendor data={filteredKomikData} />
+      <CardVendor dataVendor={filteredKomikData} />
       {/* <Pagination pages={pages} handlePageClick={handlePageClick} /> */}
       <Footer />
     </>

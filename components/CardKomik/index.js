@@ -1,29 +1,26 @@
 /* eslint-disable @next/next/no-img-element */
-import React from 'react';
+import React, { useState } from 'react';
 import CardTitle from '../CardTitle';
 import Link from 'next/link';
-// import { formatDate } from '../../utils/formatDate';
+import { formatDate } from '../../utils/formatDate';
 
-export default function CardEvent({ data, title, subTitle }) {
+export default function CardEvent({ dataKomik, title, subTitle }) {
+  const [currentPage, setCurrentPage] = useState(0);
+
+  const perPage = 8;
+  const offset = currentPage * perPage;
+  const pageCount = Math.ceil(dataKomik.length / perPage);
+  const currentPageData = dataKomik.slice(offset, offset + perPage);
   return (
     <section className="grow-today">
       <div className="container">
         <CardTitle title={title} subTitle={subTitle} />
         <div className="mt-5 row gap">
-          {data.map((data, index) => (
+          {currentPageData.map((data, index) => (
             <div className="col-lg-3 col-md-6 col-12" key={index}>
               <div className="card-grow h-100">
                 <span className="badge-pricing">
                   <div>{data.price === 0 ? 'free' : `Rp. ${data.price}`}</div>
-                  {/* {data.tickets.map((t) => (
-                    <div key={t._id}>
-                      {t.statusTicketCategories
-                        ? t.price === 0
-                          ? 'free'
-                          : `$ ${t.price}`
-                        : ''}
-                    </div>
-                  ))} */}
                 </span>
                 <img
                   src={`${process.env.NEXT_PUBLIC_API}/${data.image.nama}`}
@@ -33,8 +30,7 @@ export default function CardEvent({ data, title, subTitle }) {
                   <div className="card-title">{data.judul}</div>
                   <div className="card-subtitle">{data.genre.nama}</div>
                   <div className="description">
-                    {data.status}
-                     {/* {formatDate(data.date)} */}
+                    {data.jenis}, {formatDate(data.rilis)}
                   </div>
                   <Link href={`/detail/${data._id}`}>
                     <a className="stretched-link"></a>

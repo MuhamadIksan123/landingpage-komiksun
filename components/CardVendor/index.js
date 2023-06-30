@@ -1,14 +1,26 @@
 /* eslint-disable @next/next/no-img-element */
-import React from 'react';
+import React, { useState } from 'react';
 import Link from 'next/link';
+import Pagination from '../Pagination';
 // import { formatDate } from '../../utils/formatDate';
 
-export default function CardEvent({ data }) {
+export default function CardVendor({ dataVendor }) {
+  const [currentPage, setCurrentPage] = useState(0);
+
+  const handlePageClick = (data) => {
+    setCurrentPage(data.selected);
+  };
+
+  const perPage = 12;
+  const offset = currentPage * perPage;
+  const pageCount = Math.ceil(dataVendor.length / perPage);
+  const currentPageData = dataVendor.slice(offset, offset + perPage);
+
   return (
     <section className="grow-komik">
       <div className="container">
         <div className="mt-5 row gap">
-          {data.map((data, index) => (
+          {currentPageData.map((data, index) => (
             <div className="col-lg-3 col-md-6 col-12" key={index}>
               <div className="card-grow h-100">
                 {/* <span className="badge-pricing">
@@ -33,6 +45,10 @@ export default function CardEvent({ data }) {
             </div>
           ))}
         </div>
+      </div>
+
+      <div className="d-flex justify-content-center mt-4">
+        <Pagination pageCount={pageCount} handlePageClick={handlePageClick} />
       </div>
     </section>
   );

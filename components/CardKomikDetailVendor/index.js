@@ -137,7 +137,7 @@ export default function CardKomikDetailVendor({dataKomik, dataGenre, idVendor}) 
           </div>
         </div>
       </div>
-      <CardKomikNoTitle data={dataKomikFilter} />
+      <CardKomikNoTitle dataKomik={dataKomikFilter} />
     </>
   );
 }
