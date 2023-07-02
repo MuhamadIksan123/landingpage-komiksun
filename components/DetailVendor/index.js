@@ -47,7 +47,7 @@ export default function DetailVendor({detailPage, dataKomik, dataGenre, id}) {
                   </ListGroup.Item>
                   <ListGroup.Item>
                     <b>Status: </b>
-                    {detailPage.status}
+                    {detailPage.statusUser}
                   </ListGroup.Item>
                   <ListGroup.Item>
                     <b>About: </b> <br /> {detailPage.biodata}

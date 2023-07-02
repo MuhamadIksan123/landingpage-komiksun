@@ -52,20 +52,12 @@ export default function Checkout({ detailPage }) {
               </div>
             </div>
             <div className="total-price">
-              {/* {detailPage.tickets.map((ticket) => (
-                <div key={ticket._id}>
-                  {ticket._id === komikId
-                    ? ticket.price === 0
-                      ? 'free'
-                      : `$${ticket.price}`
-                    : ''}
-                </div>
-              ))} */}
+              Rp. {detailPage.price}
             </div>
           </div>
 
           {/* form */}
-          <FormCheckout tickets={detailPage.tickets} />
+          <FormCheckout/>
         </div>
       </section>
       <Footer />

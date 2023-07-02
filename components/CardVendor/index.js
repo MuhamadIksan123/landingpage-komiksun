@@ -34,7 +34,7 @@ export default function CardVendor({ dataVendor }) {
                   <div className="card-title">{data.nama}</div>
                   <div className="card-subtitle">{data.email}</div>
                   <div className="description">
-                    {data.status}
+                    {data.statusUser}
                     {/* {formatDate(data.date)} */}
                   </div>
                   <Link href={`/profile/${data._id}`}>

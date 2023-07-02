@@ -23,6 +23,7 @@ function SelectBox({
         onChange={handleChange}
         value={value}
         styles={styles}
+        className="custom-select"
       />
     </Form.Group>
   );

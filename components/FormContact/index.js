@@ -49,11 +49,11 @@ export default function FormContact() {
       <div className="container">
         <form className="d-flex flex-column mt-4 mt-md-0 p-30">
           <TextInput
-            label={'Full Name'}
+            label={'Nama Lengkap'}
             type={'text'}
             name="nama"
             value={form.nama}
-            placeholder="Type your name"
+            placeholder="Masukan nama lengkap"
             onChange={handleChange}
           />
 
@@ -62,7 +62,7 @@ export default function FormContact() {
             type={'email'}
             name="email"
             value={form.email}
-            placeholder={'semina@bwa.com'}
+            placeholder={'Masukan email'}
             onChange={handleChange}
           />
 

@@ -770,3 +770,13 @@ footer .all-rights {
   background-color: white;
   padding: 2px;
 }
+
+.custom-select {
+  position: relative;
+  z-index: 2;
+}
+
+.card {
+  position: relative;
+  z-index: 1;
+}

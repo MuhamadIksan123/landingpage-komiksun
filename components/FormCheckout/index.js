@@ -240,7 +240,7 @@ export default function FormCheckout() {
         <div className="row row-cols-lg-8 row-cols-md-2 row-cols-1 justify-content-lg-center">
           <div className="form-title col-lg-8">
             <span>02</span>
-            <div>Payment Method</div>
+            <div>Pilih dan Transfer Terlebih Dahulu</div>
           </div>
         </div>
         <div className="row row-cols-lg-8 row-cols-md-2 row-cols-1 justify-content-center gy-2 gy-0">
