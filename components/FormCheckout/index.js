@@ -255,7 +255,7 @@ export default function FormCheckout() {
                   />
                   <div>
                     {payment.type} <br />
-                    <span class="balance">{payment.nomor}</span>
+                    <span className="balance">{payment.nomor}</span>
                   </div>
                 </div>
                 <input

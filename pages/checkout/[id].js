@@ -11,8 +11,6 @@ import { useRouter } from 'next/router';
 export default function Checkout({ detailPage }) {
   const router = useRouter();
   const { komikId } = router.query;
-
-  console.log(detailPage);
   return (
     <>
       <Head>

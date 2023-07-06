@@ -33,25 +33,6 @@ export default function DetailPage({ detailPageKomik, detailPageChapter, detailP
     fetchData();
   }, []);
 
-  console.log(komikUser);
-
-  // setKomikUser(customer.komik.map((item) => item.value === id ? true : false))
-
-  // console.log(komikUser);
-
-  // console.log('CUSTOMER');
-  // console.log(customer);
-
-  // console.log('idCustomer');
-  // console.log(idCustomer);
-
-  // console.log('komikUser');
-  // console.log(komikUser);
-
-  // customer.komik.map((item) =>
-  //   item.value === idCustomer ? 'Berhasil' : 'Gagal'
-  // );
-
   const handleChapter = (chapterId, komikId, vendor, detailPageCustomer) => {
     const token = Cookies.get('token');
     if (!token) {
