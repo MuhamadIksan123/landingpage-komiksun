@@ -71,14 +71,17 @@ export default function FormCheckout() {
         e?.target?.files[0]?.type === 'image/png' ||
         e?.target?.files[0]?.type === 'image/jpeg'
       ) {
-        var size = parseFloat(e.target.files[0].size / 3145728).toFixed(2);
+        let size = parseFloat(e.target.files[0].size)
 
-        if (size > 2) {
-          setAlert({
-            ...alert,
-            status: true,
-            type: 'danger',
-            message: 'Please select image size less than 3 MB',
+        if (size > 3000000) {
+          toast.error('Please select image size less than 3 MB', {
+            position: 'top-right',
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
           });
           setForm({
             ...form,
@@ -87,8 +90,6 @@ export default function FormCheckout() {
           });
         } else {
           const res = await uploadImage(e.target.files[0]);
-          console.log(res.data);
-
           setForm({
             ...form,
             file: res.data._id,
@@ -96,11 +97,14 @@ export default function FormCheckout() {
           });
         }
       } else {
-        setAlert({
-          ...alert,
-          status: true,
-          type: 'danger',
-          message: 'type image png | jpg | jpeg',
+        toast.error('Format bukti pembayaran harus PDF', {
+          position: 'top-right',
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
         });
         setForm({
           ...form,
@@ -127,7 +131,6 @@ export default function FormCheckout() {
         },
       };
 
-      console.log(payload);
       const res = await postData(
         'api/v1/checkout',
         payload,
