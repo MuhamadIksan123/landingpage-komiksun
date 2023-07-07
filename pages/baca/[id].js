@@ -63,6 +63,7 @@ export default function DetailPage({ detailChapter, dataChapter }) {
 }
 
 export async function getServerSideProps(context) {
+  console.log(context.params.id);
   const reqDetailChapter = await getData(`api/v1/chapter/${context.params.id}`);
   const resDetailChapter = reqDetailChapter.data;
 

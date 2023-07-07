@@ -19,17 +19,18 @@ export default function FormSignin() {
 
   const handleSubmit = async () => {
     const res = await postData('/api/v1/auth/signin', form);
-    toast.success('berhasil signin', {
-      position: 'top-right',
-      autoClose: 5000,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
-    });
 
-    if (res.role === 'customer') {
+    if (res.data.role === 'customer') {
+      toast.success('berhasil signin', {
+        position: 'top-right',
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
+
       Cookies.set('token', res.data.token);
       // Cookies.set('email', res.data.email);
       // Cookies.set('user', JSON.stringify(res.data.dataUser));
@@ -37,7 +38,9 @@ export default function FormSignin() {
       Cookies.set('namaUser', res.data.dataUser.nama);
       Cookies.set('fotoUser', res.data.dataUser.image.nama);
       router.push('/');
-    } else {
+    }
+
+    if (res.data.role === 'vendor' || res.data.role === 'admin') {
       const authData = {
         email: res.data.email,
         role: res.data.role,
