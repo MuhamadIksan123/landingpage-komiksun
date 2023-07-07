@@ -19,7 +19,6 @@ export default function FormSignin() {
 
   const handleSubmit = async () => {
     const res = await postData('/api/v1/auth/signin', form);
-
     toast.success('berhasil signin', {
       position: 'top-right',
       autoClose: 5000,
@@ -29,13 +28,26 @@ export default function FormSignin() {
       draggable: true,
       progress: undefined,
     });
-    Cookies.set('token', res.data.token);
-    // Cookies.set('email', res.data.email);
-    // Cookies.set('user', JSON.stringify(res.data.dataUser));
-    Cookies.set('idUser', res.data.dataUser._id);
-    Cookies.set('namaUser', res.data.dataUser.nama);
-    Cookies.set('fotoUser', res.data.dataUser.image.nama);
-    router.push('/');
+
+    if (res.role === 'customer') {
+      Cookies.set('token', res.data.token);
+      // Cookies.set('email', res.data.email);
+      // Cookies.set('user', JSON.stringify(res.data.dataUser));
+      Cookies.set('idUser', res.data.dataUser._id);
+      Cookies.set('namaUser', res.data.dataUser.nama);
+      Cookies.set('fotoUser', res.data.dataUser.image.nama);
+      router.push('/');
+    } else {
+      const authData = {
+        email: res.data.email,
+        role: res.data.role,
+        token: res.data.token,
+        refreshToken: res.data.refreshToken,
+      };
+
+      localStorage.setItem('auth', JSON.stringify(authData));
+      router.push('https://client-komiksun.vercel.app');
+    }
   };
 
   return (
