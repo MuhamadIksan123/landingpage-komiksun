@@ -8,6 +8,7 @@ export default function CardKomikDetailVendor({dataKomik, dataGenre, idVendor}) 
     const [nameFilter, setNameFilter] = useState('');
     const [genreFilter, setGenreFilter] = useState(null);
     const [statusFilter, setStatusFilter] = useState(null);
+    const [_temp, setTemp] = useState([]);
 
      useEffect(() => {
        if (!nameFilter || !genreFilter || !statusFilter)
@@ -81,17 +82,15 @@ export default function CardKomikDetailVendor({dataKomik, dataGenre, idVendor}) 
        },
      ];
 
-     let res = dataGenre;
+     useEffect(() => {
+       const transformedData = dataGenre.map((item) => ({
+         value: item._id,
+         label: item.nama,
+         target: { value: item._id, name: 'genre' },
+       }));
 
-     let _temp = [];
-
-     res.forEach((res) => {
-       _temp.push({
-         value: res._id,
-         label: res.nama,
-         target: { value: res._id, name: 'genre' },
-       });
-     });
+       setTemp(transformedData);
+     }, [dataGenre]);
 
      useEffect(() => {
        setDataKomikFilter(
