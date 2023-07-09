@@ -9,7 +9,6 @@ export default function CardEvent({ dataKomik, title, subTitle }) {
 
   const perPage = 8;
   const offset = currentPage * perPage;
-  const pageCount = Math.ceil(dataKomik.length / perPage);
   const currentPageData = dataKomik.slice(offset, offset + perPage);
   return (
     <section className="grow-today">

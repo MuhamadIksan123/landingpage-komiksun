@@ -11,10 +11,15 @@ export default function CardVendor({ dataVendor }) {
     setCurrentPage(data.selected);
   };
 
-  const perPage = 12;
-  const offset = currentPage * perPage;
-  const pageCount = Math.ceil(dataVendor.length / perPage);
-  const currentPageData = dataVendor.slice(offset, offset + perPage);
+  let pageCount = 0;
+  let currentPageData = [];
+
+  if (dataVendor) {
+    const perPage = 12;
+    const offset = currentPage * perPage;
+    pageCount = Math.ceil(dataVendor.length / perPage);
+    currentPageData = dataVendor.slice(offset, offset + perPage);
+  }
 
   return (
     <section className="grow-komik">
