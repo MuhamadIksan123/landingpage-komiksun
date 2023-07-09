@@ -12,7 +12,7 @@ export default function CardEvent({ dataKomik }) {
     // Simulate loading time
     const timeout = setTimeout(() => {
       setIsLoading(false);
-    }, 2000);
+    }, 5000);
 
     // Clean up the timeout on component unmount
     return () => clearTimeout(timeout);
