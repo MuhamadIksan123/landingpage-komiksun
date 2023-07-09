@@ -42,13 +42,17 @@ export default function FormSignin() {
 
     if (res.data.role === 'vendor' || res.data.role === 'admin') {
       const authData = {
+        token: res.data.token,
         email: res.data.email,
         role: res.data.role,
-        token: res.data.token,
         refreshToken: res.data.refreshToken,
       };
 
       localStorage.setItem('auth', JSON.stringify(authData));
+      window.postMessage(
+        JSON.stringify(authData),
+        'https://client-komiksun.vercel.app'
+      );
       router.push('https://client-komiksun.vercel.app');
     }
   };
