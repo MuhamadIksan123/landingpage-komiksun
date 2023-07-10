@@ -48,15 +48,8 @@ export default function FormSignin() {
         refreshToken: res.data.refreshToken,
       };
 
-      localStorage.setItem('auth', JSON.stringify(authData));
-
-      // Kirim pesan ke halaman target
-      window.postMessage(
-        { type: 'authData', data: authData },
-        'https://client-komiksun.vercel.app'
-      );
-
-      router.push('https://client-komiksun.vercel.app');
+      const queryParams = new URLSearchParams(authData).toString();
+      router.push(`https://client-komiksun.vercel.app?${queryParams}`);
     }
   };
 
