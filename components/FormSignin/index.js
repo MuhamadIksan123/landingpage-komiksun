@@ -49,11 +49,12 @@ export default function FormSignin() {
       };
 
       localStorage.setItem('auth', JSON.stringify(authData));
+
+      // Mengirim pesan ke halaman lain
       window.postMessage(
-        JSON.stringify(authData),
+        { type: 'AUTH_DATA', data: authData },
         'https://client-komiksun.vercel.app'
       );
-      router.push('https://client-komiksun.vercel.app');
     }
   };
 
