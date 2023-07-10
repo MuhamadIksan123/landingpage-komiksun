@@ -50,11 +50,13 @@ export default function FormSignin() {
 
       localStorage.setItem('auth', JSON.stringify(authData));
 
-      // Mengirim pesan ke halaman lain
+      // Kirim pesan ke halaman target
       window.postMessage(
-        { type: 'AUTH_DATA', data: authData },
+        { type: 'authData', data: authData },
         'https://client-komiksun.vercel.app'
       );
+
+      router.push('https://client-komiksun.vercel.app');
     }
   };
 
