@@ -48,8 +48,10 @@ export default function FormSignin() {
         refreshToken: res.data.refreshToken,
       };
 
-      const queryParams = new URLSearchParams(authData).toString();
-      router.push(`https://client-komiksun.vercel.app?${queryParams}`);
+      const params = new URLSearchParams(authData).toString();
+      router.push(`https://client-komiksun.vercel.app?${params}`);
+    } else {
+      router.push('https://landingpage-komiksun.vercel.app/signin');
     }
   };
 
