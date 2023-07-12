@@ -22,10 +22,10 @@ export default function CardEvent({ dataKomik }) {
     setCurrentPage(data.selected);
   };
 
-  const perPage = 12;
-  const offset = currentPage * perPage;
+  // const perPage = 12;
+  // const offset = currentPage * perPage;
   // const pageCount = Math.ceil(dataKomik.length / perPage);
-  const currentPageData = dataKomik.slice(offset, offset + perPage);
+  // const currentPageData = dataKomik.slice(offset, offset + perPage);
 
   return (
     <section className="grow-komik">
@@ -61,9 +61,9 @@ export default function CardEvent({ dataKomik }) {
         )}
       </div>
 
-      <div className="d-flex justify-content-center mt-4">
+      {/* <div className="d-flex justify-content-center mt-4">
         <Pagination pageCount={pageCount} handlePageClick={handlePageClick} />
-      </div>
+      </div> */}
     </section>
   );
 }
