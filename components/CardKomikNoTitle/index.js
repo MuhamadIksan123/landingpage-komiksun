@@ -12,20 +12,20 @@ export default function CardEvent({ dataKomik }) {
     // Simulate loading time
     const timeout = setTimeout(() => {
       setIsLoading(false);
-    }, 2000);
+    }, 5000);
 
     // Clean up the timeout on component unmount
     return () => clearTimeout(timeout);
   }, []);
 
-  // const handlePageClick = (data) => {
-  //   setCurrentPage(data.selected);
-  // };
+  const handlePageClick = (data) => {
+    setCurrentPage(data.selected);
+  };
 
-  // const perPage = 12;
-  // const offset = currentPage * perPage;
-  // const pageCount = Math.ceil(dataKomik.length / perPage);
-  // const currentPageData = dataKomik.slice(offset, offset + perPage);
+  const perPage = 12;
+  const offset = currentPage * perPage;
+  const pageCount = Math.ceil(dataKomik.length / perPage);
+  const currentPageData = dataKomik.slice(offset, offset + perPage);
 
   return (
     <section className="grow-komik">
@@ -34,7 +34,7 @@ export default function CardEvent({ dataKomik }) {
           <div className="loader">Loading...</div>
         ) : (
           <div className="mt-5 row gap">
-            {dataKomik.map((data, index) => (
+            {currentPageData.map((data, index) => (
               <div className="col-lg-3 col-md-6 col-12" key={index}>
                 <div className="card-grow h-100 card">
                   <span className="badge-pricing">
@@ -61,9 +61,9 @@ export default function CardEvent({ dataKomik }) {
         )}
       </div>
 
-      {/* <div className="d-flex justify-content-center mt-4">
+      <div className="d-flex justify-content-center mt-4">
         <Pagination pageCount={pageCount} handlePageClick={handlePageClick} />
-      </div> */}
+      </div>
     </section>
   );
 }
