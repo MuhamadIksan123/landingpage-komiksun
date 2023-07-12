@@ -5,6 +5,7 @@ import Pagination from '../Pagination';
 import { formatDate } from '../../utils/formatDate';
 
 export default function CardEvent({ dataKomik }) {
+  console.log(dataKomik);
   const [currentPage, setCurrentPage] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
 
@@ -24,7 +25,7 @@ export default function CardEvent({ dataKomik }) {
 
   const perPage = 12;
   const offset = currentPage * perPage;
-  const pageCount = Math.ceil(dataKomik.length / perPage);
+  const pageCount = dataKomik ? Math.ceil(dataKomik.length / perPage) : [];
   const currentPageData = dataKomik.slice(offset, offset + perPage);
 
   return (
