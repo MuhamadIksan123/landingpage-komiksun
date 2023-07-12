@@ -37,29 +37,32 @@ export default function CardEvent({ dataKomik }) {
           <div className="loader">Loading...</div>
         ) : (
           <div className="mt-5 row gap">
-            {currentPageData.map((data, index) => (
-              <div className="col-lg-3 col-md-6 col-12" key={index}>
-                <div className="card-grow h-100 card">
-                  <span className="badge-pricing">
-                    <div>{data.price === 0 ? 'free' : `Rp. ${data.price}`}</div>
-                  </span>
-                  <img
-                    src={`${process.env.NEXT_PUBLIC_API}/${data.image.nama}`}
-                    alt="semina"
-                  />
-                  <div className="card-content">
-                    <div className="card-title">{data.judul}</div>
-                    <div className="card-subtitle">{data.genre.nama}</div>
-                    <div className="description">
-                      {data.jenis}, {formatDate(data.rilis)}
+            {currentPageData.length &&
+              currentPageData.map((data, index) => (
+                <div className="col-lg-3 col-md-6 col-12" key={index}>
+                  <div className="card-grow h-100 card">
+                    <span className="badge-pricing">
+                      <div>
+                        {data.price === 0 ? 'free' : `Rp. ${data.price}`}
+                      </div>
+                    </span>
+                    <img
+                      src={`${process.env.NEXT_PUBLIC_API}/${data.image.nama}`}
+                      alt="semina"
+                    />
+                    <div className="card-content">
+                      <div className="card-title">{data.judul}</div>
+                      <div className="card-subtitle">{data.genre.nama}</div>
+                      <div className="description">
+                        {data.jenis}, {formatDate(data.rilis)}
+                      </div>
+                      <Link href={`/detail/${data._id}`}>
+                        <a className="stretched-link"></a>
+                      </Link>
                     </div>
-                    <Link href={`/detail/${data._id}`}>
-                      <a className="stretched-link"></a>
-                    </Link>
                   </div>
                 </div>
-              </div>
-            ))}
+              ))}
           </div>
         )}
       </div>
