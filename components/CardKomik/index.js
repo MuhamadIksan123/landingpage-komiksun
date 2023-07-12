@@ -7,9 +7,9 @@ import { formatDate } from '../../utils/formatDate';
 export default function CardEvent({ dataKomik, title, subTitle }) {
   const [currentPage, setCurrentPage] = useState(0);
 
-  const perPage = 8;
-  const offset = currentPage * perPage;
-  const currentPageData = dataKomik.slice(offset, offset + perPage);
+  // const perPage = 8;
+  // const offset = currentPage * perPage;
+  // const currentPageData = dataKomik.slice(offset, offset + perPage);
   return (
     <section className="grow-today">
       <div className="container">
