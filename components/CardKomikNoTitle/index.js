@@ -12,15 +12,15 @@ export default function CardEvent({ dataKomik }) {
     // Simulate loading time
     const timeout = setTimeout(() => {
       setIsLoading(false);
-    }, 5000);
+    }, 2000);
 
     // Clean up the timeout on component unmount
     return () => clearTimeout(timeout);
   }, []);
 
-  const handlePageClick = (data) => {
-    setCurrentPage(data.selected);
-  };
+  // const handlePageClick = (data) => {
+  //   setCurrentPage(data.selected);
+  // };
 
   // const perPage = 12;
   // const offset = currentPage * perPage;
