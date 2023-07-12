@@ -24,7 +24,7 @@ export default function CardEvent({ dataKomik }) {
 
   const perPage = 12;
   const offset = currentPage * perPage;
-  const pageCount = Math.ceil(dataKomik.length / perPage);
+  // const pageCount = Math.ceil(dataKomik.length / perPage);
   const currentPageData = dataKomik.slice(offset, offset + perPage);
 
   return (
