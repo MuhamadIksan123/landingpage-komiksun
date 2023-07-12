@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { formatDate } from '../../utils/formatDate';
 
 export default function CardEvent({ dataKomik, title, subTitle }) {
-  const [currentPage, setCurrentPage] = useState(0);
+  // const [currentPage, setCurrentPage] = useState(0);
 
   // const perPage = 8;
   // const offset = currentPage * perPage;
@@ -15,7 +15,7 @@ export default function CardEvent({ dataKomik, title, subTitle }) {
       <div className="container">
         <CardTitle title={title} subTitle={subTitle} />
         <div className="mt-5 row gap">
-          {currentPageData.map((data, index) => (
+          {dataKomik.map((data, index) => (
             <div className="col-lg-3 col-md-6 col-12" key={index}>
               <div className="card-grow h-100">
                 <span className="badge-pricing">

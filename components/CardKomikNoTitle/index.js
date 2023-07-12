@@ -34,7 +34,7 @@ export default function CardEvent({ dataKomik }) {
           <div className="loader">Loading...</div>
         ) : (
           <div className="mt-5 row gap">
-            {currentPageData.map((data, index) => (
+            {dataKomik.map((data, index) => (
               <div className="col-lg-3 col-md-6 col-12" key={index}>
                 <div className="card-grow h-100 card">
                   <span className="badge-pricing">
