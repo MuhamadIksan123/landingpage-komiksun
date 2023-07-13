@@ -3,11 +3,8 @@
 import React, { useEffect, useState } from 'react';
 import Head from 'next/head';
 import Button from '../../components/Button';
-import CardEvent from '../../components/CardKomik';
 import Footer from '../../components/Footer';
 import Navbar from '../../components/Navbar';
-import Statistics from '../../components/Statistics';
-import Stories from '../../components/Stories';
 import { useRouter } from 'next/router';
 import { getData } from '../../utils/fetchData';
 import moment from 'moment';
@@ -15,16 +12,50 @@ import { formatDate } from '../../utils/formatDate';
 import Cookies from 'js-cookie';
 import Link from 'next/link';
 
-export default function DetailPage({ detailPageKomik, detailPageChapter, detailPageCustomer, id }) {
+export default function DetailPage({
+  detailPageKomik,
+  detailPageChapter,
+  detailPageCustomer,
+  id,
+}) {
+  console.log('detailPageKomik');
+  console.log(detailPageKomik);
+
+  console.log('detailPageChapter');
+  console.log(detailPageChapter);
+
+  console.log('detailPageCustomer');
+  console.log(detailPageCustomer);
+
+  console.log('id');
+  console.log(id);
+
+
   const router = useRouter();
   const [idCustomer, setIdCustomer] = useState(Cookies.get('idUser'));
   const [customer, setCustomer] = useState('');
   const [komikUser, setKomikUser] = useState('');
 
+  // const [dataChapter, setDataChapter] = useState([]);
+  // const [dataGenre, setDataGenre] = useState([]);
+
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     try {
+  //       const resChapter = await getData('api/v1/chapter');
+  //       setDataChapter(resChapter.data);
+  //     } catch (err) {}
+  //   };
+
+  //   fetchData();
+  // }, []);
+
   useEffect(() => {
     const fetchData = () => {
       try {
-        detailPageCustomer.komik.map(item => item.value === id ? setKomikUser(item.value) : null);
+        detailPageCustomer.komik.map((item) =>
+          item.value === id ? setKomikUser(item.value) : null
+        );
       } catch (err) {
         return err;
       }
