@@ -7,7 +7,7 @@ import Statistics from '../components/Statistics';
 import Stories from '../components/Stories';
 import { getData } from '../utils/fetchData';
 
-export default function Home({ data }) {
+export default function HomePage({ data }) {
   return (
     <>
       <Head>

@@ -6,7 +6,23 @@ import React from 'react';
 import CardKomikWithSearch from '../components/CardKomikWithSearch';
 
 
-export default function Home({ dataKomik, dataGenre }) {
+export default function BrowsePage() {
+  const [dataKomik, setDataKomik] = useState([]);
+  const [dataGenre, setDataGenre] = useState([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const resGenre = await getData('api/v1/genre');
+        setDataGenre(resGenre.data);
+
+        const resKomik = await getData('api/v1/komik');
+        setDataKomik(resKomik.data);
+      } catch (err) {}
+    };
+
+    fetchData();
+  }, []);
   return (
     <>
       <Head>
@@ -23,14 +39,14 @@ export default function Home({ dataKomik, dataGenre }) {
   );
 }
 
-export async function getServerSideProps(context) {
-  const reqKomik = await getData('api/v1/komik');
-  const resKomik = reqKomik.data;
+// export async function getServerSideProps(context) {
+//   const reqKomik = await getData('api/v1/komik');
+//   const resKomik = reqKomik.data;
 
-  const reqGenre = await getData('api/v1/genre');
-  const resGenre = reqGenre.data;
+//   const reqGenre = await getData('api/v1/genre');
+//   const resGenre = reqGenre.data;
 
-  return {
-    props: { dataKomik: resKomik, dataGenre: resGenre },
-  };
-}
+//   return {
+//     props: { dataKomik: resKomik, dataGenre: resGenre },
+//   };
+// }
