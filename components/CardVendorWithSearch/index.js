@@ -24,9 +24,6 @@ export default function CardVendorWithSearch({ data }) {
     setNameFilter(e.target.value);
   };
 
-  console.log('filteredKomikData');
-  console.log(filteredKomikData);
-
   return (
     <>
       <Container className="mt-5">
@@ -40,7 +37,7 @@ export default function CardVendorWithSearch({ data }) {
           </Col>
         </div>
       </Container>
-      <CardVendor dataVendor={filteredKomikData} />
+      <CardVendor dataVendor={filteredKomikData} data={data} />
     </>
   );
 }

@@ -20,9 +20,6 @@ export default function VendorPage() {
     fetchData();
   }, []);
 
-  console.log('data');
-  console.log(data)
-
   return (
     <>
       <Head>
@@ -40,11 +37,11 @@ export default function VendorPage() {
   );
 }
 
-export async function getServerSideProps(context) {
-  const req = await getData('api/v1/vendor');
-  const res = req.data;
+// export async function getServerSideProps(context) {
+//   const req = await getData('api/v1/vendor');
+//   const res = req.data;
 
-  return {
-    props: { data: res },
-  };
-}
+//   return {
+//     props: { data: res },
+//   };
+// }

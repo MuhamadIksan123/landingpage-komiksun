@@ -143,7 +143,7 @@ export default function CardKomikWithSearch({ dataKomik, dataGenre }) {
           </div>
         </div>
       </div>
-      <CardKomikNoTitle dataKomik={filteredKomikData} />
+      <CardKomikNoTitle dataKomik={filteredKomikData} data={dataKomik} />
     </>
   );
 }
