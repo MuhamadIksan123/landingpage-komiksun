@@ -1,11 +1,8 @@
-import React, { useEffect, useRef } from 'react';
+import React from 'react';
 import Head from 'next/head';
 import Navbar from '../components/Navbar';
-import Form from 'react-bootstrap/Form';
-import { Col, Container, Row, Button, Card, Image } from 'react-bootstrap';
-import FloatingLabel from 'react-bootstrap/FloatingLabel';
+import { Col, Container, Row, Card, Image } from 'react-bootstrap';
 import Footer from '../components/Footer';
-import { toast } from 'react-toastify';
 import { getData } from '../utils/fetchData';
 import moment from 'moment';
 

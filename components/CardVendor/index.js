@@ -6,17 +6,6 @@ import Pagination from '../Pagination';
 
 export default function CardVendor({ dataVendor }) {
   const [currentPage, setCurrentPage] = useState(0);
-  const [isLoading, setIsLoading] = useState(true);
-
-  useEffect(() => {
-    // Simulate loading time
-    const timeout = setTimeout(() => {
-      setIsLoading(false);
-    }, 5000);
-
-    // Clean up the timeout on component unmount
-    return () => clearTimeout(timeout);
-  }, []);
 
   const handlePageClick = (data) => {
     setCurrentPage(data.selected);
@@ -30,9 +19,6 @@ export default function CardVendor({ dataVendor }) {
   return (
     <section className="grow-komik">
       <div className="container">
-        {isLoading ? (
-          <div className="loader">Loading...</div>
-        ) : (
           <div className="mt-5 row gap">
             {currentPageData.map((data, index) => (
               <div className="col-lg-3 col-md-6 col-12" key={index}>
@@ -59,7 +45,6 @@ export default function CardVendor({ dataVendor }) {
               </div>
             ))}
           </div>
-        )}
       </div>
 
       <div className="d-flex justify-content-center mt-4">

@@ -1,33 +1,27 @@
 import Head from 'next/head';
 import Navbar from '../components/Navbar';
-import CardVendor from '../components/CardVendor';
 import Footer from '../components/Footer';
 import { getData } from '../utils/fetchData';
-import SearchInput from '../components/SearchInput';
-import Pagination from '../components/Pagination';
 /* eslint-disable @next/next/no-img-element */
 import React, { useState, useEffect } from 'react';
-import { Col, Container, Row } from 'react-bootstrap';
+import CardVendorWithSearch from '../components/CardVendorWithSearch';
 
-export default function Home({ data }) {
-  const [filteredKomikData, setFilteredKomikData] = useState(data);
-  const [nameFilter, setNameFilter] = useState('');
+export default function Vendor({data}) {
+  // const [data, setData] = useState([]);
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     try {
+  //       const res = await getData('api/v1/vendor');
 
-  useEffect(() => {
-    if (!nameFilter)
-      setFilteredKomikData(data);
-    if (nameFilter)
-      setFilteredKomikData(
-        data.filter((item) =>
-          item.nama.toLowerCase().includes(nameFilter.toLowerCase())
-        )
-      );
-    
-  }, [nameFilter]);
+  //       setData(res.data);
+  //     } catch (err) {}
+  //   };
 
-  const handleChange = (e) => {
-    setNameFilter(e.target.value);
-  };
+  //   fetchData();
+  // }, []);
+
+  // console.log('data');
+  // console.log(data)
 
   return (
     <>
@@ -39,19 +33,8 @@ export default function Home({ data }) {
       <header className="bg-navy">
         <Navbar />
       </header>
-      <Container className="mt-5">
-        <div className="row row-cols-lg-8 row-cols-md-1 row-cols-1 justify-content-lg-center">
-          <Col>
-            <SearchInput
-              className="form-search"
-              name="keyword"
-              handleChange={handleChange}
-            />
-          </Col>
-        </div>
-      </Container>
-      <CardVendor dataVendor={filteredKomikData} />
-      {/* <Pagination pages={pages} handlePageClick={handlePageClick} /> */}
+      <CardVendorWithSearch data={data} />
+      
       <Footer />
     </>
   );
