@@ -37,7 +37,7 @@ export default function CardVendorWithSearch({ data }) {
           </Col>
         </div>
       </Container>
-      <CardVendor dataVendor={filteredKomikData} data={data} />
+      <CardVendor dataVendor={filteredKomikData} allDataVendor={data} />
     </>
   );
 }
