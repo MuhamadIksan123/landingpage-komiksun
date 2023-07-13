@@ -6,22 +6,22 @@ import { getData } from '../utils/fetchData';
 import React, { useState, useEffect } from 'react';
 import CardVendorWithSearch from '../components/CardVendorWithSearch';
 
-export default function Vendor({data}) {
-  // const [data, setData] = useState([]);
-  // useEffect(() => {
-  //   const fetchData = async () => {
-  //     try {
-  //       const res = await getData('api/v1/vendor');
+export default function Vendor() {
+  const [data, setData] = useState([]);
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const res = await getData('api/v1/vendor');
 
-  //       setData(res.data);
-  //     } catch (err) {}
-  //   };
+        setData(res.data);
+      } catch (err) {}
+    };
 
-  //   fetchData();
-  // }, []);
+    fetchData();
+  }, []);
 
-  // console.log('data');
-  // console.log(data)
+  console.log('data');
+  console.log(data)
 
   return (
     <>
