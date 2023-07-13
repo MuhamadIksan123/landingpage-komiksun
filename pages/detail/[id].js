@@ -12,56 +12,54 @@ import { formatDate } from '../../utils/formatDate';
 import Cookies from 'js-cookie';
 import Link from 'next/link';
 
-export default function DetailPage({
-  detailPageKomik,
-  detailPageChapter,
-  detailPageCustomer,
-  id,
-}) {
-  console.log('detailPageKomik');
-  console.log(detailPageKomik);
-
-  console.log('detailPageChapter');
-  console.log(detailPageChapter);
-
-  console.log('detailPageCustomer');
-  console.log(detailPageCustomer);
-
-  console.log('id');
-  console.log(id);
-
+export default function DetailPage() {
   const router = useRouter();
+  const { id } = router.query;
+
+  const [isLoading, setIsLoading] = useState(true);
+
   const [idCustomer, setIdCustomer] = useState(Cookies.get('idUser'));
   const [customer, setCustomer] = useState('');
   const [komikUser, setKomikUser] = useState('');
 
-  // const [dataChapter, setDataChapter] = useState([]);
-  // const [dataGenre, setDataGenre] = useState([]);
-
-  // useEffect(() => {
-  //   const fetchData = async () => {
-  //     try {
-  //       const resChapter = await getData('api/v1/chapter');
-  //       setDataChapter(resChapter.data);
-  //     } catch (err) {}
-  //   };
-
-  //   fetchData();
-  // }, []);
+  const [dataCustomer, setDataCustomer] = useState([]);
+  const [dataChapter, setDataChapter] = useState([]);
+  const [dataKomik, setDataKomik] = useState([]);
+  const [dataGenre, setDataGenre] = useState([]);
 
   useEffect(() => {
-    const fetchData = () => {
+    const fetchData = async () => {
       try {
-        detailPageCustomer.komik.map((item) =>
-          item.value === id ? setKomikUser(item.value) : null
-        );
+        const idUser = Cookies.get('idUser');
+        if (idUser) {
+          const resCustomer = await getData(`api/v1/customer/${idUser}`);
+          setDataCustomer(resCustomer.data);
+        }
+
+        // Mengambil detail komik berdasarkan ID
+        const resKomik = await getData(`api/v1/komik/${id}`);
+        setDataKomik(resKomik.data);
+
+        // Mengambil data chapter
+        const resChapter = await getData('api/v1/chapter');
+        setDataChapter(resChapter.data);
+
+        // Mengambil data genre
+        const resGenre = await getData('api/v1/genre');
+        setDataGenre(resGenre.data);
+
+        setIsLoading(false);
       } catch (err) {
-        return err;
+        // Tangani kesalahan jika ada
+        setIsLoading(false);
+        return err
       }
     };
-
-    fetchData();
-  }, []);
+    if (id) {
+      setIsLoading(true);
+      fetchData();
+    }
+  }, [id]);
 
   const handleChapter = (chapterId, komikId, vendor, detailPageCustomer) => {
     const token = Cookies.get('token');
@@ -69,7 +67,7 @@ export default function DetailPage({
       console.log('TRUE1');
       return router.push('/signin');
     } else {
-      if (detailPageKomik.price === 0) {
+      if (dataKomik.price === 0) {
         console.log('TRUE2');
         router.push(`/baca/${chapterId}`);
       } else {
@@ -105,79 +103,81 @@ export default function DetailPage({
         <Navbar />
       </section>
 
-      <div className="preview-image bg-navy text-center">
-        <img
-          src={`${process.env.NEXT_PUBLIC_API}/${detailPageKomik?.image?.nama}`}
-          className="img-content"
-          alt="semina"
-        />
-      </div>
-      <div className="details-content container">
-        <div className="d-flex flex-wrap justify-content-lg-center gap">
-          <div className="d-flex flex-column description">
-            <div className="headline">{detailPageKomik.judul}</div>
-            <br />
-            <div className="event-details">
-              <h6>Genre</h6>
-              <p className="details-paragraph">{detailPageKomik.genre.nama}</p>
-              <h6>Rilis</h6>
-              <p className="details-paragraph">
-                {moment(detailPageKomik.rilis).format('DD-MM-YYYY')}
-              </p>
-              <h6>Sinopsis</h6>
-              <p className="details-paragraph">{detailPageKomik.sinopsis}</p>
-            </div>
+      {isLoading ? (
+        <div>Loading...</div>
+      ) : (
+        <>
+          <div className="preview-image bg-navy text-center">
+            <img
+              src={`${process.env.NEXT_PUBLIC_API}/${dataKomik?.image?.nama}`}
+              className="img-content"
+              alt="semina"
+            />
           </div>
-
-          {detailPageKomik.price === 0 || komikUser === id ? null : (
-            <div className="d-flex flex-column card-event">
-              <h6>Your Writer</h6>
-              <div className="d-flex align-items-center gap-3 mt-3">
-                <img
-                  src={`${process.env.NEXT_PUBLIC_API}/${detailPageKomik?.vendor?.image?.nama}`}
-                  alt="semina"
-                  width="60"
-                />
-                <div>
-                  <div className="speaker-name">
-                    {detailPageKomik?.vendor?.nama}
-                  </div>
-                  <span className="occupation">
-                    {detailPageKomik?.vendor?.role}
-                  </span>
+          <div className="details-content container">
+            <div className="d-flex flex-wrap justify-content-lg-center gap">
+              <div className="d-flex flex-column description">
+                <div className="headline">{dataKomik.judul}</div>
+                <br />
+                <div className="event-details">
+                  <h6>Genre</h6>
+                  {/* <p className="details-paragraph">{dataKomik.genre.nama}</p> */}
+                  <h6>Rilis</h6>
+                  <p className="details-paragraph">
+                    {moment(dataKomik.rilis).format('DD-MM-YYYY')}
+                  </p>
+                  <h6>Sinopsis</h6>
+                  <p className="details-paragraph">{dataKomik.sinopsis}</p>
                 </div>
               </div>
-              <hr />
 
-              <h6>Get Komik</h6>
-              <div>
-                <>
-                  <div className="price my-3">
-                    {detailPageKomik.price === 0
-                      ? 'free'
-                      : `$${detailPageKomik.price}`}
-                    <span>/person</span>
+              {dataKomik.price === 0 || komikUser === id ? null : (
+                <div className="d-flex flex-column card-event">
+                  <h6>Your Writer</h6>
+                  <div className="d-flex align-items-center gap-3 mt-3">
+                    <img
+                      src={`${process.env.NEXT_PUBLIC_API}/${dataKomik?.vendor?.image?.nama}`}
+                      alt="semina"
+                      width="60"
+                    />
+                    <div>
+                      <div className="speaker-name">
+                        {dataKomik?.vendor?.nama}
+                      </div>
+                      <span className="occupation">
+                        {dataKomik?.vendor?.role}
+                      </span>
+                    </div>
                   </div>
-                  <div className="d-flex gap-3 align-items-center card-details">
-                    <img src="/icons/ic-marker.svg" alt="semina" />{' '}
-                    {detailPageKomik.vendor.role}
-                  </div>
-                  <div className="d-flex gap-3 align-items-center card-details">
-                    <img src="/icons/ic-time.svg" alt="semina" />{' '}
-                    {detailPageKomik.vendor.email}
-                  </div>
-                  <div className="d-flex gap-3 align-items-center card-details">
-                    <img src="/icons/ic-calendar.svg" alt="semina" />{' '}
-                    {detailPageKomik.vendor.nomor}
-                  </div>
+                  <hr />
 
-                  {detailPageKomik.stock !== 0 && (
+                  <h6>Get Komik</h6>
+                  <div>
+                    <>
+                      <div className="price my-3">
+                        {dataKomik.price === 0 ? 'free' : `$${dataKomik.price}`}
+                        <span>/person</span>
+                      </div>
+                      <div className="d-flex gap-3 align-items-center card-details">
+                        <img src="/icons/ic-marker.svg" alt="semina" />{' '}
+                        {dataKomik.vendor.role}
+                      </div>
+                      <div className="d-flex gap-3 align-items-center card-details">
+                        <img src="/icons/ic-time.svg" alt="semina" />{' '}
+                        {dataKomik.vendor.email}
+                      </div>
+                      <div className="d-flex gap-3 align-items-center card-details">
+                        <img src="/icons/ic-calendar.svg" alt="semina" />{' '}
+                        {dataKomik.vendor.nomor}
+                      </div>
+
+                      {dataKomik.stock !== 0 && (
                     <Button
                       variant={'btn-green'}
                       action={() =>
                         handleSubmit(
-                          detailPageKomik._id,
-                          detailPageKomik.vendor._id,
+                          dataKomik._id,
+                          dataKomik.vendor._id,
                           customer
                         )
                       }
@@ -185,69 +185,71 @@ export default function DetailPage({
                       Order Now
                     </Button>
                   )}
-                </>
+                    </>
+                  </div>
+                </div>
+              )}
+            </div>
+          </div>
+          {/* <section className="pb-5">
+            <div className="container">
+              <div className=" row gap-y">
+                {detailPageChapter.map((data, index) => {
+                  if (id === data.komik._id) {
+                    return (
+                      <div
+                        className="col-lg-3 col-md-6 col-12 d-grid my-2"
+                        key={index}
+                      >
+                        <Button
+                          variant={'btn-green'}
+                          action={() =>
+                            handleChapter(
+                              data._id,
+                              dataKomik._id,
+                              dataKomik.vendor._id,
+                              detailPageCustomer
+                            )
+                          }
+                        >
+                          {data.judul}
+                        </Button>
+                      </div>
+                    );
+                  }
+                })}
               </div>
             </div>
-          )}
-        </div>
-      </div>
+          </section> */}
+        </>
+      )}
 
-      <section className="pb-5">
-        <div className="container">
-          <div className=" row gap-y">
-            {detailPageChapter.map((data, index) => {
-              if (id === data.komik._id) {
-                return (
-                  <div
-                    className="col-lg-3 col-md-6 col-12 d-grid my-2"
-                    key={index}
-                  >
-                    <Button
-                      variant={'btn-green'}
-                      action={() =>
-                        handleChapter(
-                          data._id,
-                          detailPageKomik._id,
-                          detailPageKomik.vendor._id,
-                          detailPageCustomer
-                        )
-                      }
-                    >
-                      {data.judul}
-                    </Button>
-                  </div>
-                );
-              }
-            })}
-          </div>
-        </div>
-      </section>
       <Footer />
     </>
   );
 }
 
-export async function getServerSideProps(context) {
-  const { idUser } = context.req.cookies;
-  let resCustomer = null; // Menetapkan null secara default
+// export async function getServerSideProps(context) {
+// const { idUser } = context.req.cookies;
+// let resCustomer = null; // Menetapkan null secara default
 
-  if (idUser) {
-    const reqCustomer = await getData(`api/v1/customer/${idUser}`);
-    resCustomer = reqCustomer.data;
-  }
+// if (idUser) {
+//   const reqCustomer = await getData(`api/v1/customer/${idUser}`);
+//   resCustomer = reqCustomer.data;
+// }
 
-  const reqKomik = await getData(`api/v1/komik/${context.params.id}`);
-  const resKomik = reqKomik.data;
+//   const reqKomik = await getData(`api/v1/komik/${context.params.id}`);
+//   const resKomik = reqKomik.data;
 
-  const reqChapter = await getData(`api/v1/chapter`);
-  const resChapter = reqChapter.data;
+//   const reqChapter = await getData(`api/v1/chapter`);
+//   const resChapter = reqChapter.data;
 
-  return {
-    props: {
-      detailPageKomik: resKomik,
-      detailPageChapter: resChapter,
-      detailPageCustomer: resCustomer,
-      id: context.params.id,
-    },
-  };
-}
+//   return {
+//     props: {
+//       dataKomik: resKomik,
+//       detailPageChapter: resChapter,
+//       detailPageCustomer: resCustomer,
+//       id: context.params.id,
+//     },
+//   };
+// }
