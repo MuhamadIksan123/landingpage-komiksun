@@ -30,6 +30,8 @@ export default function DetailPage({
   console.log('id');
   console.log(id);
 
+  return;
+
 
   const router = useRouter();
   const [idCustomer, setIdCustomer] = useState(Cookies.get('idUser'));
