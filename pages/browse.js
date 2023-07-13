@@ -2,7 +2,7 @@ import Head from 'next/head';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 import { getData } from '../utils/fetchData';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import CardKomikWithSearch from '../components/CardKomikWithSearch';
 
 
