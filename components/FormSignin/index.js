@@ -50,8 +50,6 @@ export default function FormSignin() {
 
       const params = new URLSearchParams(authData).toString();
       router.push(`https://client-komiksun.vercel.app/login?${params}`);
-    } else {
-      router.push('https://landingpage-komiksun.vercel.app/signin');
     }
   };
 
