@@ -18,50 +18,78 @@ export default function DetailPage() {
 
   const [isLoading, setIsLoading] = useState(true);
 
-  const [idCustomer, setIdCustomer] = useState(Cookies.get('idUser'));
-  const [customer, setCustomer] = useState('');
   const [komikUser, setKomikUser] = useState('');
 
   const [dataCustomer, setDataCustomer] = useState([]);
   const [dataChapter, setDataChapter] = useState([]);
   const [dataKomik, setDataKomik] = useState([]);
-  const [dataGenre, setDataGenre] = useState([]);
 
   useEffect(() => {
-    const fetchData = async () => {
+    const fetchDataCustomer = async () => {
       try {
         const idUser = Cookies.get('idUser');
         if (idUser) {
           const resCustomer = await getData(`api/v1/customer/${idUser}`);
           setDataCustomer(resCustomer.data);
         }
+      } catch (err) {
+        // Tangani kesalahan jika ada
+        console.error('Error fetching customer data:', err);
+      }
+    };
 
-        // Mengambil detail komik berdasarkan ID
+    const fetchDataKomik = async () => {
+      try {
         const resKomik = await getData(`api/v1/komik/${id}`);
         setDataKomik(resKomik.data);
+      } catch (err) {
+        // Tangani kesalahan jika ada
+        console.error('Error fetching komik data:', err);
+      }
+    };
 
-        // Mengambil data chapter
+    const fetchDataChapter = async () => {
+      try {
         const resChapter = await getData('api/v1/chapter');
         setDataChapter(resChapter.data);
+      } catch (err) {
+        // Tangani kesalahan jika ada
+        console.error('Error fetching chapter data:', err);
+      }
+    };
 
-        // Mengambil data genre
-        const resGenre = await getData('api/v1/genre');
-        setDataGenre(resGenre.data);
-
+    const fetchData = async () => {
+      try {
+        setIsLoading(true);
+        await Promise.all([
+          fetchDataCustomer(),
+          fetchDataKomik(),
+          fetchDataChapter(),
+        ]);
         setIsLoading(false);
       } catch (err) {
         // Tangani kesalahan jika ada
         setIsLoading(false);
-        return err
+        console.error('Error:', err);
       }
     };
+
     if (id) {
-      setIsLoading(true);
       fetchData();
     }
   }, [id]);
 
-  const handleChapter = (chapterId, komikId, vendor, detailPageCustomer) => {
+  useEffect(() => {
+    if (dataCustomer && dataCustomer.komik) {
+      // Fetch data customer.komik setelah mendapatkan dataCustomer
+      dataCustomer.komik.map((item) =>
+        item.value === id ? setKomikUser(item.value) : null
+      );
+    }
+  }, [dataCustomer, id]);
+
+
+  const handleChapter = (chapterId, komikId, vendor, dataCustomer) => {
     const token = Cookies.get('token');
     if (!token) {
       console.log('TRUE1');
@@ -71,7 +99,7 @@ export default function DetailPage() {
         console.log('TRUE2');
         router.push(`/baca/${chapterId}`);
       } else {
-        detailPageCustomer.komik.map((item) => {
+        dataCustomer.komik.map((item) => {
           item.value === komikId
             ? router.push(`/baca/${chapterId}`)
             : router.push(
@@ -171,30 +199,27 @@ export default function DetailPage() {
                         {dataKomik.vendor.nomor}
                       </div>
 
-                      {dataKomik.stock !== 0 && (
-                    <Button
-                      variant={'btn-green'}
-                      action={() =>
-                        handleSubmit(
-                          dataKomik._id,
-                          dataKomik.vendor._id,
-                          customer
-                        )
-                      }
-                    >
-                      Order Now
-                    </Button>
-                  )}
+                        <Button
+                          variant={'btn-green'}
+                          action={() =>
+                            handleSubmit(
+                              dataKomik._id,
+                              dataKomik.vendor._id,
+                            )
+                          }
+                        >
+                          Order Now
+                        </Button>
                     </>
                   </div>
                 </div>
               )}
             </div>
           </div>
-          {/* <section className="pb-5">
+          <section className="pb-5">
             <div className="container">
               <div className=" row gap-y">
-                {detailPageChapter.map((data, index) => {
+                {dataChapter.map((data, index) => {
                   if (id === data.komik._id) {
                     return (
                       <div
@@ -208,7 +233,7 @@ export default function DetailPage() {
                               data._id,
                               dataKomik._id,
                               dataKomik.vendor._id,
-                              detailPageCustomer
+                              dataCustomer
                             )
                           }
                         >
@@ -220,7 +245,7 @@ export default function DetailPage() {
                 })}
               </div>
             </div>
-          </section> */}
+          </section>
         </>
       )}
 
