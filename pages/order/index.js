@@ -7,16 +7,15 @@ import { getData } from '../../utils/fetchData';
 import moment from 'moment';
 import Cookies from 'js-cookie';
 
-
-export default function order() {
-  const [data, setData] = useState([]);
+export default function OrderPage() {
+  const [dataTransaksi, setDataTransaksi] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   useEffect(() => {
     const fetchData = async () => {
       const token = Cookies.get('token');
       try {
         const res = await getData(`/api/v1/transaksi`, {}, token);
-        setData(res.data);
+        setDataTransaksi(res.data);
 
         setIsLoading(false);
       } catch (err) {
@@ -26,6 +25,8 @@ export default function order() {
 
     fetchData();
   }, []);
+
+  console.log(dataTransaksi);
   return (
     <>
       <Head>
@@ -38,11 +39,11 @@ export default function order() {
       </header>
       <section>
         <Container className="py-5">
-          {isLoading ? (
+          {isLoading || !dataTransaksi ? (
             <div className="loader">Loading...</div>
           ) : (
             <>
-              {data.map((data) => (
+              {dataTransaksi.map((data) => (
                 <Row key={data._id}>
                   <Col className="col-12 col-md-10 mx-auto">
                     <Card className="mb-3 text-light bg-dark">
