@@ -10,16 +10,16 @@ export default function Footer() {
         </a>
         <div className="mt-3 d-flex flex-row flex-wrap footer-content align-items-baseline">
           <p className="paragraph">
-            Semina adalah tempat di mana <br className="d-md-block d-none" />{' '}
-            anda dapat mencari event sesuai <br className="d-md-block d-none" />{' '}
-            dengan minat & terdekat.
+            Komiksun adalah tempat di mana <br className="d-md-block d-none" />{' '}
+            anda dapat mencari komik sesuai <br className="d-md-block d-none" />{' '}
+            dengan minat.
           </p>
           <div className="d-flex flex-column footer-links">
             <div className="title-links mb-3">Features</div>
             <a href="#">Virtual</a>
             <a href="#">Pricing</a>
             <a href="#">Merchant</a>
-            <a href="#">Tickets</a>
+            <a href="#">Komiks</a>
           </div>
           <div className="d-flex flex-column footer-links">
             <div className="title-links mb-3">Company</div>
@@ -37,7 +37,7 @@ export default function Footer() {
           </div>
         </div>
         <div className="d-flex justify-content-center paragraph all-rights">
-          All Rights Reserved. Semina Angga 2022.
+          All Rights Reserved. Muhamad Iksan 2023.
         </div>
       </div>
     </footer>

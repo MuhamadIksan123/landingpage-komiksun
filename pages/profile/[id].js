@@ -1,13 +1,76 @@
 /* eslint-disable react/no-unescaped-entities */
 /* eslint-disable @next/next/no-img-element */
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import Head from 'next/head';
 import Footer from '../../components/Footer';
 import Navbar from '../../components/Navbar';
 import { getData } from '../../utils/fetchData';
 import DetailVendor from '../../components/DetailVendor';
+import { useRouter } from 'next/router';
 
-export default function DetailPage({ detailPage, dataKomik, dataGenre, id }) {
+export default function ProfilePage() {
+  const router = useRouter();
+  const { id } = router.query;
+
+  const [isLoading, setIsLoading] = useState(true);
+
+  const [detailVendor, setDetailVendor] = useState([]);
+  const [dataGenre, setDataGenre] = useState([]);
+  const [dataKomik, setDataKomik] = useState([]);
+
+  useEffect(() => {
+    const fetchDataCustomer = async () => {
+      try {
+        if (id) {
+          const resVendor = await getData(`api/v1/vendor/${id}`);
+          setDetailVendor(resVendor.data);
+        }
+      } catch (err) {
+        // Tangani kesalahan jika ada
+        console.error('Error fetching vendor data:', err);
+      }
+    };
+
+    const fetchDataKomik = async () => {
+      try {
+        const resKomik = await getData(`api/v1/komik`);
+        setDataKomik(resKomik.data);
+      } catch (err) {
+        // Tangani kesalahan jika ada
+        console.error('Error fetching komik data:', err);
+      }
+    };
+
+    const fetchDataGenre = async () => {
+      try {
+        const resGenre = await getData('api/v1/genre');
+        setDataGenre(resGenre.data);
+      } catch (err) {
+        // Tangani kesalahan jika ada
+        console.error('Error fetching genre data:', err);
+      }
+    };
+
+    const fetchData = async () => {
+      try {
+        setIsLoading(true);
+        await Promise.all([
+          fetchDataCustomer(),
+          fetchDataKomik(),
+          fetchDataGenre(),
+        ]);
+        setIsLoading(false);
+      } catch (err) {
+        // Tangani kesalahan jika ada
+        setIsLoading(false);
+        console.error('Error:', err);
+      }
+    };
+
+    if (id) {
+      fetchData();
+    }
+  }, [id]);
   return (
     <>
       <Head>
@@ -19,29 +82,37 @@ export default function DetailPage({ detailPage, dataKomik, dataGenre, id }) {
       <section className="bg-navy">
         <Navbar />
       </section>
-      <DetailVendor detailPage={detailPage} dataKomik={dataKomik} dataGenre={dataGenre} id={id} />
+      {isLoading ? (
+        <div>Loading...</div>
+      ) : (
+        <DetailVendor
+          detailPage={detailVendor}
+          dataKomik={dataKomik}
+          dataGenre={dataGenre}
+          id={id}
+        />
+      )}
       <Footer />
     </>
   );
 }
 
-export async function getServerSideProps(context) {
-  const reqProfile = await getData(`api/v1/vendor/${context.params.id}`);
-  const resProfile = reqProfile.data;
+// export async function getServerSideProps(context) {
+//   const reqProfile = await getData(`api/v1/vendor/${context.params.id}`);
+//   const resProfile = reqProfile.data;
 
-  const reqKomik = await getData(`api/v1/komik`);
-  const resKomik = reqKomik.data;
+//   const reqKomik = await getData(`api/v1/komik`);
+//   const resKomik = reqKomik.data;
 
-   const reqGenre = await getData('api/v1/genre');
-   const resGenre = reqGenre.data;
+//   const reqGenre = await getData('api/v1/genre');
+//   const resGenre = reqGenre.data;
 
-
-  return {
-    props: {
-      detailPage: resProfile,
-      dataKomik: resKomik,
-      dataGenre: resGenre,
-      id: context.params.id,
-    },
-  };
-}
+//   return {
+//     props: {
+//       detailPage: resProfile,
+//       dataKomik: resKomik,
+//       dataGenre: resGenre,
+//       id: context.params.id,
+//     },
+//   };
+// }

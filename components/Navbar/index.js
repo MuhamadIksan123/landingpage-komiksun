@@ -127,7 +127,7 @@ export default function Navbar() {
                     <div className="collapse" id="collapseExample">
                       <ul className="list-group">
                         <li>
-                          <a className="list-group-item" href="#">
+                          <a className="list-group-item" href={'/order'}>
                             Order
                           </a>
                         </li>
