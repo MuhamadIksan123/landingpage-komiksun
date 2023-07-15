@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import Head from 'next/head';
 import Navbar from '../components/Navbar';
 import { Col, Container, Row, Card, Image } from 'react-bootstrap';
@@ -7,6 +7,22 @@ import { getData } from '../utils/fetchData';
 import moment from 'moment';
 
 export default function order({ data }) {
+  const [data, setData] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const res = await getData(`/api/v1/transaksi`);
+        setData(res.data);
+
+        setIsLoading(false);
+      } catch (err) {
+        setIsLoading(false);
+      }
+    };
+
+    fetchData();
+  }, []);
   return (
     <>
       <Head>
@@ -19,40 +35,46 @@ export default function order({ data }) {
       </header>
       <section>
         <Container className="py-5">
-          {data.map((data) => (
-            <Row key={data._id}>
-              <Col className="col-12 col-md-10 mx-auto">
-                <Card className="mb-3 text-light bg-dark">
-                  <Row>
-                    <Col className="justify-content-center align-items-center col-2">
-                      <Image
-                        height={125}
-                        width={125}
-                        src={`${process.env.NEXT_PUBLIC_API}/${data?.komik?.image?.nama}`}
-                        className="card-img-top"
-                      />
-                    </Col>
-                    <Col className="col-10">
-                      <Card.Body>
-                        <Card.Title className="">
-                          {data.historyKomik.judul}
-                        </Card.Title>
-                        <Card.Text
-                          style={{ height: '20px', overflow: 'hidden' }}
-                        >
-                          Rp. {data.historyKomik.price}
-                        </Card.Text>
-                        <Card.Text>
-                          {data.statusTransaksi},{' '}
-                          {moment(data.date).format('DD-MM-YYYY')}
-                        </Card.Text>
-                      </Card.Body>
-                    </Col>
-                  </Row>
-                </Card>
-              </Col>
-            </Row>
-          ))}
+          {isLoading ? (
+            <div className="loader">Loading...</div>
+          ) : (
+            <>
+              {data.map((data) => (
+                <Row key={data._id}>
+                  <Col className="col-12 col-md-10 mx-auto">
+                    <Card className="mb-3 text-light bg-dark">
+                      <Row>
+                        <Col className="justify-content-center align-items-center col-2">
+                          <Image
+                            height={125}
+                            width={125}
+                            src={`${process.env.NEXT_PUBLIC_API}/${data?.komik?.image?.nama}`}
+                            className="card-img-top"
+                          />
+                        </Col>
+                        <Col className="col-10">
+                          <Card.Body>
+                            <Card.Title className="">
+                              {data.historyKomik.judul}
+                            </Card.Title>
+                            <Card.Text
+                              style={{ height: '20px', overflow: 'hidden' }}
+                            >
+                              Rp. {data.historyKomik.price}
+                            </Card.Text>
+                            <Card.Text>
+                              {data.statusTransaksi},{' '}
+                              {moment(data.date).format('DD-MM-YYYY')}
+                            </Card.Text>
+                          </Card.Body>
+                        </Col>
+                      </Row>
+                    </Card>
+                  </Col>
+                </Row>
+              ))}
+            </>
+          )}
         </Container>
       </section>
 
@@ -61,12 +83,12 @@ export default function order({ data }) {
   );
 }
 
-export async function getServerSideProps(context) {
-  const req = await getData(`/api/v1/transaksi`, {}, context.req.cookies.token);
+// export async function getServerSideProps(context) {
+//   const req = await getData(`/api/v1/transaksi`, {}, context.req.cookies.token);
 
-  const res = req.data;
+//   const res = req.data;
 
-  return {
-    props: { data: res },
-  };
-}
+//   return {
+//     props: { data: res },
+//   };
+// }
