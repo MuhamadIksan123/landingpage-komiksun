@@ -1,18 +1,21 @@
 import React, { useEffect, useState } from 'react';
 import Head from 'next/head';
-import Navbar from '../components/Navbar';
+import Navbar from '../../components/Navbar';
 import { Col, Container, Row, Card, Image } from 'react-bootstrap';
-import Footer from '../components/Footer';
-import { getData } from '../utils/fetchData';
+import Footer from '../../components/Footer';
+import { getData } from '../../utils/fetchData';
 import moment from 'moment';
+import Cookies from 'js-cookie';
+
 
 export default function order() {
   const [data, setData] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   useEffect(() => {
     const fetchData = async () => {
+      const token = Cookies.get('token');
       try {
-        const res = await getData(`/api/v1/transaksi`);
+        const res = await getData(`/api/v1/transaksi`, {}, token);
         setData(res.data);
 
         setIsLoading(false);
