@@ -6,7 +6,7 @@ import Footer from '../components/Footer';
 import { getData } from '../utils/fetchData';
 import moment from 'moment';
 
-export default function order({ data }) {
+export default function order() {
   const [data, setData] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   useEffect(() => {
