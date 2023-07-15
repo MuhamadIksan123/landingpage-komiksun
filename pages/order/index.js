@@ -48,15 +48,15 @@ export default function OrderPage() {
                   <Col className="col-12 col-md-10 mx-auto">
                     <Card className="mb-3 text-light bg-dark">
                       <Row>
-                        <Col className="justify-content-center align-items-center col-2">
+                        <Col className="justify-content-center align-items-center col-4 col-md-2 col-lg-2">
                           <Image
-                            height={125}
+                            height={147}
                             width={125}
                             src={`${process.env.NEXT_PUBLIC_API}/${data?.komik?.image?.nama}`}
                             className="card-img-top"
                           />
                         </Col>
-                        <Col className="col-10">
+                        <Col className="col-8 col-md-10 col-lg-10">
                           <Card.Body>
                             <Card.Title className="">
                               {data.historyKomik.judul}
@@ -64,11 +64,12 @@ export default function OrderPage() {
                             <Card.Text
                               style={{ height: '20px', overflow: 'hidden' }}
                             >
-                              Rp. {data.historyKomik.price}
+                              {' '}
+                              {moment(data.date).format('DD-MM-YYYY')}
                             </Card.Text>
                             <Card.Text>
-                              {data.statusTransaksi},{' '}
-                              {moment(data.date).format('DD-MM-YYYY')}
+                              <div>Rp. {data.historyKomik.price}</div>
+                              <div>{data.statusTransaksi}</div>
                             </Card.Text>
                           </Card.Body>
                         </Col>

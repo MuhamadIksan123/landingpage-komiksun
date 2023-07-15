@@ -149,7 +149,7 @@ export default function DetailPage() {
                 <br />
                 <div className="event-details">
                   <h6>Genre</h6>
-                  {/* <p className="details-paragraph">{dataKomik.genre.nama}</p> */}
+                  <p className="details-paragraph">{dataKomik.genre.nama}</p>
                   <h6>Rilis</h6>
                   <p className="details-paragraph">
                     {moment(dataKomik.rilis).format('DD-MM-YYYY')}
