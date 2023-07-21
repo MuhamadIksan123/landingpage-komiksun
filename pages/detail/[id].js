@@ -88,7 +88,6 @@ export default function DetailPage() {
     }
   }, [dataCustomer, id]);
 
-
   const handleChapter = (chapterId, komikId, vendor, dataCustomer) => {
     const token = Cookies.get('token');
     if (!token) {
@@ -99,13 +98,17 @@ export default function DetailPage() {
         console.log('TRUE2');
         router.push(`/baca/${chapterId}`);
       } else {
-        dataCustomer.komik.map((item) => {
-          item.value === komikId
-            ? router.push(`/baca/${chapterId}`)
-            : router.push(
-                `/checkout/${id}?komikId=${komikId}&vendor=${vendor}`
-              );
-        });
+        if (dataCustomer.komik.length === 0) {
+          router.push(`/checkout/${id}?komikId=${komikId}&vendor=${vendor}`);
+        } else {
+          dataCustomer.komik.map((item) => {
+            item.value === komikId
+              ? router.push(`/baca/${chapterId}`)
+              : router.push(
+                  `/checkout/${id}?komikId=${komikId}&vendor=${vendor}`
+                );
+          });
+        }
       }
     }
   };
@@ -183,7 +186,7 @@ export default function DetailPage() {
                   <div>
                     <>
                       <div className="price my-3">
-                        {dataKomik.price === 0 ? 'free' : `$${dataKomik.price}`}
+                        {dataKomik.price === 0 ? 'free' : `Rp. ${dataKomik.price}`}
                         <span>/person</span>
                       </div>
                       <div className="d-flex gap-3 align-items-center card-details">
@@ -199,17 +202,14 @@ export default function DetailPage() {
                         {dataKomik.vendor.nomor}
                       </div>
 
-                        <Button
-                          variant={'btn-green'}
-                          action={() =>
-                            handleSubmit(
-                              dataKomik._id,
-                              dataKomik.vendor._id,
-                            )
-                          }
-                        >
-                          Order Now
-                        </Button>
+                      <Button
+                        variant={'btn-green'}
+                        action={() =>
+                          handleSubmit(dataKomik._id, dataKomik.vendor._id)
+                        }
+                      >
+                        Order Now
+                      </Button>
                     </>
                   </div>
                 </div>
