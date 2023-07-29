@@ -48,8 +48,13 @@ export default function FormSignin() {
         refreshToken: res.data.refreshToken,
       };
 
-      const params = new URLSearchParams(authData).toString();
-      router.push(`https://client-komiksun.vercel.app/login?${params}`);
+      if (process.env.NEXT_PUBLIC_API === 'http://localhost:9000') {
+        const params = new URLSearchParams(authData).toString();
+        router.push(`http://localhost:3000/login?${params}`);
+      } else {
+        const params = new URLSearchParams(authData).toString();
+        router.push(`https://client-komiksun.vercel.app/login?${params}`);
+      }
     }
   };
 
