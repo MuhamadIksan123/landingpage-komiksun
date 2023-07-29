@@ -7,7 +7,7 @@ import { postData, putData } from '../../utils/fetchData';
 import { toast } from 'react-toastify';
 import SelectBox from '../SelectBox';
 
-export default function FormSignin() {
+export default function FormSignup() {
   const router = useRouter();
   const { keyword } = router.query;
   const [otp, setOtp] = useState('');
@@ -16,6 +16,7 @@ export default function FormSignin() {
     password: '',
     nama: '',
     role: '',
+    image: '649fa4e9dde518a6eed4b98e',
   });
 
   let roles = [
@@ -64,7 +65,10 @@ export default function FormSignin() {
         email: form.email,
         password: form.password,
         role: form.role.value,
+        image: form.image,
       };
+
+      console.log(payload);
       postData('api/v1/auth/signup', payload).then((res) => {
         if (res.data) {
           toast.success('berhasil signup', {
