@@ -6,10 +6,10 @@ export default function Hero() {
     <>
       <div className="hero">
         <div className="hero-headline">
-          Expand Your <span className="text-gradient-blue">Knowledge</span>{' '}
+          Perluas <span className="text-gradient-blue">Pengetahuan</span> Anda {''}
           <br className="d-none d-lg-block" />
-          by <span className="text-gradient-pink">Reading</span> Our Popular
-          Comics
+          dengan <span className="text-gradient-pink">Membaca</span> Komik
+          Populer Kami
         </div>
         <p className="hero-paragraph">
           Temukan komik-komik terbaik yang akan membawa{' '}
@@ -17,7 +17,7 @@ export default function Hero() {
           imajinasimu menyusuri petualangan!
         </p>
         <a href="#grow-today" className="btn-green">
-          Browse Now
+       Jelajahi Sekarang
         </a>
       </div>
 

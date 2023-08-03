@@ -65,10 +65,10 @@ export default function Navbar() {
               router.pathname !== '/signin' ? 'mx-auto' : 'ms-auto'
             } my-3 my-lg-0`}
           >
-            <NavLink href={'/'}>Home</NavLink>
-            <NavLink href={'/browse'}>Browse</NavLink>
-            <NavLink href={'/vendor'}>Vendor</NavLink>
-            <NavLink href={'/contact'}>Contact</NavLink>
+            <NavLink href={'/'}>Beranda</NavLink>
+            <NavLink href={'/browse'}>Cari</NavLink>
+            <NavLink href={'/vendor'}>Penerbit</NavLink>
+            <NavLink href={'/contact'}>Kontak</NavLink>
           </div>
 
           {router.pathname !== '/signin' && (
@@ -116,11 +116,11 @@ export default function Navbar() {
                     >
                       <li>
                         <Link href={'/order'}>
-                          <a className="dropdown-item">Order</a>
+                          <a className="dropdown-item">Pesanan</a>
                         </Link>
                       </li>
                       <li onClick={() => handleLogout()}>
-                        <a className="dropdown-item">Sign Out</a>
+                        <a className="dropdown-item">Keluar</a>
                       </li>
                     </ul>
 
@@ -128,11 +128,11 @@ export default function Navbar() {
                       <ul className="list-group">
                         <li>
                           <a className="list-group-item" href={'/order'}>
-                            Order
+                            Pesanan
                           </a>
                         </li>
                         <li onClick={() => handleLogout()}>
-                          <a className="list-group-item">Sign Out</a>
+                          <a className="list-group-item">Keluar</a>
                         </li>
                       </ul>
                     </div>
@@ -141,7 +141,7 @@ export default function Navbar() {
               ) : (
                 <div className="d-grid">
                   <Link href={'/signin'}>
-                    <a className="btn-navy">Sign In</a>
+                    <a className="btn-navy">Masuk</a>
                   </Link>
                 </div>
               )}

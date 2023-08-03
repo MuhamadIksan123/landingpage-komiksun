@@ -14,23 +14,23 @@ export default function Stories() {
         <div className="d-flex flex-column">
           <div>
             <div className="sub-title">
-              <span className="text-gradient-pink">About</span>
+              <span className="text-gradient-pink">Tentang</span>
             </div>
             <div className="title">
-              By reading you know the world.{' '}
+              Dengan membaca tahu dunia.{' '}
               <br className="d-none d-lg-block" />
-              By writing you are known to the world.
+              Dengan menulis dikenal dunia.
             </div>
           </div>
           <p className="paragraph">
             Website ini didirikan dengan tujuan untuk mempercepat dan
-            mempermudah penikmat komik dalam membaca dan publikasi komik.
-            Tanpa perlu memikirkan biaya yang mahal, keterbatasan stok, waktu
-            pembelian, keterbatasan ruang penyimpanan, sulitnya perawatan dan biaya
-            produksi serta distribusi yang mahal.
+            mempermudah penikmat komik dalam membaca dan publikasi komik. Tanpa
+            perlu memikirkan biaya yang mahal, keterbatasan stok, waktu
+            pembelian, keterbatasan ruang penyimpanan, sulitnya perawatan dan
+            biaya produksi serta distribusi yang mahal.
           </p>
           <a href="#" className="btn-navy">
-            Read
+            Baca
           </a>
         </div>
       </div>

@@ -16,9 +16,9 @@ export default function HomePage({ data }) {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <Header/>
+      <Header />
       <Brand />
-      <CardKomik dataKomik={data} title="Rekomendasi" subTitle="Browse" />
+      <CardKomik dataKomik={data} title="Rekomendasi" subTitle="Jelajahi" />
       <Stories />
       <Statistics />
       <Footer />

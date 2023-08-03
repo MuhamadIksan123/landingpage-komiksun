@@ -4,7 +4,10 @@ import React from 'react';
 export default function Brand({ className }) {
   return (
     <section className={`brand-partner text-center ${className}`}>
-      <p>Komiksun held by top & biggest global companies</p>
+      <p>
+        Komiksun dimiliki oleh perusahaan-perusahaan global teratas dan
+        terbesar
+      </p>
       <div className="d-flex flex-row flex-wrap justify-content-center align-items-center">
         <img src="/images/apple-111.svg" alt="semina" />
         <img src="/images/Adobe.svg" alt="semina" />

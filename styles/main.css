@@ -265,22 +265,47 @@ footer .all-rights {
   font-weight: 400;
   color: #a3a5aa;
   line-height: 30px;
-  margin: 30px 0;
+  margin: 10px 0 15px;
 }
 
 .grow-today {
   background-color: #f5f7f9;
-  padding: 100px 0;
+  padding: 20px 0;
 }
+
 .grow-today .gap {
   row-gap: 48px;
 }
+.grow-today .card-container {
+  display: flex;
+  overflow-x: auto;
+  gap: 16px;
+  padding: 10px; /* Add padding to give space at the beginning and end */
+}
+
 .grow-today .card-grow {
   border-radius: 20px;
   background-color: #ffffff;
   overflow: hidden;
   position: relative;
 }
+
+
+/* Optionally, you can add a scrollbar style */
+.grow-today .card-container::-webkit-scrollbar {
+  height: 8px;
+  background-color: #f5f7f9;
+}
+
+.grow-today .card-container::-webkit-scrollbar-thumb {
+  border-radius: 8px;
+  background-color: #a3a5aa;
+}
+
+.grow-today .card-container::-webkit-scrollbar-thumb:hover {
+  background-color: #777777;
+}
+
 .grow-today .card-grow img {
   width: 100%;
   height: 200px;
@@ -750,7 +775,7 @@ footer .all-rights {
   width: 100%;
 }
 
-.btn-custom{
+.btn-custom {
   background-color: #01fb34;
   color: black;
   font-weight: bold;
@@ -761,7 +786,7 @@ footer .all-rights {
 }
 
 .text-area {
-  height: 200px
+  height: 200px;
 }
 
 .img-payment {
@@ -779,4 +804,33 @@ footer .all-rights {
 .card {
   position: relative;
   z-index: 1;
+}
+
+/* Add a container to hold the cards with horizontal scrolling */
+.cards-container {
+  overflow-x: auto;
+  white-space: nowrap;
+}
+
+/* Cards will be displayed in one row */
+.cards {
+  display: inline-flex;
+}
+
+/* Scrollbar styles */
+.cards::-webkit-scrollbar {
+  height: 12px;
+}
+
+.cards::-webkit-scrollbar-thumb,
+.cards::-webkit-scrollbar-track {
+  border-radius: 92px;
+}
+
+.cards::-webkit-scrollbar-thumb {
+  background: var(--darkred);
+}
+
+.cards::-webkit-scrollbar-track {
+  background: var(--thumb);
 }
