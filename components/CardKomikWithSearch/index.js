@@ -11,63 +11,95 @@ export default function CardKomikWithSearch({ dataKomik, dataGenre }) {
   const [jenisFilter, setJenisFilter] = useState(null);
   const [_temp, setTemp] = useState([]);
 
+  // Initially set the filteredKomikData to the entire dataKomik
   useEffect(() => {
-    if (!nameFilter || !genreFilter || !jenisFilter)
-      setFilteredKomikData(dataKomik);
-    if (nameFilter)
-      setFilteredKomikData(
-        dataKomik.filter((item) =>
-          item.judul.toLowerCase().includes(nameFilter.toLowerCase())
-        )
-      );
-    if (genreFilter)
-      setFilteredKomikData(
-        dataKomik.filter((item) => item.genre._id === genreFilter.value)
-      );
-    if (jenisFilter)
-      setFilteredKomikData(
-        dataKomik.filter(
-          (item) => item.jenis.toLowerCase() === jenisFilter.value.toLowerCase()
-        )
-      );
+    setFilteredKomikData(dataKomik);
+  }, []);
 
-    if (nameFilter && genreFilter)
-      setFilteredKomikData(
-        dataKomik.filter(
-          (item) =>
-            item.judul.toLowerCase().includes(nameFilter.toLowerCase()) &&
-            item.genre._id === genreFilter.value
-        )
-      );
+  // Handle filter changes
+  useEffect(() => {
+    let filteredData = dataKomik;
 
-    if (nameFilter && jenisFilter)
-      setFilteredKomikData(
-        dataKomik.filter(
-          (item) =>
-            item.judul.toLowerCase().includes(nameFilter.toLowerCase()) &&
-            item.jenis.toLowerCase() === jenisFilter.value.toLowerCase()
-        )
+    if (nameFilter) {
+      filteredData = filteredData.filter((item) =>
+        item.judul.toLowerCase().includes(nameFilter.toLowerCase())
       );
+    }
 
-    if (genreFilter && jenisFilter)
-      setFilteredKomikData(
-        dataKomik.filter(
-          (item) =>
-            item.genre._id === genreFilter.value &&
-            item.jenis.toLowerCase() === jenisFilter.value.toLowerCase()
-        )
+    if (genreFilter) {
+      filteredData = filteredData.filter(
+        (item) => item.genre._id === genreFilter.value
       );
+    }
 
-    if (nameFilter && genreFilter && jenisFilter)
-      setFilteredKomikData(
-        dataKomik.filter(
-          (item) =>
-            item.judul.toLowerCase().includes(nameFilter.toLowerCase()) &&
-            item.genre._id === genreFilter.value &&
-            item.jenis.toLowerCase() === jenisFilter.value.toLowerCase()
-        )
+    if (jenisFilter) {
+      filteredData = filteredData.filter(
+        (item) => item.jenis.toLowerCase() === jenisFilter.value.toLowerCase()
       );
+    }
+
+    setFilteredKomikData(filteredData);
   }, [nameFilter, genreFilter, jenisFilter]);
+
+  // useEffect(() => {
+  //   if (!nameFilter || !genreFilter || !jenisFilter)
+  //     setFilteredKomikData(dataKomik);
+  //   if (nameFilter)
+  //     setFilteredKomikData(
+  //       dataKomik.filter((item) =>
+  //         item.judul.toLowerCase().includes(nameFilter.toLowerCase())
+  //       )
+  //     );
+  //   if (genreFilter)
+  //     setFilteredKomikData(
+  //       dataKomik.filter((item) => item.genre._id === genreFilter.value)
+  //     );
+  //   if (jenisFilter)
+  //     setFilteredKomikData(
+  //       dataKomik.filter(
+  //         (item) => item.jenis.toLowerCase() === jenisFilter.value.toLowerCase()
+  //       )
+  //     );
+
+  //   if (nameFilter && genreFilter)
+  //     setFilteredKomikData(
+  //       dataKomik.filter(
+  //         (item) =>
+  //           item.judul.toLowerCase().includes(nameFilter.toLowerCase()) &&
+  //           item.genre._id === genreFilter.value
+  //       )
+  //     );
+
+  //   if (nameFilter && jenisFilter)
+  //     setFilteredKomikData(
+  //       dataKomik.filter(
+  //         (item) =>
+  //           item.judul.toLowerCase().includes(nameFilter.toLowerCase()) &&
+  //           item.jenis.toLowerCase() === jenisFilter.value.toLowerCase()
+  //       )
+  //     );
+
+  //   if (genreFilter && jenisFilter)
+  //     setFilteredKomikData(
+  //       dataKomik.filter(
+  //         (item) =>
+  //           item.genre._id === genreFilter.value &&
+  //           item.jenis.toLowerCase() === jenisFilter.value.toLowerCase()
+  //       )
+  //     );
+
+  //   if (nameFilter && genreFilter && jenisFilter)
+  //     setFilteredKomikData(
+  //       dataKomik.filter(
+  //         (item) =>
+  //           item.judul.toLowerCase().includes(nameFilter.toLowerCase()) &&
+  //           item.genre._id === genreFilter.value &&
+  //           item.jenis.toLowerCase() === jenisFilter.value.toLowerCase()
+  //       )
+  //     );
+  // }, [nameFilter, genreFilter, jenisFilter]);
+
+  console.log(filteredKomikData);
 
   let jenisKomik = [
     {
@@ -143,7 +175,10 @@ export default function CardKomikWithSearch({ dataKomik, dataGenre }) {
           </div>
         </div>
       </div>
-      <CardKomikNoTitle dataKomik={filteredKomikData} allDataKomik={dataKomik} />
+      <CardKomikNoTitle
+        dataKomik={filteredKomikData}
+        allDataKomik={dataKomik}
+      />
     </>
   );
 }

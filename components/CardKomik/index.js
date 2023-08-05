@@ -14,7 +14,7 @@ export default function CardEvent({ dataKomik, title, subTitle }) {
     <section className="grow-today">
       <div className="container">
         <CardTitle title={title} subTitle={subTitle} />
-        <div className="mt-5 row gap">
+        <div className="mt-3 row gap">
           <div className="col-12">
             <div className="card-container">
               {currentPageData.map((data, index) => (
@@ -22,7 +22,10 @@ export default function CardEvent({ dataKomik, title, subTitle }) {
                   <div className="card-grow">
                     <span className="badge-pricing">
                       <div>
-                        {data.price === 0 ? 'Gratis' : `Rp. ${data.price}`}
+                        ⭐️
+                        {data.averageRating === '0.0'
+                          ? '-'
+                          : `${data.averageRating}`}
                       </div>
                     </span>
                     <img
@@ -33,7 +36,8 @@ export default function CardEvent({ dataKomik, title, subTitle }) {
                       <div className="card-title">{data.judul}</div>
                       <div className="card-subtitle">{data.genre.nama}</div>
                       <div className="description">
-                        {data.jenis}, {formatDate(data.rilis)}
+                        {data.price === 0 ? 'Gratis' : `Rp. ${data.price}`}
+                        {/* {data.jenis}, {formatDate(data.rilis)} */}
                       </div>
                       <Link href={`/detail/${data._id}`}>
                         <a className="stretched-link"></a>

@@ -6,11 +6,12 @@ import Button from '../../components/Button';
 import Footer from '../../components/Footer';
 import Navbar from '../../components/Navbar';
 import { useRouter } from 'next/router';
-import { getData } from '../../utils/fetchData';
+import { getData, postData } from '../../utils/fetchData';
 import moment from 'moment';
 import { formatDate } from '../../utils/formatDate';
 import Cookies from 'js-cookie';
 import Link from 'next/link';
+import Rating from 'react-rating-stars-component';
 
 export default function DetailPage() {
   const router = useRouter();
@@ -20,9 +21,14 @@ export default function DetailPage() {
 
   const [komikUser, setKomikUser] = useState('');
 
+  const [checkRating, setCheckRating] = useState(false);
+  const [hasUserRated, setHasUserRated] = useState(false);
+
   const [dataCustomer, setDataCustomer] = useState([]);
   const [dataChapter, setDataChapter] = useState([]);
   const [dataKomik, setDataKomik] = useState([]);
+  const [dataRating, setDataRating] = useState([]);
+  const [userRating, setUserRating] = useState(0);
 
   useEffect(() => {
     const fetchDataCustomer = async () => {
@@ -58,6 +64,16 @@ export default function DetailPage() {
       }
     };
 
+    const fetchDataRating = async () => {
+      try {
+        const resRating = await getData('api/v1/rating');
+        setDataRating(resRating.data);
+      } catch (err) {
+        // Tangani kesalahan jika ada
+        console.error('Error fetching rating data:', err);
+      }
+    };
+
     const fetchData = async () => {
       try {
         setIsLoading(true);
@@ -65,6 +81,7 @@ export default function DetailPage() {
           fetchDataCustomer(),
           fetchDataKomik(),
           fetchDataChapter(),
+          fetchDataRating(),
         ]);
         setIsLoading(false);
       } catch (err) {
@@ -80,13 +97,57 @@ export default function DetailPage() {
   }, [id]);
 
   useEffect(() => {
+    const idUser = Cookies.get('idUser');
+    console.log('idUser');
+    console.log(idUser);
     if (dataCustomer && dataCustomer.komik) {
       // Fetch data customer.komik setelah mendapatkan dataCustomer
       dataCustomer.komik.map((item) =>
         item.value === id ? setKomikUser(item.value) : null
       );
     }
-  }, [dataCustomer, id]);
+
+    if (idUser && dataRating) {
+      // Check if the user has rated the comic
+      const hasRated = dataRating.some(
+        (item) => item.customer === idUser && item.komik === id
+      );
+
+      setCheckRating(hasRated);
+    }
+
+    if (idUser && dataRating) {
+      // Fetch data customer.komik setelah mendapatkan dataCustomer
+      dataRating.filter((item) =>
+        item.customer === idUser && item.komik === id
+          ? setUserRating(item.rating) && setHasUserRated(true)
+          : 0
+      );
+    }
+  }, [dataCustomer, id, dataRating, dataKomik]);
+
+  const handleRatingSubmit = async () => {
+    const token = Cookies.get('token');
+    if (!token) {
+      return router.push('/signin');
+    }
+
+    const roundedRating = Math.round(userRating); // Bulatkan nilai rating sebelum dikirimkan
+
+    try {
+      const res = await postData(`api/v1/komik/${id}/rating`, {
+        rating: roundedRating,
+        customer: dataCustomer._id, // Assuming dataCustomer contains the user's data
+      });
+      // Update the average rating on the frontend after successful submission
+      setDataKomik({ ...dataKomik, rating: res.rating });
+
+      setHasUserRated(true);
+    } catch (error) {
+      console.error('Error submitting rating:', error);
+      // Optionally, you may show an error message to the user
+    }
+  };
 
   const handleChapter = (chapterId, komikId, vendor, dataCustomer) => {
     const token = Cookies.get('token');
@@ -122,6 +183,8 @@ export default function DetailPage() {
     }
   };
 
+  console.log(dataKomik);
+
   return (
     <>
       <Head>
@@ -151,12 +214,37 @@ export default function DetailPage() {
                 <div className="headline">{dataKomik.judul}</div>
                 <br />
                 <div className="event-details">
+                  <h6>Your Rating</h6>
+                  {/* Tampilkan pesan rating setelah pengguna memberikan rating */}
+                  {hasUserRated || checkRating ? (
+                    <p>Thank you for rating this comic: {userRating} stars</p>
+                  ) : (
+                    <>
+                      <div className="row">
+                        <div class="col-md-3">
+                          <Rating
+                            value={userRating}
+                            edit={true} // Enable user input to submit their rating
+                            onChange={(rating) => setUserRating(rating)}
+                            isHalf={true} // Allow half-star rating
+                            size={30}
+                          />
+                        </div>
+                        <div class="col-md-9 text-left">
+                          <Button
+                            variant={'btn-green'}
+                            action={handleRatingSubmit}
+                          >
+                            Submit Rating
+                          </Button>
+                        </div>
+                      </div>
+                    </>
+                  )}
                   <h6>Genre</h6>
-                  <p className="details-paragraph">{dataKomik.genre.nama}</p>
+                  <p>{dataKomik.genre.nama}</p>
                   <h6>Rilis</h6>
-                  <p className="details-paragraph">
-                    {moment(dataKomik.rilis).format('DD-MM-YYYY')}
-                  </p>
+                  <p>{moment(dataKomik.rilis).format('DD-MM-YYYY')}</p>
                   <h6>Sinopsis</h6>
                   <p className="details-paragraph">{dataKomik.sinopsis}</p>
                 </div>
@@ -186,7 +274,9 @@ export default function DetailPage() {
                   <div>
                     <>
                       <div className="price my-3">
-                        {dataKomik.price === 0 ? 'free' : `Rp. ${dataKomik.price}`}
+                        {dataKomik.price === 0
+                          ? 'free'
+                          : `Rp. ${dataKomik.price}`}
                         <span>/person</span>
                       </div>
                       <div className="d-flex gap-3 align-items-center card-details">
@@ -253,28 +343,3 @@ export default function DetailPage() {
     </>
   );
 }
-
-// export async function getServerSideProps(context) {
-// const { idUser } = context.req.cookies;
-// let resCustomer = null; // Menetapkan null secara default
-
-// if (idUser) {
-//   const reqCustomer = await getData(`api/v1/customer/${idUser}`);
-//   resCustomer = reqCustomer.data;
-// }
-
-//   const reqKomik = await getData(`api/v1/komik/${context.params.id}`);
-//   const resKomik = reqKomik.data;
-
-//   const reqChapter = await getData(`api/v1/chapter`);
-//   const resChapter = reqChapter.data;
-
-//   return {
-//     props: {
-//       dataKomik: resKomik,
-//       detailPageChapter: resChapter,
-//       detailPageCustomer: resCustomer,
-//       id: context.params.id,
-//     },
-//   };
-// }

@@ -19,6 +19,7 @@ export default function HomePage({ data }) {
       <Header />
       <Brand />
       <CardKomik dataKomik={data} title="Rekomendasi" subTitle="Jelajahi" />
+      <CardKomik dataKomik={data} title="Petualangan" subTitle="Genre" />
       <Stories />
       <Statistics />
       <Footer />
