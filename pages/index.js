@@ -7,7 +7,7 @@ import Statistics from '../components/Statistics';
 import Stories from '../components/Stories';
 import { getData } from '../utils/fetchData';
 
-export default function HomePage({ data }) {
+export default function HomePage({ data, dataKomikAction, dataKomikAdventure }) {
   return (
     <>
       <Head>
@@ -18,8 +18,17 @@ export default function HomePage({ data }) {
 
       <Header />
       <Brand />
-      <CardKomik dataKomik={data} title="Rekomendasi" subTitle="Jelajahi" />
-      <CardKomik dataKomik={data} title="Petualangan" subTitle="Genre" />
+      <CardKomik dataKomik={data} title="Komik Terbaik" subTitle="Jelajahi" />
+      <CardKomik
+        dataKomik={dataKomikAction}
+        title="Aksi Terbaik"
+        subTitle="Genre"
+      />
+      <CardKomik
+        dataKomik={dataKomikAdventure}
+        title="Petualangan Terbaik"
+        subTitle="Genre"
+      />
       <Stories />
       <Statistics />
       <Footer />
@@ -28,10 +37,20 @@ export default function HomePage({ data }) {
 }
 
 export async function getServerSideProps(context) {
-  const req = await getData('api/v1/komik');
+  const req = await getData('api/v1/komik-highest-rating');
   const res = req.data;
 
+  const reqKomikAction = await getData('api/v1/komik-genre-action');
+  const resKomikAction = reqKomikAction.data;
+
+  const reqKomikAdventure = await getData('api/v1/komik-genre-adventure');
+  const resKomikAdventure = reqKomikAdventure.data;
+
   return {
-    props: { data: res },
+    props: {
+      data: res,
+      dataKomikAction: resKomikAction,
+      dataKomikAdventure: resKomikAdventure,
+    },
   };
 }

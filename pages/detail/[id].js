@@ -221,7 +221,7 @@ export default function DetailPage() {
                   ) : (
                     <>
                       <div className="row">
-                        <div class="col-md-3">
+                        <div className="col-md-3">
                           <Rating
                             value={userRating}
                             edit={true} // Enable user input to submit their rating
@@ -230,7 +230,7 @@ export default function DetailPage() {
                             size={30}
                           />
                         </div>
-                        <div class="col-md-9 text-left">
+                        <div className="col-md-9 text-left">
                           <Button
                             variant={'btn-green'}
                             action={handleRatingSubmit}
