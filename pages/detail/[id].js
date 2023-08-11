@@ -128,35 +128,40 @@ export default function DetailPage() {
 
   const handleRatingSubmit = async () => {
     const token = Cookies.get('token');
+
     if (!token) {
       return router.push('/signin');
     }
 
-    const roundedRating = Math.round(userRating); // Bulatkan nilai rating sebelum dikirimkan
+    const roundedRating = Math.round(userRating);
 
-    try {
-      const res = await postData(`api/v1/komik/${id}/rating`, {
-        rating: roundedRating,
-        customer: dataCustomer._id, // Assuming dataCustomer contains the user's data
-      });
-      // Update the average rating on the frontend after successful submission
-      setDataKomik({ ...dataKomik, rating: res.rating });
-
-      setHasUserRated(true);
-    } catch (error) {
-      console.error('Error submitting rating:', error);
-      // Optionally, you may show an error message to the user
+    if (
+      dataKomik.price === 0 ||
+      dataCustomer.komik.some((item) => item.value === id)
+    ) {
+      try {
+        const res = await postData(`api/v1/komik/${id}/rating`, {
+          rating: roundedRating,
+          customer: dataCustomer._id,
+        });
+        setDataKomik({ ...dataKomik, rating: res.rating });
+        setHasUserRated(true);
+      } catch (error) {
+        console.error('Error submitting rating:', error);
+      }
+    } else {
+      router.push(
+        `/checkout/${id}?komikId=${id}&vendor=${dataKomik.vendor._id}`
+      );
     }
   };
 
   const handleChapter = (chapterId, komikId, vendor, dataCustomer) => {
     const token = Cookies.get('token');
     if (!token) {
-      console.log('TRUE1');
       return router.push('/signin');
     } else {
       if (dataKomik.price === 0) {
-        console.log('TRUE2');
         router.push(`/baca/${chapterId}`);
       } else {
         if (dataCustomer.komik.length === 0) {
@@ -182,8 +187,6 @@ export default function DetailPage() {
       router.push(`/checkout/${id}?komikId=${komikId}&vendor=${vendor}`);
     }
   };
-
-  console.log(dataKomik);
 
   return (
     <>

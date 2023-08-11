@@ -68,7 +68,6 @@ export default function FormSignup() {
         image: form.image,
       };
 
-      console.log(payload);
       postData('api/v1/auth/signup', payload).then((res) => {
         if (res.data) {
           toast.success('berhasil signup', {

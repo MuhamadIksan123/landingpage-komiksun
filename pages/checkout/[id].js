@@ -107,7 +107,7 @@ export default function Checkout() {
             </div>
 
             {/* form */}
-            <FormCheckout />
+            <FormCheckout dataKomik={dataKomik} />
           </div>
         )}
       </section>

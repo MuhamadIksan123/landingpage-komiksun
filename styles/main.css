@@ -834,3 +834,8 @@ footer .all-rights {
 .cards::-webkit-scrollbar-track {
   background: var(--thumb);
 }
+
+.bank-icon {
+  font-size: 2rem;
+  margin-right: 10px;
+}

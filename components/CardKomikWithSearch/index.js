@@ -99,7 +99,6 @@ export default function CardKomikWithSearch({ dataKomik, dataGenre }) {
   //     );
   // }, [nameFilter, genreFilter, jenisFilter]);
 
-  console.log(filteredKomikData);
 
   let jenisKomik = [
     {

@@ -5,7 +5,6 @@ import Pagination from '../Pagination';
 import { formatDate } from '../../utils/formatDate';
 
 export default function CardKomikNoTitle({ dataKomik, allDataKomik }) {
-  console.log(allDataKomik);
   const [currentPage, setCurrentPage] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
   const [isInitialLoad, setIsInitialLoad] = useState(true); // New state to track initial data load

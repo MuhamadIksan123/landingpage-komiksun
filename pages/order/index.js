@@ -6,10 +6,12 @@ import Footer from '../../components/Footer';
 import { getData } from '../../utils/fetchData';
 import moment from 'moment';
 import Cookies from 'js-cookie';
+import Link from 'next/link';
 
 export default function OrderPage() {
   const [dataTransaksi, setDataTransaksi] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+
   useEffect(() => {
     const fetchData = async () => {
       const token = Cookies.get('token');
@@ -26,7 +28,22 @@ export default function OrderPage() {
     fetchData();
   }, []);
 
-  console.log(dataTransaksi);
+  // useEffect(() => {
+  //   switch (dataTransaksi.response_midtrans.transaction_status) {
+  //     case 'settlement':
+  //       setDisplayedStatus('Sukses');
+  //       break;
+  //     case 'pending':
+  //       setDisplayedStatus('Menunggu');
+  //       break;
+  //     case 'expired':
+  //       setDisplayedStatus('Kadaluwarsa');
+  //       break;
+  //     default:
+  //       break;
+  //   }
+  // }, [dataTransaksi]);
+
   return (
     <>
       <Head>
@@ -37,46 +54,66 @@ export default function OrderPage() {
       <header className="bg-navy">
         <Navbar />
       </header>
-      <section>
+      <section className="bg-dark">
         <Container className="py-5">
           {isLoading || !dataTransaksi ? (
             <div className="loader">Loading...</div>
           ) : (
             <>
               {dataTransaksi.map((data) => (
-                <Row key={data._id}>
-                  <Col className="col-12 col-md-10 mx-auto">
-                    <Card className="mb-3 text-light bg-dark">
-                      <Row>
-                        <Col className="justify-content-center align-items-center col-4 col-md-2 col-lg-2">
-                          <Image
+                <div key={data._id} className="row">
+                  <div className="col-12 col-md-10 mx-auto">
+                    <div className="card mb-3 bg-white">
+                      <div className="row">
+                        <div className="col-4 col-md-2 col-lg-2 d-flex align-items-center">
+                          <img
                             height={147}
                             width={125}
                             src={`${process.env.NEXT_PUBLIC_API}/${data?.komik?.image?.nama}`}
                             className="card-img-top"
+                            alt={data.komik.judul}
                           />
-                        </Col>
-                        <Col className="col-8 col-md-10 col-lg-10">
-                          <Card.Body>
-                            <Card.Title className="">
-                              {data.historyKomik.judul}
-                            </Card.Title>
-                            <Card.Text
-                              style={{ height: '20px', overflow: 'hidden' }}
-                            >
-                              {' '}
+                        </div>
+                        <div className="col-8 col-md-10 col-lg-10">
+                          <div className="card-body">
+                            <h5 className="card-title">{data.komik.judul}</h5>
+                            <p className="mb-2">
                               {moment(data.date).format('DD-MM-YYYY')}
-                            </Card.Text>
-                            <Card.Text>
-                              <div>Rp. {data.historyKomik.price}</div>
-                              <div>{data.statusTransaksi}</div>
-                            </Card.Text>
-                          </Card.Body>
-                        </Col>
-                      </Row>
-                    </Card>
-                  </Col>
-                </Row>
+                            </p>
+                            <p className="mb-2">Rp. {data.komik.price} </p>
+                            <p className="mb-2">
+                              <span
+                                className={`badge ${
+                                  data.response_midtrans.transaction_status ===
+                                  'pending'
+                                    ? 'bg-warning text-dark'
+                                    : data.response_midtrans
+                                        .transaction_status === 'settlement'
+                                    ? 'bg-success'
+                                    : 'bg-danger'
+                                }`}
+                              >
+                                {data.response_midtrans.transaction_status ===
+                                'pending'
+                                  ? 'Menunggu'
+                                  : data.response_midtrans
+                                      .transaction_status === 'settlement'
+                                  ? 'Sukses'
+                                  : 'Expired'}
+                              </span>
+                            </p>
+
+                            <Link
+                              href={`/mutasi/${data.response_midtrans.order_id}`}
+                            >
+                              <a className="stretched-link"></a>
+                            </Link>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
               ))}
             </>
           )}

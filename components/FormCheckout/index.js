@@ -8,7 +8,7 @@ import { toast } from 'react-toastify';
 import TextInput from '../TextInput';
 import { Figure } from 'react-bootstrap';
 
-export default function FormCheckout() {
+export default function FormCheckout({ dataKomik }) {
   const router = useRouter();
   const { komikId, vendor, id } = router.query;
 
@@ -19,110 +19,83 @@ export default function FormCheckout() {
     role: '',
     payment: '',
     komik: id,
-    file: '',
-    avatar: '',
   });
 
-  const [payments, setPayments] = useState([]);
+  const [pay, setPay] = useState([
+    {
+      type: 'BRI',
+      img: '/images/bri.png',
+      isChecked: false, // Add this property
+    },
+    {
+      type: 'BNI',
+      img: '/images/bni.png',
+      isChecked: false, // Add this property
+    },
+    {
+      type: 'BCA',
+      img: '/images/bca.png',
+      isChecked: false, // Add this property
+    },
+  ]);
 
-  useEffect(() => {
-    const fetctData = async () => {
-      try {
-        const res = await getData(
-          `api/v1/payment/${vendor}`,
-          {},
-          Cookies.get('token')
-        );
-        res.data.forEach((res) => {
-          res.isChecked = false;
-        });
-        setPayments(res.data);
-      } catch (err) {}
-    };
+  const generateRandomOrderId = () => {
+    const randomOrderId = Math.floor(10000000 + Math.random() * 90000000); // Generates an 8-digit random number
+    return `C${randomOrderId}`;
+  };
 
-    fetctData();
-  }, []);
+  const handlePaymentChange = (e) => {
+    const { value } = e.target;
 
-  useEffect(() => {
-    let paymentId = '';
-    payments.filter((payment) => {
-      if (payment.isChecked) {
-        paymentId = payment._id;
-      }
-    });
-    setForm({
-      ...form,
-      payment: paymentId,
-    });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [payments]);
+    const updatedPay = pay.map((payment) => ({
+      ...payment,
+      isChecked: payment.type === value,
+    }));
 
-  const uploadImage = async (file) => {
-    let formData = new FormData();
-    formData.append('avatar', file);
-    const res = await postData('api/v1/cms/images', formData, true);
-    return res;
+    setPay(updatedPay);
+    setForm({ ...form, payment: value });
   };
 
   const handleChange = async (e) => {
-    if (e.target.name === 'avatar') {
-      if (
-        e?.target?.files[0]?.type === 'image/jpg' ||
-        e?.target?.files[0]?.type === 'image/png' ||
-        e?.target?.files[0]?.type === 'image/jpeg'
-      ) {
-        let size = parseFloat(e.target.files[0].size)
-
-        if (size > 3000000) {
-          toast.error('Please select image size less than 3 MB', {
-            position: 'top-right',
-            autoClose: 5000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-          });
-          setForm({
-            ...form,
-            file: '',
-            [e.target.name]: '',
-          });
-        } else {
-          const res = await uploadImage(e.target.files[0]);
-          setForm({
-            ...form,
-            file: res.data._id,
-            [e.target.name]: res.data.nama,
-          });
-        }
-      } else {
-        toast.error('Format bukti pembayaran harus PDF', {
-          position: 'top-right',
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-        });
-        setForm({
-          ...form,
-          file: '',
-          [e.target.name]: '',
-        });
-      }
-    } else {
       setForm({ ...form, [e.target.name]: e.target.value });
-    }
   };
 
   const handleSubmit = async () => {
+    // Cek apakah ada inputan yang kosong
+    if (
+      !form.firstName ||
+      !form.lastName ||
+      !form.email ||
+      !form.role ||
+      !form.payment
+    ) {
+      toast.error('Harap lengkapi semua kolom yang diperlukan', {
+        position: 'top-right',
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
+      return;
+    }
     try {
       let payload = {
+        payment_type: 'bank_transfer',
+        bank_transfer: {
+          bank: form?.payment,
+        },
+        transaction_details: {
+          order_id: generateRandomOrderId(),
+          gross_amount: dataKomik.price,
+        },
         komik: form?.komik,
-        payment: form?.payment,
-        image: form?.file,
+        customer_details: {
+          first_name: form.firstName,
+          last_name: form.lastName,
+          email: form.email,
+        },
         personalDetail: {
           lastName: form.lastName,
           firstName: form.firstName,
@@ -147,23 +120,9 @@ export default function FormCheckout() {
           draggable: true,
           progress: undefined,
         });
-        router.push('/order');
+        router.push(`/mutasi/${res.data.response_midtrans.order_id}`);
       }
     } catch (err) {}
-  };
-
-  const handleChangePayment = (e, i) => {
-    const _temp = [...payments];
-
-    _temp[i].isChecked = e.target.checked;
-
-    _temp.forEach((t) => {
-      if (t._id !== e.target.value) {
-        t.isChecked = false;
-      }
-    });
-
-    setPayments(_temp);
   };
 
   return (
@@ -172,7 +131,7 @@ export default function FormCheckout() {
         <div className="row row-cols-lg-8 row-cols-md-2 row-cols-1 justify-content-lg-center">
           <div className="form-title col-lg-8">
             <span>01</span>
-            <div>Personal Details</div>
+            <div>Detail Pribadi</div>
           </div>
         </div>
         <div className="row row-cols-lg-8 row-cols-md-2 row-cols-1 justify-content-center">
@@ -243,70 +202,32 @@ export default function FormCheckout() {
         <div className="row row-cols-lg-8 row-cols-md-2 row-cols-1 justify-content-lg-center">
           <div className="form-title col-lg-8">
             <span>02</span>
-            <div>Pilih dan Transfer Terlebih Dahulu</div>
+            <div>Cara Pembayaran</div>
           </div>
         </div>
         <div className="row row-cols-lg-8 row-cols-md-2 row-cols-1 justify-content-center gy-2 gy-0">
-          {payments.map((payment, i) => (
-            <div className="col-lg-4" key={payment._id}>
+          {pay.map((payment, index) => (
+            <div className="col-lg-4" key={index}>
               <label className="payment-radio h-100 d-flex justify-content-between align-items-center">
                 <div className="d-flex align-items-center gap-4">
                   <img
-                    src={`${process.env.NEXT_PUBLIC_API}/${payment?.image?.nama}`}
-                    alt=""
+                    src={payment.img}
+                    alt="Payment {payment.type}"
                     className="img-payment"
                   />
-                  <div>
-                    {payment.type} <br />
-                    <span className="balance">{payment.nomor}</span>
-                  </div>
+                  <div>{payment.type}</div>
                 </div>
                 <input
                   type="radio"
                   checked={payment.isChecked}
-                  name="isChecked"
-                  value={payment._id}
-                  onChange={(e) => handleChangePayment(e, i)}
+                  name="payment"
+                  value={payment.type}
+                  onChange={handlePaymentChange}
                 />
                 <span className="checkmark"></span>
               </label>
             </div>
           ))}
-        </div>
-      </div>
-
-      <div className="payment-method mt-4">
-        <div className="row row-cols-lg-8 row-cols-md-2 row-cols-1 justify-content-lg-center">
-          <div className="form-title col-lg-8">
-            <span>03</span>
-            <div>Upload Bukti Pembayaran</div>
-          </div>
-        </div>
-        <div className="row row-cols-lg-8 row-cols-md-2 row-cols-1 justify-content-center gy-2 gy-0">
-          <div className="col-lg-4">
-            <TextInput
-              placeholder={'Masukan Avatar'}
-              name="avatar"
-              // value={form.avatar}
-              type="file"
-              onChange={handleChange}
-            />
-            {form.avatar !== '' && (
-              <div className="mt-3 text-center">
-                <Figure>
-                  <Figure.Image
-                    width={171}
-                    height={180}
-                    alt="171x180"
-                    src={`${process.env.NEXT_PUBLIC_API}/${form.avatar}`}
-                  />
-
-                  <Figure.Caption>Perview image cover</Figure.Caption>
-                </Figure>
-              </div>
-            )}
-          </div>
-          <div className="col-lg-4"></div>
         </div>
       </div>
 
