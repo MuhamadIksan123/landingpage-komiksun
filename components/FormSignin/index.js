@@ -70,7 +70,7 @@ export default function FormSignin() {
       />
 
       <TextInput
-        label={'Password (6 characters)'}
+        label={'Password (6 karakter)'}
         type={'password'}
         name="password"
         value={form.password}
@@ -80,11 +80,11 @@ export default function FormSignin() {
 
       <div className="d-grid mt-2 gap-4">
         <Button variant={'btn-green'} action={() => handleSubmit()}>
-          Sign In
+          Masuk
         </Button>
 
         <Button action={() => router.push('/signup')} variant="btn-navy">
-          Create New Account
+          Buat Akun Baru
         </Button>
       </div>
     </form>

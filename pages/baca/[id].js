@@ -18,6 +18,8 @@ export default function DetailPage() {
   const [dataChapter, setDataChapter] = useState([]);
   const [detailChapter, setDetailChapter] = useState([]);
 
+  console.log(detailChapter);
+
   useEffect(() => {
     const fetchDetailChapter = async () => {
       try {
@@ -76,9 +78,26 @@ export default function DetailPage() {
         <div>Loading...</div>
       ) : (
         <>
-          <div className="container my-5">
+          <div className="container my-4">
             <div className="row">
               <div className="col">
+                <h2
+                  className=" d-inline-block py-3 my-2"
+                  style={{
+                    fontFamily: 'Comic Sans MS',
+                  }}
+                >
+                  <span
+                    style={{
+                      fontFamily: 'Comic Sans MS',
+                      fontWeight: 'bold',
+                    }}
+                  >
+                    {detailChapter.komik.judul}:
+                  </span>{' '}
+                  {detailChapter.judul}
+                </h2>
+                {/* Add this line */}
                 <PDFViewer detailChapter={detailChapter} />
               </div>
             </div>
@@ -112,20 +131,3 @@ export default function DetailPage() {
     </>
   );
 }
-
-// export async function getServerSideProps(context) {
-//   console.log(context.params.id);
-//   const reqDetailChapter = await getData(`api/v1/chapter/${context.params.id}`);
-//   const resDetailChapter = reqDetailChapter.data;
-
-//   const reqChapter = await getData(`api/v1/chapter`);
-//   const resChapter = reqChapter.data;
-
-//   return {
-//     props: {
-//       detailChapter: resDetailChapter,
-//       dataChapter: resChapter,
-//       id: context.params.id,
-//     },
-//   };
-// }

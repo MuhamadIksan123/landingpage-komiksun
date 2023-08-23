@@ -79,7 +79,9 @@ export default function Checkout() {
           <div className="loader">Loading...</div>
         ) : (
           <div className="checkout container">
-            <div className="text-center checkout-title">Invest In Yourself</div>
+            <div className="text-center checkout-title">
+              Berinvestasi pada Diri Sendiri
+            </div>
 
             <div className="event-details container d-flex flex-wrap justify-content-lg-center align-items-center gap-5">
               <img

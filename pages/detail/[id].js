@@ -98,8 +98,6 @@ export default function DetailPage() {
 
   useEffect(() => {
     const idUser = Cookies.get('idUser');
-    console.log('idUser');
-    console.log(idUser);
     if (dataCustomer && dataCustomer.komik) {
       // Fetch data customer.komik setelah mendapatkan dataCustomer
       dataCustomer.komik.map((item) =>
@@ -217,10 +215,13 @@ export default function DetailPage() {
                 <div className="headline">{dataKomik.judul}</div>
                 <br />
                 <div className="event-details">
-                  <h6>Your Rating</h6>
+                  <h6>Penilaianmu</h6>
                   {/* Tampilkan pesan rating setelah pengguna memberikan rating */}
                   {hasUserRated || checkRating ? (
-                    <p>Thank you for rating this comic: {userRating} stars</p>
+                    <p>
+                      Terima kasih telah memberi rating pada komik ini:{' '}
+                      {userRating} bintang
+                    </p>
                   ) : (
                     <>
                       <div className="row">
@@ -238,7 +239,7 @@ export default function DetailPage() {
                             variant={'btn-green'}
                             action={handleRatingSubmit}
                           >
-                            Submit Rating
+                            Berikan Penilaian
                           </Button>
                         </div>
                       </div>
@@ -255,7 +256,7 @@ export default function DetailPage() {
 
               {dataKomik.price === 0 || komikUser === id ? null : (
                 <div className="d-flex flex-column card-event">
-                  <h6>Your Writer</h6>
+                  <h6>Penerbit Komik</h6>
                   <div className="d-flex align-items-center gap-3 mt-3">
                     <img
                       src={`${process.env.NEXT_PUBLIC_API}/${dataKomik?.vendor?.image?.nama}`}
@@ -273,14 +274,14 @@ export default function DetailPage() {
                   </div>
                   <hr />
 
-                  <h6>Get Komik</h6>
+                  <h6>Dapatkan Komik</h6>
                   <div>
                     <>
                       <div className="price my-3">
                         {dataKomik.price === 0
                           ? 'free'
                           : `Rp. ${dataKomik.price}`}
-                        <span>/person</span>
+                        <span>/orang</span>
                       </div>
                       <div className="d-flex gap-3 align-items-center card-details">
                         <img src="/icons/ic-marker.svg" alt="semina" />{' '}
@@ -301,7 +302,7 @@ export default function DetailPage() {
                           handleSubmit(dataKomik._id, dataKomik.vendor._id)
                         }
                       >
-                        Order Now
+                        Pesan sekarang
                       </Button>
                     </>
                   </div>

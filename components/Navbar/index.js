@@ -32,7 +32,6 @@ export default function Navbar() {
   });
 
   const handleLogout = () => {
-    console.log('click');
     Cookies.remove('token');
     Cookies.remove('namaUser');
     Cookies.remove('fotoUser');
@@ -45,9 +44,18 @@ export default function Navbar() {
       <div className="container-fluid">
         <Link href={'/'}>
           <a className="navbar-brand">
-            <img src="/images/logo.svg" alt="semina" />
+            <h1
+              style={{
+                fontFamily: 'Comic Sans MS',
+                fontSize: '32px',
+                fontWeight: 'bold',
+              }}
+            >
+              KOMIKSUN
+            </h1>
           </a>
         </Link>
+
         <button
           className="navbar-toggler"
           type="button"
@@ -132,7 +140,7 @@ export default function Navbar() {
                           </a>
                         </li>
                         <li onClick={() => handleLogout()}>
-                          <a className="list-group-item">Keluar</a>
+                          <a className="list-group-item">Logout</a>
                         </li>
                       </ul>
                     </div>

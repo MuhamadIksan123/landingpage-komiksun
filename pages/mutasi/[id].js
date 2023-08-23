@@ -36,7 +36,6 @@ export default function DetailOrder() {
       }
 
       const reqOrder = await getData(`api/v1/status/${id}`);
-      console.log(reqOrder);
       const resOrder = reqOrder.data;
 
       setDetailOrder(resOrder);
@@ -69,7 +68,7 @@ export default function DetailOrder() {
          setAlertMessage('Pembayaran sedang menunggu konfirmasi.');
          setDisplayedStatus('Menunggu');
          break;
-       case 'expired':
+       case 'expire':
          setAlertColor('danger');
          setAlertMessage('Pembayaran Anda telah kadaluwarsa.');
          setDisplayedStatus('Kadaluwarsa');

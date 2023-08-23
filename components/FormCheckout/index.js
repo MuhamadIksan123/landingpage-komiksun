@@ -233,11 +233,11 @@ export default function FormCheckout({ dataKomik }) {
 
       <div className="d-flex flex-column align-items-center footer-payment gap-4">
         <Button variant="btn-green" action={() => handleSubmit()}>
-          Pay Now
+          Bayar Sekarang
         </Button>
         <div>
           <img src="/icons/ic-secure.svg" alt="" />
-          <span>Your payment is secure and encrypted</span>
+          <span>Pembayaran Anda aman dan terenkripsi</span>
         </div>
       </div>
     </form>

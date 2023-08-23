@@ -103,22 +103,22 @@ export default function CardKomikWithSearch({ dataKomik, dataGenre }) {
   let jenisKomik = [
     {
       value: 'Manga',
-      label: 'Manga',
+      label: 'Manga (Jepang)',
       target: { value: 'Manga', name: 'jenis' },
     },
     {
       value: 'Manhwa',
-      label: 'Manhwa',
+      label: 'Manhwa (Korea Selatan)',
       target: { value: 'Manhwa', name: 'jenis' },
     },
     {
       value: 'Manhua',
-      label: 'Manhua',
+      label: 'Manhua (China)',
       target: { value: 'Manhua', name: 'jenis' },
     },
     {
       value: 'Webtoon',
-      label: 'Webtoon',
+      label: 'Webtoon (Kartun)',
       target: { value: 'Webtoon', name: 'jenis' },
     },
     {
@@ -153,7 +153,7 @@ export default function CardKomikWithSearch({ dataKomik, dataGenre }) {
           <div className="col">
             <SelectBox
               className="form-search"
-              placeholder={'Pilih genre'}
+              placeholder={'Pilih genre (alur cerita)'}
               name="genre"
               value={genreFilter}
               options={_temp}
@@ -164,7 +164,7 @@ export default function CardKomikWithSearch({ dataKomik, dataGenre }) {
           <div className="col">
             <SelectBox
               className="form-search"
-              placeholder={'Pilih jenis'}
+              placeholder={'Pilih jenis komik'}
               name="jenis"
               value={jenisFilter}
               options={jenisKomik}

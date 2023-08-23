@@ -31,7 +31,7 @@ export default function DetailVendor({detailPage, dataKomik, dataGenre, id}) {
               <div className="d-flex flex-column">
                 <div>
                   <div className="sub-title">
-                    <span className="text-gradient-pink">Profile</span>
+                    <span className="text-gradient-pink">Detail Penerbit</span>
                   </div>
                   <div className="title">{detailPage.nama}</div>
                 </div>
@@ -40,17 +40,17 @@ export default function DetailVendor({detailPage, dataKomik, dataGenre, id}) {
                     <b>Email:</b> {detailPage.email}
                   </ListGroup.Item>
                   <ListGroup.Item>
-                    <b>No Handphone:</b> {detailPage.nomor}
+                    <b>Nomor HP:</b> {detailPage.nomor}
                   </ListGroup.Item>
                   <ListGroup.Item>
-                    <b>Role:</b> {detailPage.role}
+                    <b>Peran:</b> {detailPage.role}
                   </ListGroup.Item>
                   <ListGroup.Item>
                     <b>Status: </b>
                     {detailPage.statusUser}
                   </ListGroup.Item>
                   <ListGroup.Item>
-                    <b>About: </b> <br /> {detailPage.biodata}
+                    <b>Biodata: </b> <br /> {detailPage.biodata}
                   </ListGroup.Item>
                 </ListGroup>
               </div>
@@ -59,12 +59,12 @@ export default function DetailVendor({detailPage, dataKomik, dataGenre, id}) {
           <div className="row ">
             <div className="col-md-6 d-grid gap-2 my-1">
               <Button variant="btn-green" action={handleCardClick}>
-                Search
+                Pencarian
               </Button>
             </div>
             <div className="col-md-6 d-grid gap-2 my-1">
               <Button variant="btn-green" action={handleListClick}>
-                All Produk
+                Semua Produk
               </Button>
             </div>
           </div>

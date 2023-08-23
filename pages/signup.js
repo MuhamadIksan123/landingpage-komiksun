@@ -21,14 +21,14 @@ export default function Signup() {
           <div className="row row-cols-md-12 row-cols-1 d-flex justify-content-center align-items-center hero">
             <div className="col-md-6">
               <div className="hero-headline text-start">
-                Unleash Imagination <br className="d-none d-md-block" />
-                Dive into a World of Comics
+                Bebaskan Imajinasi <br className="d-none d-md-block" />
+                Selami Dunia Komik
               </div>
               <p className="hero-paragraph text-start">
                 Kami menyediakan berbagai komik terbaik untuk membantu{' '}
                 <br className="d-none d-lg-block" />
-                anda dalam mencari hiburan, mengembangkan imajinasi,
-                dan menikmati cerita-cerita menarik.
+                anda dalam mencari hiburan, mengembangkan imajinasi, dan
+                menikmati cerita-cerita menarik.
               </p>
             </div>
             <div className="col-md-6">

@@ -5,8 +5,17 @@ export default function Footer() {
   return (
     <footer className="footer bg-navy">
       <div className="container">
-        <a href="index.html">
-          <img src="/images/logo.svg" alt="semina" />
+        <a>
+          <h1
+            style={{
+              fontFamily: 'Comic Sans MS',
+              fontSize: '32px',
+              fontWeight: 'bold',
+              color: '#fff'
+            }}
+          >
+            KOMIKSUN
+          </h1>
         </a>
         <div className="mt-3 d-flex flex-row flex-wrap footer-content align-items-baseline">
           <p className="paragraph">

@@ -28,21 +28,7 @@ export default function OrderPage() {
     fetchData();
   }, []);
 
-  // useEffect(() => {
-  //   switch (dataTransaksi.response_midtrans.transaction_status) {
-  //     case 'settlement':
-  //       setDisplayedStatus('Sukses');
-  //       break;
-  //     case 'pending':
-  //       setDisplayedStatus('Menunggu');
-  //       break;
-  //     case 'expired':
-  //       setDisplayedStatus('Kadaluwarsa');
-  //       break;
-  //     default:
-  //       break;
-  //   }
-  // }, [dataTransaksi]);
+  console.log(dataTransaksi);
 
   return (
     <>
@@ -99,7 +85,7 @@ export default function OrderPage() {
                                   : data.response_midtrans
                                       .transaction_status === 'settlement'
                                   ? 'Sukses'
-                                  : 'Expired'}
+                                  : 'Kadaluarsa'}
                               </span>
                             </p>
 
