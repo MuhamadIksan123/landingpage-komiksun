@@ -6,8 +6,71 @@ import Header from '../components/Header';
 import Statistics from '../components/Statistics';
 import Stories from '../components/Stories';
 import { getData } from '../utils/fetchData';
+import { useEffect, useState } from 'react';
 
-export default function HomePage({ data, dataKomikAction, dataKomikAdventure }) {
+export default function HomePage({}) {
+  const [dataKomikTerbaik, setDataKomikTerbaik] = useState([]);
+  const [dataKomikAction, setDataKomikAction] = useState([]);
+  const [dataKomikAdventure, setDataKomikAdventure] = useState([]);
+  const [dataKomikSchool, setDataKomikSchool] = useState([]);
+
+  useEffect(() => {
+    const fetchKomikTerbaik = async () => {
+      try {
+        const resKomikTerbaik = await getData(`api/v1/komik-highest-rating`);
+        setDataKomikTerbaik(resKomikTerbaik.data);
+      } catch (err) {
+        // Tangani kesalahan jika ada
+        console.error('Error fetching data komik terbaik:', err);
+      }
+    };
+
+    const fetchKomikAction = async () => {
+      try {
+        const resKomikAction = await getData(`api/v1/komik-genre-action`);
+        setDataKomikAction(resKomikAction.data);
+      } catch (err) {
+        // Tangani kesalahan jika ada
+        console.error('Error fetching komik action:', err);
+      }
+    };
+
+    const fetchKomikAdventure = async () => {
+      try {
+        const resKomikAdventure = await getData('api/v1/komik-genre-adventure');
+        setDataKomikAdventure(resKomikAdventure.data);
+      } catch (err) {
+        // Tangani kesalahan jika ada
+        console.error('Error fetching komik adventure:', err);
+      }
+    };
+
+    const fetchKomikSchool = async () => {
+      try {
+        const resKomikSchool = await getData('api/v1/komik-genre-school');
+        setDataKomikSchool(resKomikSchool.data);
+      } catch (err) {
+        // Tangani kesalahan jika ada
+        console.error('Error fetching komik school:', err);
+      }
+    };
+
+    const fetchData = async () => {
+      try {
+        await Promise.all([
+          fetchKomikTerbaik(),
+          fetchKomikAction(),
+          fetchKomikAdventure(),
+          fetchKomikSchool(),
+        ]);
+      } catch (err) {
+        // Tangani kesalahan jika ada
+        console.error('Error:', err);
+      }
+    };
+
+    fetchData();
+  }, []);
   return (
     <>
       <Head>
@@ -18,7 +81,11 @@ export default function HomePage({ data, dataKomikAction, dataKomikAdventure }) 
 
       <Header />
       <Brand />
-      <CardKomik dataKomik={data} title="Komik Terbaik" subTitle="Jelajahi" />
+      <CardKomik
+        dataKomik={dataKomikTerbaik}
+        title="Komik Terbaik"
+        subTitle="Jelajahi"
+      />
       <CardKomik
         dataKomik={dataKomikAction}
         title="Aksi Terbaik"
@@ -29,6 +96,11 @@ export default function HomePage({ data, dataKomikAction, dataKomikAdventure }) 
         title="Petualangan Terbaik"
         subTitle="Genre"
       />
+      <CardKomik
+        dataKomik={dataKomikSchool}
+        title="School Terbaik"
+        subTitle="Genre"
+      />
       <Stories />
       <Statistics />
       <Footer />
@@ -36,21 +108,21 @@ export default function HomePage({ data, dataKomikAction, dataKomikAdventure }) 
   );
 }
 
-export async function getServerSideProps(context) {
-  const req = await getData('api/v1/komik-highest-rating');
-  const res = req.data;
+// export async function getServerSideProps(context) {
+//   const req = await getData('api/v1/komik-highest-rating');
+//   const res = req.data;
 
-  const reqKomikAction = await getData('api/v1/komik-genre-action');
-  const resKomikAction = reqKomikAction.data;
+//   const reqKomikAction = await getData('api/v1/komik-genre-action');
+//   const resKomikAction = reqKomikAction.data;
 
-  const reqKomikAdventure = await getData('api/v1/komik-genre-adventure');
-  const resKomikAdventure = reqKomikAdventure.data;
+//   const reqKomikAdventure = await getData('api/v1/komik-genre-adventure');
+//   const resKomikAdventure = reqKomikAdventure.data;
 
-  return {
-    props: {
-      data: res,
-      dataKomikAction: resKomikAction,
-      dataKomikAdventure: resKomikAdventure,
-    },
-  };
-}
+//   return {
+//     props: {
+//       data: res,
+//       dataKomikAction: resKomikAction,
+//       dataKomikAdventure: resKomikAdventure,
+//     },
+//   };
+// }

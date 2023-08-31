@@ -18,13 +18,11 @@ export default function DetailPage() {
   const [dataChapter, setDataChapter] = useState([]);
   const [detailChapter, setDetailChapter] = useState([]);
 
-  console.log(detailChapter);
-
   useEffect(() => {
     const fetchDetailChapter = async () => {
       try {
-        const resKomik = await getData(`api/v1/chapter/${id}`);
-        setDetailChapter(resKomik.data);
+        const resDetailChapter = await getData(`api/v1/chapter/${id}`);
+        setDetailChapter(resDetailChapter.data);
       } catch (err) {
         // Tangani kesalahan jika ada
         console.error('Error fetching chapter data:', err);
@@ -75,7 +73,14 @@ export default function DetailPage() {
       </section>
 
       {isLoading ? (
-        <div>Loading...</div>
+        <div
+          className="d-flex justify-content-center align-items-center"
+          style={{ height: '200px' }}
+        >
+          <div className="spinner-border text-primary" role="status">
+            <span className="visually-hidden">Loading...</span>
+          </div>
+        </div>
       ) : (
         <>
           <div className="container my-4">

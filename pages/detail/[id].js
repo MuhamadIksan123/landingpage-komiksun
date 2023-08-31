@@ -154,28 +154,39 @@ export default function DetailPage() {
     }
   };
 
-  const handleChapter = (chapterId, komikId, vendor, dataCustomer) => {
-    const token = Cookies.get('token');
-    if (!token) {
-      return router.push('/signin');
-    } else {
-      if (dataKomik.price === 0) {
-        router.push(`/baca/${chapterId}`);
-      } else {
-        if (dataCustomer.komik.length === 0) {
-          router.push(`/checkout/${id}?komikId=${komikId}&vendor=${vendor}`);
-        } else {
-          dataCustomer.komik.map((item) => {
-            item.value === komikId
-              ? router.push(`/baca/${chapterId}`)
-              : router.push(
-                  `/checkout/${id}?komikId=${komikId}&vendor=${vendor}`
-                );
-          });
-        }
-      }
-    }
-  };
+ const handleChapter = (chapterId, komikId, vendor, dataCustomer) => {
+   const token = Cookies.get('token');
+   if (!token) {
+     return router.push('/signin');
+   } else {
+     if (dataKomik.price === 0) {
+       router.push(`/baca/${chapterId}`);
+     } else {
+       if (dataCustomer.komik.length === 0) {
+         router.push(
+           `/checkout/${komikId}?komikId=${komikId}&vendor=${vendor}`
+         );
+       } else {
+         let harusKeBaca = false;
+
+         dataCustomer.komik.forEach((item) => {
+           if (item.value === komikId) {
+             harusKeBaca = true;
+           }
+         });
+
+         if (harusKeBaca) {
+           router.push(`/baca/${chapterId}`);
+         } else {
+           router.push(
+             `/checkout/${komikId}?komikId=${komikId}&vendor=${vendor}`
+           );
+         }
+       }
+     }
+   }
+ };
+
 
   const handleSubmit = (komikId, vendor) => {
     const token = Cookies.get('token');
@@ -199,7 +210,14 @@ export default function DetailPage() {
       </section>
 
       {isLoading ? (
-        <div>Loading...</div>
+        <div
+          className="d-flex justify-content-center align-items-center"
+          style={{ height: '200px' }}
+        >
+          <div className="spinner-border text-primary" role="status">
+            <span className="visually-hidden">Loading...</span>
+          </div>
+        </div>
       ) : (
         <>
           <div className="preview-image bg-navy text-center">

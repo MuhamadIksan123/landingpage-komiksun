@@ -101,7 +101,14 @@ export default function DetailOrder() {
       </section>
 
       {isLoading ? ( // Tampilkan loader jika isLoading atau isDataLoaded bernilai true
-        <div className="loader">Loading...</div>
+        <div
+          className="d-flex justify-content-center align-items-center"
+          style={{ height: '200px' }}
+        >
+          <div className="spinner-border text-primary" role="status">
+            <span className="visually-hidden">Loading...</span>
+          </div>
+        </div>
       ) : (
         <div className="container my-5">
           <div className={`alert alert-${alertColor} text-center`}>

@@ -13,7 +13,6 @@ export default function Navbar() {
   const [foto, setFoto] = useState('');
   const [idUser, setIdUser] = useState('');
 
-
   // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => {
     return setToken(Cookies.get('token'));

@@ -117,13 +117,8 @@ export default function CardKomikWithSearch({ dataKomik, dataGenre }) {
       target: { value: 'Manhua', name: 'jenis' },
     },
     {
-      value: 'Webtoon',
-      label: 'Webtoon (Kartun)',
-      target: { value: 'Webtoon', name: 'jenis' },
-    },
-    {
       value: 'Komik Indo',
-      label: 'Komik Indo',
+      label: 'Komik Indo (Indonesia)',
       target: { value: 'Komik Indo', name: 'jenis' },
     },
   ];
@@ -164,7 +159,7 @@ export default function CardKomikWithSearch({ dataKomik, dataGenre }) {
           <div className="col">
             <SelectBox
               className="form-search"
-              placeholder={'Pilih jenis komik'}
+              placeholder={'Pilih jenis (asal produksi)'}
               name="jenis"
               value={jenisFilter}
               options={jenisKomik}

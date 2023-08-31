@@ -6,7 +6,7 @@ export default function Hero() {
     <>
       <div className="hero">
         <div className="hero-headline">
-          Perluas <span className="text-gradient-blue">Pengetahuan</span> Anda {''}
+          Nikmati <span className="text-gradient-blue">Waktu</span> Anda {''}
           <br className="d-none d-lg-block" />
           dengan <span className="text-gradient-pink">Membaca</span> Komik
           Populer Kami

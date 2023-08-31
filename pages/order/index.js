@@ -28,8 +28,6 @@ export default function OrderPage() {
     fetchData();
   }, []);
 
-  console.log(dataTransaksi);
-
   return (
     <>
       <Head>
@@ -43,7 +41,14 @@ export default function OrderPage() {
       <section className="bg-dark">
         <Container className="py-5">
           {isLoading || !dataTransaksi ? (
-            <div className="loader">Loading...</div>
+            <div
+              className="d-flex justify-content-center align-items-center"
+              style={{ height: '200px' }}
+            >
+              <div className="spinner-border text-primary" role="status">
+                <span className="visually-hidden">Loading...</span>
+              </div>
+            </div>
           ) : (
             <>
               {dataTransaksi.map((data) => (
@@ -85,7 +90,7 @@ export default function OrderPage() {
                                   : data.response_midtrans
                                       .transaction_status === 'settlement'
                                   ? 'Sukses'
-                                  : 'Kadaluarsa'}
+                                  : 'Kadaluwarsa'}
                               </span>
                             </p>
 

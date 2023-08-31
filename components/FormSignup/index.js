@@ -19,8 +19,6 @@ export default function FormSignup() {
     image: '649fa4e9dde518a6eed4b98e',
   });
 
-  console.log(keyword);
-
   let roles = [
     {
       value: 'customer',

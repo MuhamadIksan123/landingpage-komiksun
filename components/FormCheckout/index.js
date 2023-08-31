@@ -137,11 +137,11 @@ export default function FormCheckout({ dataKomik }) {
         <div className="row row-cols-lg-8 row-cols-md-2 row-cols-1 justify-content-center">
           <div className="mb-4 col-lg-4">
             <label htmlFor="first_name" className="form-label">
-              First Name
+              Nama Depan
             </label>
             <input
               type="text"
-              placeholder="First name here"
+              placeholder="Nama depan di sini"
               className="form-control"
               id="first_name"
               name="firstName"
@@ -152,11 +152,11 @@ export default function FormCheckout({ dataKomik }) {
 
           <div className="mb-4 col-lg-4">
             <label htmlFor="last_name" className="form-label">
-              Last Name
+              Nama Belakang
             </label>
             <input
               type="text"
-              placeholder="Last name here"
+              placeholder="Nama belakang di sini"
               className="form-control"
               name="lastName"
               id="last_name"
@@ -174,7 +174,7 @@ export default function FormCheckout({ dataKomik }) {
               type="email"
               className="form-control"
               id="email_address"
-              placeholder="semina@bwa.com"
+              placeholder="komiksun@gmail.com"
               name="email"
               value={form.email}
               onChange={handleChange}
@@ -183,7 +183,7 @@ export default function FormCheckout({ dataKomik }) {
 
           <div className="mb-4 col-lg-4">
             <label htmlFor="exampleFormControlInput1" className="form-label">
-              Role
+              Peran
             </label>
             <input
               type="text"

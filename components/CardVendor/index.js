@@ -32,7 +32,14 @@ export default function CardVendor({ dataVendor, allDataVendor }) {
     <section className="grow-komik">
       <div className="container">
         {isLoading ? (
-          <div className="loader">Loading...</div>
+          <div
+            className="d-flex justify-content-center align-items-center"
+            style={{ height: '200px' }}
+          >
+            <div className="spinner-border text-primary" role="status">
+              <span className="visually-hidden">Loading...</span>
+            </div>
+          </div>
         ) : (
           <div className="mt-5 row gap">
             {currentPageData.map((data, index) => (

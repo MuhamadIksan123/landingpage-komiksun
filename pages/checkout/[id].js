@@ -76,7 +76,14 @@ export default function Checkout() {
 
       <section className="bg-navy">
         {isLoading ? ( // Tampilkan loader jika isLoading atau isDataLoaded bernilai true
-          <div className="loader">Loading...</div>
+          <div
+            className="d-flex justify-content-center align-items-center"
+            style={{ height: '200px' }}
+          >
+            <div className="spinner-border text-primary" role="status">
+              <span className="visually-hidden">Loading...</span>
+            </div>
+          </div>
         ) : (
           <div className="checkout container">
             <div className="text-center checkout-title">
